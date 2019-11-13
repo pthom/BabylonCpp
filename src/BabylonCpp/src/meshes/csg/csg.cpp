@@ -27,9 +27,7 @@ CSG::CSG::CSG(const BABYLON::CSG::CSG& otherCSG)
 {
 }
 
-CSG::CSG::~CSG()
-{
-}
+CSG::CSG::~CSG() = default;
 
 std::unique_ptr<BABYLON::CSG::CSG> CSG::CSG::FromMesh(const MeshPtr& mesh)
 {

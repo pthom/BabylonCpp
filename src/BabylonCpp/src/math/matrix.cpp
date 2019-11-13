@@ -67,9 +67,7 @@ Matrix& Matrix::operator=(Matrix&& otherMatrix)
   return *this;
 }
 
-Matrix::~Matrix()
-{
-}
+Matrix::~Matrix() = default;
 
 Matrix Matrix::copy() const
 {

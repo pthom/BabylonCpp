@@ -40,9 +40,7 @@ MeshLODLevel& MeshLODLevel::operator=(MeshLODLevel&& other)
   return *this;
 }
 
-MeshLODLevel::~MeshLODLevel()
-{
-}
+MeshLODLevel::~MeshLODLevel() = default;
 
 bool MeshLODLevel::operator==(const MeshLODLevel& other) const
 {

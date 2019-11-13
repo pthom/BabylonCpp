@@ -103,8 +103,6 @@ DDSInfo& DDSInfo::operator=(DDSInfo&& other)
   return *this;
 }
 
-DDSInfo::~DDSInfo()
-{
-}
+DDSInfo::~DDSInfo() = default;
 
 } // end of namespace BABYLON

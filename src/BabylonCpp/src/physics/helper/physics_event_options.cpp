@@ -64,8 +64,6 @@ operator=(PhysicsRadialExplosionEventOptions&& other)
   return *this;
 }
 
-PhysicsRadialExplosionEventOptions::~PhysicsRadialExplosionEventOptions()
-{
-}
+PhysicsRadialExplosionEventOptions::~PhysicsRadialExplosionEventOptions() = default;
 
 } // end of namespace BABYLON

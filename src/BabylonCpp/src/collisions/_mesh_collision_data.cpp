@@ -75,8 +75,6 @@ _MeshCollisionData& _MeshCollisionData::operator=(_MeshCollisionData&& other)
   return *this;
 }
 
-_MeshCollisionData::~_MeshCollisionData()
-{
-}
+_MeshCollisionData::~_MeshCollisionData() = default;
 
 } // end of namespace BABYLON

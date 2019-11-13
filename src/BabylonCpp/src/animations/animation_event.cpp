@@ -49,9 +49,7 @@ AnimationEvent& AnimationEvent::operator=(AnimationEvent&& other)
   return *this;
 }
 
-AnimationEvent::~AnimationEvent()
-{
-}
+AnimationEvent::~AnimationEvent() = default;
 
 AnimationEvent AnimationEvent::_clone() const
 {

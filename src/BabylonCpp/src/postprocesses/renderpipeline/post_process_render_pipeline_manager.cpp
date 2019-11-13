@@ -9,9 +9,7 @@ PostProcessRenderPipelineManager::PostProcessRenderPipelineManager()
 {
 }
 
-PostProcessRenderPipelineManager::~PostProcessRenderPipelineManager()
-{
-}
+PostProcessRenderPipelineManager::~PostProcessRenderPipelineManager() = default;
 
 std::vector<PostProcessRenderPipelinePtr>
 PostProcessRenderPipelineManager::supportedPipelines()

@@ -54,8 +54,6 @@ FileFaceOrientation& FileFaceOrientation::operator=(FileFaceOrientation&& other)
   return *this;
 }
 
-FileFaceOrientation::~FileFaceOrientation()
-{
-}
+FileFaceOrientation::~FileFaceOrientation() = default;
 
 } // end of namespace BABYLON

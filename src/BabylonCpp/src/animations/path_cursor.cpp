@@ -50,9 +50,7 @@ PathCursor& PathCursor::operator=(PathCursor&& otherPathCursor)
   return *this;
 }
 
-PathCursor::~PathCursor()
-{
-}
+PathCursor::~PathCursor() = default;
 
 Vector3 PathCursor::getPoint() const
 {

@@ -51,9 +51,7 @@ Plane& Plane::operator=(Plane&& otherPlane)
   return *this;
 }
 
-Plane::~Plane()
-{
-}
+Plane::~Plane() = default;
 
 Plane Plane::copy() const
 {

@@ -60,9 +60,7 @@ EffectFallbacks& EffectFallbacks::operator=(EffectFallbacks&& other)
   return *this;
 }
 
-EffectFallbacks::~EffectFallbacks()
-{
-}
+EffectFallbacks::~EffectFallbacks() = default;
 
 bool EffectFallbacks::operator==(const EffectFallbacks& other) const
 {

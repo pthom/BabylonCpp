@@ -52,9 +52,7 @@ operator=(EnvironmentTextureInfo&& other)
   return *this;
 }
 
-EnvironmentTextureInfo::~EnvironmentTextureInfo()
-{
-}
+EnvironmentTextureInfo::~EnvironmentTextureInfo() = default;
 
 EnvironmentTextureInfoPtr
 EnvironmentTextureInfo::Parse(const json& parsedManifest)

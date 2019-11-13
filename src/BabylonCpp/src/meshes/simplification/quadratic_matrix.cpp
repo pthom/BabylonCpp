@@ -44,9 +44,7 @@ QuadraticMatrix& QuadraticMatrix::operator=(QuadraticMatrix&& other)
   return *this;
 }
 
-QuadraticMatrix::~QuadraticMatrix()
-{
-}
+QuadraticMatrix::~QuadraticMatrix() = default;
 
 float QuadraticMatrix::det(unsigned int a11, unsigned int a12, int unsigned a13,
                            unsigned int a21, unsigned int a22, unsigned int a23,

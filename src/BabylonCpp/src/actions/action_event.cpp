@@ -37,9 +37,7 @@ ActionEvent& ActionEvent::operator=(ActionEvent&& other)
   return *this;
 }
 
-ActionEvent::~ActionEvent()
-{
-}
+ActionEvent::~ActionEvent() = default;
 
 ActionEvent ActionEvent::CreateNew(const AbstractMeshPtr& iSource,
                                    const std::optional<Event>& evt)

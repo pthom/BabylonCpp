@@ -72,9 +72,7 @@ operator=(EnvironmentTextureIrradianceInfoV1&& other)
   return *this;
 }
 
-EnvironmentTextureIrradianceInfoV1::~EnvironmentTextureIrradianceInfoV1()
-{
-}
+EnvironmentTextureIrradianceInfoV1::~EnvironmentTextureIrradianceInfoV1() = default;
 
 EnvironmentTextureIrradianceInfoV1Ptr
 EnvironmentTextureIrradianceInfoV1::Parse(const json& parsedIrradiance)

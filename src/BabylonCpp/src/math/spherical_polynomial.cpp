@@ -83,9 +83,7 @@ SphericalPolynomial& SphericalPolynomial::operator=(SphericalPolynomial&& other)
   return *this;
 }
 
-SphericalPolynomial::~SphericalPolynomial()
-{
-}
+SphericalPolynomial::~SphericalPolynomial() = default;
 
 SphericalPolynomial SphericalPolynomial::copy() const
 {

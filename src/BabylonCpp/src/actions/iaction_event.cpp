@@ -68,8 +68,6 @@ IActionEvent& IActionEvent::operator=(IActionEvent&& other)
   return *this;
 }
 
-IActionEvent::~IActionEvent()
-{
-}
+IActionEvent::~IActionEvent() = default;
 
 } // end of namespace BABYLON

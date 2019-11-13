@@ -40,8 +40,6 @@ StickValues& StickValues::operator=(StickValues&& other)
   return *this;
 }
 
-StickValues::~StickValues()
-{
-}
+StickValues::~StickValues() = default;
 
 } // end of namespace BABYLON

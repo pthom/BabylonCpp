@@ -45,9 +45,7 @@ Angle& Angle::operator=(Angle&& otherAngle)
   return *this;
 }
 
-Angle::~Angle()
-{
-}
+Angle::~Angle() = default;
 
 Angle Angle::copy() const
 {

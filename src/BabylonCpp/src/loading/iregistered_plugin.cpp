@@ -53,8 +53,6 @@ IRegisteredPlugin& IRegisteredPlugin::operator=(IRegisteredPlugin&& other)
   return *this;
 }
 
-IRegisteredPlugin::~IRegisteredPlugin()
-{
-}
+IRegisteredPlugin::~IRegisteredPlugin() = default;
 
 } // end of namespace BABYLON

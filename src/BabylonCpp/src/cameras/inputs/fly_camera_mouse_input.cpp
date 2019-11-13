@@ -25,9 +25,7 @@ FlyCameraMouseInput::FlyCameraMouseInput(bool iTouchEnabled)
 {
 }
 
-FlyCameraMouseInput::~FlyCameraMouseInput()
-{
-}
+FlyCameraMouseInput::~FlyCameraMouseInput() = default;
 
 void FlyCameraMouseInput::attachControl(ICanvas* canvas, bool noPreventDefault)
 {

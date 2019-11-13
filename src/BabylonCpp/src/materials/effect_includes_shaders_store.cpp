@@ -71,9 +71,7 @@ EffectIncludesShadersStore::EffectIncludesShadersStore()
 {
 }
 
-EffectIncludesShadersStore::~EffectIncludesShadersStore()
-{
-}
+EffectIncludesShadersStore::~EffectIncludesShadersStore() = default;
 
 std::unordered_map<std::string, std::string>&
 EffectIncludesShadersStore::shaders()

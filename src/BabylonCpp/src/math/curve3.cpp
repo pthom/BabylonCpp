@@ -46,9 +46,7 @@ Curve3& Curve3::operator=(Curve3&& otherCurve)
   return *this;
 }
 
-Curve3::~Curve3()
-{
-}
+Curve3::~Curve3() = default;
 
 Curve3 Curve3::copy() const
 {

@@ -46,9 +46,7 @@ Vector2& Vector2::operator=(Vector2&& otherVector)
   return *this;
 }
 
-Vector2::~Vector2()
-{
-}
+Vector2::~Vector2() = default;
 
 Vector2 Vector2::copy() const
 {

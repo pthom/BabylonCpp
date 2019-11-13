@@ -54,9 +54,7 @@ FaceDirectionInfo& FaceDirectionInfo::operator=(FaceDirectionInfo&& other)
   return *this;
 }
 
-FaceDirectionInfo::~FaceDirectionInfo()
-{
-}
+FaceDirectionInfo::~FaceDirectionInfo() = default;
 
 FaceDirectionInfo FaceDirectionInfo::copy() const
 {

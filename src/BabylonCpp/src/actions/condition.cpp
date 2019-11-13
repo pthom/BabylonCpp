@@ -47,9 +47,7 @@ Condition& Condition::operator=(Condition&& other)
   return *this;
 }
 
-Condition::~Condition()
-{
-}
+Condition::~Condition() = default;
 
 bool Condition::isValid()
 {

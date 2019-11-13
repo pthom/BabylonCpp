@@ -146,9 +146,7 @@ SphericalHarmonics& SphericalHarmonics::operator=(SphericalHarmonics&& other)
   return *this;
 }
 
-SphericalHarmonics::~SphericalHarmonics()
-{
-}
+SphericalHarmonics::~SphericalHarmonics() = default;
 
 SphericalHarmonics SphericalHarmonics::copy() const
 {

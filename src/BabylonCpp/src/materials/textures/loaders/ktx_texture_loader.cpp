@@ -11,9 +11,7 @@ _KTXTextureLoader::_KTXTextureLoader()
 {
 }
 
-_KTXTextureLoader::~_KTXTextureLoader()
-{
-}
+_KTXTextureLoader::~_KTXTextureLoader() = default;
 
 bool _KTXTextureLoader::supportCascades() const
 {

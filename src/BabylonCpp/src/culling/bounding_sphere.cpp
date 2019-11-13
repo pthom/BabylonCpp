@@ -75,9 +75,7 @@ BoundingSphere& BoundingSphere::operator=(BoundingSphere&& other)
   return *this;
 }
 
-BoundingSphere::~BoundingSphere()
-{
-}
+BoundingSphere::~BoundingSphere() = default;
 
 void BoundingSphere::reConstruct(const Vector3& min, Vector3 max,
                                  const std::optional<Matrix>& worldMatrix)

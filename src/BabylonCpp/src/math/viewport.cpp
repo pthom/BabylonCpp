@@ -53,9 +53,7 @@ Viewport& Viewport::operator=(Viewport&& otherViewport)
   return *this;
 }
 
-Viewport::~Viewport()
-{
-}
+Viewport::~Viewport() = default;
 
 Viewport Viewport::copy() const
 {

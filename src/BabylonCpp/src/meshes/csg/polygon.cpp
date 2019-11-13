@@ -55,9 +55,7 @@ CSG::Polygon& CSG::Polygon::operator=(BABYLON::CSG::Polygon&& otherPolygon)
   return *this;
 }
 
-CSG::Polygon::~Polygon()
-{
-}
+CSG::Polygon::~Polygon() = default;
 
 CSG::Polygon CSG::Polygon::clone() const
 {

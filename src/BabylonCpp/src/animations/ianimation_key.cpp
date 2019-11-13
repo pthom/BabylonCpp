@@ -77,8 +77,6 @@ IAnimationKey& IAnimationKey::operator=(IAnimationKey&& other)
   return *this;
 }
 
-IAnimationKey::~IAnimationKey()
-{
-}
+IAnimationKey::~IAnimationKey() = default;
 
 } // end of namespace BABYLON

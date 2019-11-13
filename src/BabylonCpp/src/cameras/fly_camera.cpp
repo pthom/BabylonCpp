@@ -52,9 +52,7 @@ FlyCamera::FlyCamera(const std::string& iName, const Vector3& iPosition,
   inputs->addKeyboard().addMouse();
 }
 
-FlyCamera::~FlyCamera()
-{
-}
+FlyCamera::~FlyCamera() = default;
 
 float FlyCamera::get_angularSensibility() const
 {

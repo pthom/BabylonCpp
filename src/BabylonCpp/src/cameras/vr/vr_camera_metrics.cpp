@@ -104,9 +104,7 @@ VRCameraMetrics& VRCameraMetrics::operator=(VRCameraMetrics&& other)
   return *this;
 }
 
-VRCameraMetrics::~VRCameraMetrics()
-{
-}
+VRCameraMetrics::~VRCameraMetrics() = default;
 
 float VRCameraMetrics::aspectRatio() const
 {

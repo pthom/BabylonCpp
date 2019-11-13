@@ -48,9 +48,7 @@ operator=(BABYLON::CSG::Plane&& otherPlane)
   return *this;
 }
 
-CSG::Plane::~Plane()
-{
-}
+CSG::Plane::~Plane() = default;
 
 CSG::Plane CSG::Plane::clone() const
 {

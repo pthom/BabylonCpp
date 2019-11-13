@@ -43,9 +43,7 @@ ISize& ISize::operator=(ISize&& other)
   return *this;
 }
 
-ISize::~ISize()
-{
-}
+ISize::~ISize() = default;
 
 std::ostream& operator<<(std::ostream& os, const ISize& isize)
 {

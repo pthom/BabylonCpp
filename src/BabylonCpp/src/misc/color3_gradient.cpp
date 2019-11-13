@@ -8,9 +8,7 @@ Color3Gradient::Color3Gradient()
 {
 }
 
-Color3Gradient::~Color3Gradient()
-{
-}
+Color3Gradient::~Color3Gradient() = default;
 
 bool operator==(const Color3Gradient& lhs, const Color3Gradient& rhs)
 {

@@ -72,9 +72,7 @@ Path3D& Path3D::operator=(Path3D&& otherPath)
   return *this;
 }
 
-Path3D::~Path3D()
-{
-}
+Path3D::~Path3D() = default;
 
 Path3D Path3D::copy() const
 {

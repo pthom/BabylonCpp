@@ -12,9 +12,7 @@ _TGATextureLoader::_TGATextureLoader()
 {
 }
 
-_TGATextureLoader::~_TGATextureLoader()
-{
-}
+_TGATextureLoader::~_TGATextureLoader() = default;
 
 bool _TGATextureLoader::supportCascades() const
 {

@@ -46,9 +46,7 @@ operator=(PositionNormalTextureVertex&& other)
   return *this;
 }
 
-PositionNormalTextureVertex::~PositionNormalTextureVertex()
-{
-}
+PositionNormalTextureVertex::~PositionNormalTextureVertex() = default;
 
 PositionNormalTextureVertex PositionNormalTextureVertex::copy() const
 {

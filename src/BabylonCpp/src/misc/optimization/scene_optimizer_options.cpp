@@ -55,9 +55,7 @@ operator=(SceneOptimizerOptions&& other)
   return *this;
 }
 
-SceneOptimizerOptions::~SceneOptimizerOptions()
-{
-}
+SceneOptimizerOptions::~SceneOptimizerOptions() = default;
 
 SceneOptimizerOptions
 SceneOptimizerOptions::LowDegradationAllowed(float targetFrameRate)

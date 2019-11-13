@@ -52,9 +52,7 @@ EventState& EventState::operator=(EventState&& other)
   return *this;
 }
 
-EventState::~EventState()
-{
-}
+EventState::~EventState() = default;
 
 EventState& EventState::initalize(int iMmask, bool iSkipNextObservers,
                                   any* iTarget, any* iCurrentTarget)

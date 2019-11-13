@@ -45,9 +45,7 @@ AnimationRange& AnimationRange::operator=(AnimationRange&& other)
   return *this;
 }
 
-AnimationRange::~AnimationRange()
-{
-}
+AnimationRange::~AnimationRange() = default;
 
 AnimationRange AnimationRange::copy() const
 {

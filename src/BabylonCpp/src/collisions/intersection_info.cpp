@@ -65,8 +65,6 @@ IntersectionInfo& IntersectionInfo::operator=(IntersectionInfo&& other)
   return *this;
 }
 
-IntersectionInfo::~IntersectionInfo()
-{
-}
+IntersectionInfo::~IntersectionInfo() = default;
 
 } // end of namespace BABYLON

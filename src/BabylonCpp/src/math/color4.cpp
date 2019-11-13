@@ -82,9 +82,7 @@ Color4& Color4::operator=(Color4&& otherColor)
   return *this;
 }
 
-Color4::~Color4()
-{
-}
+Color4::~Color4() = default;
 
 Color4 Color4::copy() const
 {

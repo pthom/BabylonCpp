@@ -12,9 +12,7 @@ _ENVTextureLoader::_ENVTextureLoader()
 {
 }
 
-_ENVTextureLoader::~_ENVTextureLoader()
-{
-}
+_ENVTextureLoader::~_ENVTextureLoader() = default;
 
 bool _ENVTextureLoader::supportCascades() const
 {

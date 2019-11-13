@@ -96,9 +96,7 @@ PickingInfo& PickingInfo::operator=(PickingInfo&& other)
   return *this;
 }
 
-PickingInfo::~PickingInfo()
-{
-}
+PickingInfo::~PickingInfo() = default;
 
 std::optional<Vector3> PickingInfo::getNormal(bool useWorldCoordinates,
                                               bool useVerticesNormals)

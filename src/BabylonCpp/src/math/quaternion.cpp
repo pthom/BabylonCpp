@@ -54,9 +54,7 @@ Quaternion& Quaternion::operator=(Quaternion&& otherQuaternion)
   return *this;
 }
 
-Quaternion::~Quaternion()
-{
-}
+Quaternion::~Quaternion() = default;
 
 Quaternion Quaternion::copy() const
 {

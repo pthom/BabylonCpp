@@ -57,9 +57,7 @@ Color3& Color3::operator=(Color3&& otherColor)
   return *this;
 }
 
-Color3::~Color3()
-{
-}
+Color3::~Color3() = default;
 
 Color3 Color3::copy() const
 {

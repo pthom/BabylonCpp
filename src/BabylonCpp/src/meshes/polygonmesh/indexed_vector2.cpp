@@ -41,8 +41,6 @@ IndexedVector2& IndexedVector2::operator=(IndexedVector2&& other)
   return *this;
 }
 
-IndexedVector2::~IndexedVector2()
-{
-}
+IndexedVector2::~IndexedVector2() = default;
 
 } // end of namespace BABYLON

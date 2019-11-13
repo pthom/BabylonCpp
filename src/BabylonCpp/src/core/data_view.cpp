@@ -49,9 +49,7 @@ DataView& DataView::operator=(DataView&& other)
   return *this;
 }
 
-DataView::~DataView()
-{
-}
+DataView::~DataView() = default;
 
 int8_t DataView::getInt8(size_t /*byteOffset*/) const
 {

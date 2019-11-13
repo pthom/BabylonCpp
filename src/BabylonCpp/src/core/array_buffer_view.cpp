@@ -124,9 +124,7 @@ ArrayBufferView& ArrayBufferView::operator=(ArrayBufferView&& other)
   return *this;
 }
 
-ArrayBufferView::~ArrayBufferView()
-{
-}
+ArrayBufferView::~ArrayBufferView() = default;
 
 size_t ArrayBufferView::byteLength() const
 {

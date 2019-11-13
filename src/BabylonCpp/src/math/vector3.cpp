@@ -38,9 +38,7 @@ Vector3::Vector3(Vector3&& otherVector)
 {
 }
 
-Vector3::~Vector3()
-{
-}
+Vector3::~Vector3() = default;
 
 Vector3& Vector3::operator=(const Vector3& otherVector)
 {

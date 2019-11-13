@@ -48,9 +48,7 @@ Vector4& Vector4::operator=(Vector4&& otherVector)
   return *this;
 }
 
-Vector4::~Vector4()
-{
-}
+Vector4::~Vector4() = default;
 
 Vector4 Vector4::copy() const
 {

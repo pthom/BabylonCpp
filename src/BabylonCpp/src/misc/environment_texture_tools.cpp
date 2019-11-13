@@ -31,9 +31,7 @@ EnvironmentTextureTools::EnvironmentTextureTools()
 {
 }
 
-EnvironmentTextureTools::~EnvironmentTextureTools()
-{
-}
+EnvironmentTextureTools::~EnvironmentTextureTools() = default;
 
 EnvironmentTextureInfoPtr EnvironmentTextureTools::GetEnvInfo(const ArrayBuffer& data)
 {

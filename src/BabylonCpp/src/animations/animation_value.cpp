@@ -36,9 +36,7 @@ AnimationValue& AnimationValue::operator=(AnimationValue&& other)
   return *this;
 }
 
-AnimationValue::~AnimationValue()
-{
-}
+AnimationValue::~AnimationValue() = default;
 
 AnimationValue AnimationValue::subtract(const AnimationValue& fromValue)
 {

@@ -27,7 +27,7 @@ public:
 
     return camera;
   }
-  ~TargetCamera() override;
+  ~TargetCamera(); // = default
 
   virtual Type type() const override;
 

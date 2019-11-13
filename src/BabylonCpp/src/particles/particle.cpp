@@ -203,9 +203,7 @@ Particle& Particle::operator=(Particle&& other)
   return *this;
 }
 
-Particle::~Particle()
-{
-}
+Particle::~Particle() = default;
 
 Particle* Particle::clone() const
 {

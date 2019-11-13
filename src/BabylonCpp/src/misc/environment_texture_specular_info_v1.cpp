@@ -49,9 +49,7 @@ operator=(EnvironmentTextureSpecularInfoV1&& other)
   return *this;
 }
 
-EnvironmentTextureSpecularInfoV1::~EnvironmentTextureSpecularInfoV1()
-{
-}
+EnvironmentTextureSpecularInfoV1::~EnvironmentTextureSpecularInfoV1() = default;
 
 EnvironmentTextureSpecularInfoV1Ptr
 EnvironmentTextureSpecularInfoV1::Parse(const json& parsedSpecular)

@@ -44,9 +44,7 @@ Range& Range::operator=(Range&& otherRange)
   return *this;
 }
 
-Range::~Range()
-{
-}
+Range::~Range() = default;
 
 std::ostream& operator<<(std::ostream& os, const Range& range)
 {
@@ -130,9 +128,7 @@ ColorInfo& ColorInfo::operator=(ColorInfo&& other)
   return *this;
 }
 
-ColorInfo::~ColorInfo()
-{
-}
+ColorInfo::~ColorInfo() = default;
 
 bool ColorInfo::hasHueRange() const
 {

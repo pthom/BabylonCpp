@@ -11,9 +11,7 @@ _DDSTextureLoader::_DDSTextureLoader()
 {
 }
 
-_DDSTextureLoader::~_DDSTextureLoader()
-{
-}
+_DDSTextureLoader::~_DDSTextureLoader() = default;
 
 bool _DDSTextureLoader::supportCascades() const
 {

@@ -18,9 +18,7 @@ VertexData::VertexData()
 {
 }
 
-VertexData::~VertexData()
-{
-}
+VertexData::~VertexData() = default;
 
 void VertexData::set(const Float32Array& data, const std::string& kind)
 {

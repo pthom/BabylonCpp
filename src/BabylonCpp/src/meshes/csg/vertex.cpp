@@ -44,9 +44,7 @@ CSG::Vertex& CSG::Vertex::operator=(BABYLON::CSG::Vertex&& otherVertex)
   return *this;
 }
 
-CSG::Vertex::~Vertex()
-{
-}
+CSG::Vertex::~Vertex() = default;
 
 CSG::Vertex CSG::Vertex::clone() const
 {

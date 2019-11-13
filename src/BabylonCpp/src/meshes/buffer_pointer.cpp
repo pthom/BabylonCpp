@@ -20,8 +20,6 @@ BufferPointer::BufferPointer(bool _active, unsigned int _indx, int _size,
 {
 }
 
-BufferPointer::~BufferPointer()
-{
-}
+BufferPointer::~BufferPointer() = default;
 
 } // end of namespace BABYLON
