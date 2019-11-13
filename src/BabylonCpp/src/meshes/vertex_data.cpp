@@ -14,9 +14,7 @@
 
 namespace BABYLON {
 
-VertexData::VertexData()
-{
-}
+VertexData::VertexData() = default;
 
 VertexData::~VertexData() = default;
 

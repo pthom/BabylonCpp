@@ -11,9 +11,7 @@
 namespace BABYLON {
 
 template <class T>
-Octree<T>::Octree()
-{
-}
+Octree<T>::Octree() = default;
 
 template <class T>
 Octree<T>::Octree(

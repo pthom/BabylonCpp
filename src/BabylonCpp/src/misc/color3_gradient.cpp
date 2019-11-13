@@ -4,9 +4,7 @@
 
 namespace BABYLON {
 
-Color3Gradient::Color3Gradient()
-{
-}
+Color3Gradient::Color3Gradient() = default;
 
 Color3Gradient::~Color3Gradient() = default;
 

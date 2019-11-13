@@ -15,27 +15,13 @@ ActionEvent::ActionEvent(const AbstractMeshPtr& iSource, int iPointerX,
 {
 }
 
-ActionEvent::ActionEvent(const ActionEvent& other) : IActionEvent{other}
-{
-}
+ActionEvent::ActionEvent(const ActionEvent& other) = default;
 
-ActionEvent::ActionEvent(ActionEvent&& other) : IActionEvent{std::move(other)}
-{
-}
+ActionEvent::ActionEvent(ActionEvent&& other) = default;
 
-ActionEvent& ActionEvent::operator=(const ActionEvent& other)
-{
-  IActionEvent::operator=(other);
+ActionEvent& ActionEvent::operator=(const ActionEvent& other) = default;
 
-  return *this;
-}
-
-ActionEvent& ActionEvent::operator=(ActionEvent&& other)
-{
-  IActionEvent::operator=(std::move(other));
-
-  return *this;
-}
+ActionEvent& ActionEvent::operator=(ActionEvent&& other) =default;
 
 ActionEvent::~ActionEvent() = default;
 

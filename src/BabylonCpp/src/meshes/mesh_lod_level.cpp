@@ -10,35 +10,13 @@ MeshLODLevel::MeshLODLevel(float iDistance, const MeshPtr& iMesh)
 {
 }
 
-MeshLODLevel::MeshLODLevel(const MeshLODLevel& other)
-    : distance{other.distance}, mesh{other.mesh}
-{
-}
+MeshLODLevel::MeshLODLevel(const MeshLODLevel& other) = default;
 
-MeshLODLevel::MeshLODLevel(MeshLODLevel&& other)
-    : distance{std::move(other.distance)}, mesh{std::move(other.mesh)}
-{
-}
+MeshLODLevel::MeshLODLevel(MeshLODLevel&& other) = default;
 
-MeshLODLevel& MeshLODLevel::operator=(const MeshLODLevel& other)
-{
-  if (&other != this) {
-    distance = other.distance;
-    mesh     = other.mesh;
-  }
+MeshLODLevel& MeshLODLevel::operator=(const MeshLODLevel& other) = default;
 
-  return *this;
-}
-
-MeshLODLevel& MeshLODLevel::operator=(MeshLODLevel&& other)
-{
-  if (&other != this) {
-    distance = std::move(other.distance);
-    mesh     = std::move(other.mesh);
-  }
-
-  return *this;
-}
+MeshLODLevel& MeshLODLevel::operator=(MeshLODLevel&& other) = default;
 
 MeshLODLevel::~MeshLODLevel() = default;
 

@@ -80,9 +80,7 @@
 
 namespace BABYLON {
 
-EffectShadersStore::EffectShadersStore()
-{
-}
+EffectShadersStore::EffectShadersStore() = default;
 
 EffectShadersStore::~EffectShadersStore() = default;
 

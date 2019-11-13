@@ -67,9 +67,7 @@
 
 namespace BABYLON {
 
-EffectIncludesShadersStore::EffectIncludesShadersStore()
-{
-}
+EffectIncludesShadersStore::EffectIncludesShadersStore() = default;
 
 EffectIncludesShadersStore::~EffectIncludesShadersStore() = default;
 

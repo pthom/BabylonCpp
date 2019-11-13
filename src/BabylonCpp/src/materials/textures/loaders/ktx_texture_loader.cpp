@@ -7,9 +7,7 @@
 
 namespace BABYLON {
 
-_KTXTextureLoader::_KTXTextureLoader()
-{
-}
+_KTXTextureLoader::_KTXTextureLoader() = default;
 
 _KTXTextureLoader::~_KTXTextureLoader() = default;
 

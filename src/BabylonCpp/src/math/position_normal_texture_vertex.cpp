@@ -9,42 +9,16 @@ PositionNormalTextureVertex::PositionNormalTextureVertex(
 }
 
 PositionNormalTextureVertex::PositionNormalTextureVertex(
-  const PositionNormalTextureVertex& other)
-    : position{other.position}, normal{other.normal}, uv{other.uv}
-{
-}
+  const PositionNormalTextureVertex& other) = default;
 
 PositionNormalTextureVertex::PositionNormalTextureVertex(
-  PositionNormalTextureVertex&& other)
-    : position{std::move(other.position)}
-    , normal{std::move(other.normal)}
-    , uv{std::move(other.uv)}
-{
-}
+  PositionNormalTextureVertex&& other) = default;
 
 PositionNormalTextureVertex& PositionNormalTextureVertex::
-operator=(const PositionNormalTextureVertex& other)
-{
-  if (&other != this) {
-    position = other.position;
-    normal   = other.normal;
-    uv       = other.uv;
-  }
-
-  return *this;
-}
+operator=(const PositionNormalTextureVertex& other) = default;
 
 PositionNormalTextureVertex& PositionNormalTextureVertex::
-operator=(PositionNormalTextureVertex&& other)
-{
-  if (&other != this) {
-    position = std::move(other.position);
-    normal   = std::move(other.normal);
-    uv       = std::move(other.uv);
-  }
-
-  return *this;
-}
+operator=(PositionNormalTextureVertex&& other) = default;
 
 PositionNormalTextureVertex::~PositionNormalTextureVertex() = default;
 

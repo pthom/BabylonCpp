@@ -7,9 +7,7 @@
 
 namespace BABYLON {
 
-_DDSTextureLoader::_DDSTextureLoader()
-{
-}
+_DDSTextureLoader::_DDSTextureLoader() = default;
 
 _DDSTextureLoader::~_DDSTextureLoader() = default;
 

@@ -14,35 +14,13 @@ Range::Range(float start, float end) : _start{start}, _end{end}
 {
 }
 
-Range::Range(const Range& otherRange)
-    : _start{otherRange._start}, _end{otherRange._end}
-{
-}
+Range::Range(const Range& otherRange) = default;
 
-Range::Range(Range&& otherRange)
-{
-  *this = std::move(otherRange);
-}
+Range::Range(Range&& otherRange) = default;
 
-Range& Range::operator=(const Range& otherRange)
-{
-  if (&otherRange != this) {
-    _start = otherRange._start;
-    _end   = otherRange._end;
-  }
+Range& Range::operator=(const Range& otherRange) = default;
 
-  return *this;
-}
-
-Range& Range::operator=(Range&& otherRange)
-{
-  if (&otherRange != this) {
-    _start = std::move(otherRange._start);
-    _end   = std::move(otherRange._end);
-  }
-
-  return *this;
-}
+Range& Range::operator=(Range&& otherRange) = default;
 
 Range::~Range() = default;
 
@@ -85,15 +63,7 @@ ColorInfo::ColorInfo(const Range& hueRange, const Range& saturationRange,
 {
 }
 
-ColorInfo::ColorInfo(const ColorInfo& other)
-    : _hueRange{other._hueRange}
-    , _hasHueRange{other._hasHueRange}
-    , _saturationRange{other._saturationRange}
-    , _brightnessRange{other._brightnessRange}
-    , _lowerBounds{other._lowerBounds}
-    , _isValid{other._isValid}
-{
-}
+ColorInfo::ColorInfo(const ColorInfo& other) = default;
 
 ColorInfo::ColorInfo(ColorInfo&& other)
 {
@@ -209,9 +179,7 @@ Options::Options()
 {
 }
 
-Options::~Options()
-{
-}
+Options::~Options() = default;
 
 int Options::getHue() const
 {
@@ -250,9 +218,7 @@ RandomColor::RandomColor()
   loadColorBounds();
 }
 
-RandomColor::~RandomColor()
-{
-}
+RandomColor::~RandomColor() = default;
 
 std::array<unsigned int, 3> RandomColor::HSVToRGB(float hue, float saturation,
                                                float value)

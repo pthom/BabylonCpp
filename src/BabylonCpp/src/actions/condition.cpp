@@ -11,41 +11,13 @@ Condition::Condition(ActionManager* actionManager)
 {
 }
 
-Condition::Condition(const Condition& other)
-    : _actionManager{other._actionManager}
-    , _evaluationId{other._evaluationId}
-    , _currentResult{other._currentResult}
-{
-}
+Condition::Condition(const Condition& other) = default;
 
-Condition::Condition(Condition&& other)
-    : _actionManager{std::move(other._actionManager)}
-    , _evaluationId{std::move(other._evaluationId)}
-    , _currentResult{std::move(other._currentResult)}
-{
-}
+Condition::Condition(Condition&& other) = default;
 
-Condition& Condition::operator=(const Condition& other)
-{
-  if (&other != this) {
-    _actionManager = other._actionManager;
-    _evaluationId  = other._evaluationId;
-    _currentResult = other._currentResult;
-  }
+Condition& Condition::operator=(const Condition& other) = default;
 
-  return *this;
-}
-
-Condition& Condition::operator=(Condition&& other)
-{
-  if (&other != this) {
-    _actionManager = std::move(other._actionManager);
-    _evaluationId  = std::move(other._evaluationId);
-    _currentResult = std::move(other._currentResult);
-  }
-
-  return *this;
-}
+Condition& Condition::operator=(Condition&& other) = default;
 
 Condition::~Condition() = default;
 

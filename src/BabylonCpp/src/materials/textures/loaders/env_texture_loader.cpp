@@ -8,9 +8,7 @@
 
 namespace BABYLON {
 
-_ENVTextureLoader::_ENVTextureLoader()
-{
-}
+_ENVTextureLoader::_ENVTextureLoader() = default;
 
 _ENVTextureLoader::~_ENVTextureLoader() = default;
 

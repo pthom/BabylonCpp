@@ -2,9 +2,7 @@
 
 namespace BABYLON {
 
-PolygonPoints::PolygonPoints()
-{
-}
+PolygonPoints::PolygonPoints() = default;
 
 PolygonPoints::~PolygonPoints() = default;
 

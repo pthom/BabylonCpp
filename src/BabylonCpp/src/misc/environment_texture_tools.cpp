@@ -27,9 +27,7 @@ namespace BABYLON {
 std::array<uint8_t, 8> EnvironmentTextureTools::_MagicBytes
   = {0x86, 0x16, 0x87, 0x96, 0xf6, 0xd6, 0x96, 0x36};
 
-EnvironmentTextureTools::EnvironmentTextureTools()
-{
-}
+EnvironmentTextureTools::EnvironmentTextureTools() = default;
 
 EnvironmentTextureTools::~EnvironmentTextureTools() = default;
 

@@ -16,33 +16,10 @@ QuadraticMatrix::QuadraticMatrix(const std::array<float, 10>& _data)
   }
 }
 
-QuadraticMatrix::QuadraticMatrix(const QuadraticMatrix& other)
-    : data{other.data}
-{
-}
-
-QuadraticMatrix::QuadraticMatrix(QuadraticMatrix&& other)
-    : data{std::move(other.data)}
-{
-}
-
-QuadraticMatrix& QuadraticMatrix::operator=(const QuadraticMatrix& other)
-{
-  if (&other != this) {
-    data = other.data;
-  }
-
-  return *this;
-}
-
-QuadraticMatrix& QuadraticMatrix::operator=(QuadraticMatrix&& other)
-{
-  if (&other != this) {
-    data = std::move(other.data);
-  }
-
-  return *this;
-}
+QuadraticMatrix::QuadraticMatrix(const QuadraticMatrix& other) = default;
+QuadraticMatrix::QuadraticMatrix(QuadraticMatrix&& other) = default;
+QuadraticMatrix& QuadraticMatrix::operator=(const QuadraticMatrix& other) = default;
+QuadraticMatrix& QuadraticMatrix::operator=(QuadraticMatrix&& other) = default;
 
 QuadraticMatrix::~QuadraticMatrix() = default;
 
