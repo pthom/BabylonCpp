@@ -364,6 +364,7 @@ add_library(${TARGET}
     ${BABYLON_SOURCES}
     ${BABYLON_HEADERS}
 )
+babylon_target_clang_tidy(${TARGET})
 
 # Create namespaced alias
 add_library(${META_PROJECT_NAME}::${TARGET} ALIAS ${TARGET})
@@ -455,17 +456,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     endif()
 endif()
 
-
-# ============================================================================ #
-#                        clang-tidy                                            #
-# ============================================================================ #
-if(CLANG_TIDY_EXE)
-  message("Applying clang-tidy to ${TARGET}")
-  set_target_properties(
-    ${TARGET} PROPERTIES
-    CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
-  )
-endif()
 
 # ============================================================================ #
 #                       Setup test environment                                 #
