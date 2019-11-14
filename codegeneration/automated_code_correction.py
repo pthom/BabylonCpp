@@ -71,23 +71,17 @@ def files_with_extension(folder: Folder, extension: Extension) -> List[FileFullP
                 r.append(full_file)
     return r
 
-def read_file_lines_no_eol(FileFullPath: FileFullPath) -> List[CodeLine]:
-    with open(FileFullPath, "r") as f:
+
+def read_file_lines_no_eol(file_full_path: FileFullPath) -> List[CodeLine]:
+    with open(file_full_path, "r") as f:
         content = f.read()
     lines = content.split("\n")
     return lines
-    # lines_no_eol = []
-    # for line in lines:
-    #     if line[-1:] == "\n":
-    #         lines_no_eol.append(line[:-1])
-    #     else:
-    #         lines_no_eol.append(line)
-    # return lines_no_eol
 
 
-def write_file_lines_no_eol(FileFullPath: FileFullPath, lines: List[CodeLine]):
+def write_file_lines_no_eol(file_full_path: FileFullPath, lines: List[CodeLine]):
     content = "\n".join(lines)
-    with open(FileFullPath, "w") as f:
+    with open(file_full_path, "w") as f:
         f.write(content)
 
 
@@ -212,21 +206,22 @@ def correct_one_trivial_destructor(cpp_file, cpp_file_line, h_file):
         write_file_lines_no_eol(cpp_file, lines_new)
 
     # correct h file
-    lines = read_file_lines_no_eol(h_file)
-    lines_new = []
-    for line in lines:
-        if "~" in line and ClassName + "()" in line:
-            if "//" in line:
-                line = line[:line.index("//")]
-                line = line.rstrip()
-            line = line.replace(" override ", "")
-            line = line.replace("override ", "")
-            line = line.replace(" override", "")
-            line = line.replace("override", "")
-            line = line + " // = default"
+    if h_file is not None:
+        lines = read_file_lines_no_eol(h_file)
+        lines_new = []
+        for line in lines:
+            if "~" in line and ClassName + "()" in line:
+                if "//" in line:
+                    line = line[:line.index("//")]
+                    line = line.rstrip()
+                line = line.replace(" override ", "")
+                line = line.replace("override ", "")
+                line = line.replace(" override", "")
+                line = line.replace("override", "")
+                line = line + " // = default"
 
-        lines_new.append(line)
-    write_file_lines_no_eol(h_file, lines_new)
+            lines_new.append(line)
+        write_file_lines_no_eol(h_file, lines_new)
 
 
 
@@ -401,19 +396,21 @@ def main():
     src_dir = repo_dir + "/src"
     all_h_files = files_with_extension(src_dir, ".h")
     all_cpp_files = files_with_extension(src_dir, ".cpp")
+    
+    correct_trivial_destructors(all_h_files)
 
-    classes_per_header = {}
-    for i, h_file in enumerate(all_h_files):
-        print("Processing {} {}/{}".format(h_file, i, len(all_h_files)))
-        classes = find_all_struct_classes_in_header(h_file)
-        classes_per_header[make_babylon_include_path(h_file)] = classes
-    print("Done")
+    # classes_per_header = {}
+    # for i, h_file in enumerate(all_h_files):
+    #     print("Processing {} {}/{}".format(h_file, i, len(all_h_files)))
+    #     classes = find_all_struct_classes_in_header(h_file)
+    #     classes_per_header[make_babylon_include_path(h_file)] = classes
+    # print("Done")
 
 
-    for i, h_file in enumerate(all_h_files):
-        print("Processing {} {}/{}".format(h_file, i, len(all_h_files)))
-        # move_trivial_destructors_to_h(cpp_file, all_h_files)
-        remove_forward_class_decls(h_file, classes_per_header)
+    # for i, h_file in enumerate(all_h_files):
+    #     print("Processing {} {}/{}".format(h_file, i, len(all_h_files)))
+    #     # move_trivial_destructors_to_h(cpp_file, all_h_files)
+    #     remove_forward_class_decls(h_file, classes_per_header)
 
 
 if __name__ == "__main__":
