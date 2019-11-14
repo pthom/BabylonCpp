@@ -1,0 +1,598 @@
+[1/15] Building CXX object src/imgui_utils/CMakeFiles/imgui_utils.dir/imguial_log.cpp.o
+FAILED: src/imgui_utils/CMakeFiles/imgui_utils.dir/imguial_log.cpp.o 
+/usr/bin/cmake -E __run_co_compile --tidy="/home/pascal/Utils/clang/bin/clang-tidy;-checks=hicpp-use-equals-default" --source=../src/imgui_utils/imguial_log.cpp -- /home/pascal/Utils/clang/bin/clang++  -DGLAD_GLAPI_EXPORT -DIMGUI_IMPL_OPENGL_LOADER_GLAD -I../src/imgui_utils/.. -I../external/glfw/include -I../external/glad/include -I../external/imgui -I../external/imgui/examples -I../src/BabylonCpp/include -Isrc/BabylonCpp/include -I../external/ImGuiColorTextEdit -I../external/ImGuiColorTextEdit/.. -Wextra -Wall -pedantic -ftemplate-depth=512 -ftemplate-backtrace-limit=0  -Wshadow  -Winvalid-source-encoding  -Wconditional-uninitialized  -Wnon-virtual-dtor -Winconsistent-missing-override  -Wheader-hygiene  -Wunused-variable -Wunused-private-field -Wignored-qualifiers -Wunreachable-code-return -Wmissing-field-initializers -Wno-missing-braces -Wno-unused-command-line-argument -Wno-float-equal  -Wno-sign-conversion -Wno-conversion -Wno-unused-private-field -fPIC -pthread -march=native -mpopcnt -g   -std=gnu++1z -MD -MT src/imgui_utils/CMakeFiles/imgui_utils.dir/imguial_log.cpp.o -MF src/imgui_utils/CMakeFiles/imgui_utils.dir/imguial_log.cpp.o.d -o src/imgui_utils/CMakeFiles/imgui_utils.dir/imguial_log.cpp.o -c ../src/imgui_utils/imguial_log.cpp
+/home/pascal/dvp/BabylonCpp/build/../src/imgui_utils/imguial_log.cpp:33:1: error: use of undeclared identifier 'Log'; did you mean 'ImGuiAl::Log'? [clang-diagnostic-error]
+Log::~Log() = default;
+^~~
+ImGuiAl::Log
+/home/pascal/dvp/BabylonCpp/build/../src/imgui_utils/imguial_log.h:43:9: note: 'ImGuiAl::Log' declared here
+  class Log
+        ^
+29 warnings and 1 error generated.
+Error while processing /home/pascal/dvp/BabylonCpp/build/../src/imgui_utils/imguial_log.cpp.
+Suppressed 29 warnings (29 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+Found compiler error(s).
+[2/15] Linking CXX shared library build/lib/libextensions_d.so.3.3.0
+[3/15] Creating library symlink build/lib/libextensions_d.so
+[4/15] Linking CXX executable build/bin/BabylonCppTests
+[==========] Running 185 tests from 24 test suites.
+[----------] Global test environment set-up.
+[----------] 3 tests from TestProperties
+[ RUN      ] TestProperties.ReadOnlyProperty
+[       OK ] TestProperties.ReadOnlyProperty (0 ms)
+[ RUN      ] TestProperties.ReadWritePrimitiveProperty
+[       OK ] TestProperties.ReadWritePrimitiveProperty (0 ms)
+[ RUN      ] TestProperties.ReadWriteClassProperty
+[       OK ] TestProperties.ReadWriteClassProperty (0 ms)
+[----------] 3 tests from TestProperties (0 ms total)
+
+[----------] 30 tests from TestStdUtil
+[ RUN      ] TestStdUtil.to_bitset
+[       OK ] TestStdUtil.to_bitset (0 ms)
+[ RUN      ] TestStdUtil.to_bytes__from_bytes
+[       OK ] TestStdUtil.to_bytes__from_bytes (0 ms)
+[ RUN      ] TestStdUtil.to_hex_string
+[       OK ] TestStdUtil.to_hex_string (0 ms)
+[ RUN      ] TestStdUtil.hex_to_float
+[       OK ] TestStdUtil.hex_to_float (0 ms)
+[ RUN      ] TestStdUtil.to_vector
+[       OK ] TestStdUtil.to_vector (0 ms)
+[ RUN      ] TestStdUtil.concat
+[       OK ] TestStdUtil.concat (1 ms)
+[ RUN      ] TestStdUtil.contains
+[       OK ] TestStdUtil.contains (0 ms)
+[ RUN      ] TestStdUtil.insert_at
+[       OK ] TestStdUtil.insert_at (0 ms)
+[ RUN      ] TestStdUtil.unordered_map_contains
+[       OK ] TestStdUtil.unordered_map_contains (0 ms)
+[ RUN      ] TestStdUtil.extract_keys
+[       OK ] TestStdUtil.extract_keys (0 ms)
+[ RUN      ] TestStdUtil.extract_values
+[       OK ] TestStdUtil.extract_values (0 ms)
+[ RUN      ] TestStdUtil.erase
+[       OK ] TestStdUtil.erase (0 ms)
+[ RUN      ] TestStdUtil.filter
+[       OK ] TestStdUtil.filter (0 ms)
+[ RUN      ] TestStdUtil.flatten
+[       OK ] TestStdUtil.flatten (0 ms)
+[ RUN      ] TestStdUtil.index_of
+[       OK ] TestStdUtil.index_of (0 ms)
+[ RUN      ] TestStdUtil.min
+[       OK ] TestStdUtil.min (0 ms)
+[ RUN      ] TestStdUtil.map
+[       OK ] TestStdUtil.map (0 ms)
+[ RUN      ] TestStdUtil.max
+[       OK ] TestStdUtil.max (0 ms)
+[ RUN      ] TestStdUtil.pop
+[       OK ] TestStdUtil.pop (0 ms)
+[ RUN      ] TestStdUtil.push_front
+[       OK ] TestStdUtil.push_front (0 ms)
+[ RUN      ] TestStdUtil.remove_duplicates
+[       OK ] TestStdUtil.remove_duplicates (0 ms)
+[ RUN      ] TestStdUtil.array_set
+[       OK ] TestStdUtil.array_set (0 ms)
+[ RUN      ] TestStdUtil.subarray
+[       OK ] TestStdUtil.subarray (0 ms)
+[ RUN      ] TestStdUtil.slice
+[       OK ] TestStdUtil.slice (0 ms)
+[ RUN      ] TestStdUtil.slice_in_place
+[       OK ] TestStdUtil.slice_in_place (0 ms)
+[ RUN      ] TestStdUtil.splice
+[       OK ] TestStdUtil.splice (0 ms)
+[ RUN      ] TestStdUtil.remove
+[       OK ] TestStdUtil.remove (0 ms)
+[ RUN      ] TestStdUtil.push_unique
+[       OK ] TestStdUtil.push_unique (0 ms)
+[ RUN      ] TestStdUtil.range
+[       OK ] TestStdUtil.range (0 ms)
+[ RUN      ] TestStdUtil.spaceship
+[       OK ] TestStdUtil.spaceship (0 ms)
+[----------] 30 tests from TestStdUtil (1 ms total)
+
+[----------] 14 tests from TestAny
+[ RUN      ] TestAny.Initialization
+[       OK ] TestAny.Initialization (0 ms)
+[ RUN      ] TestAny.CopyAssignment
+[       OK ] TestAny.CopyAssignment (0 ms)
+[ RUN      ] TestAny.MoveAssignment
+[       OK ] TestAny.MoveAssignment (0 ms)
+[ RUN      ] TestAny.InitializeVector
+[       OK ] TestAny.InitializeVector (0 ms)
+[ RUN      ] TestAny.AssignToVectorElements
+[       OK ] TestAny.AssignToVectorElements (0 ms)
+[ RUN      ] TestAny.MoveToVectorElements
+[       OK ] TestAny.MoveToVectorElements (0 ms)
+[ RUN      ] TestAny.TypeCheck
+[       OK ] TestAny.TypeCheck (0 ms)
+[ RUN      ] TestAny.NullptrType
+[       OK ] TestAny.NullptrType (0 ms)
+[ RUN      ] TestAny.Swap
+[       OK ] TestAny.Swap (0 ms)
+[ RUN      ] TestAny.CopyConstructor
+[       OK ] TestAny.CopyConstructor (0 ms)
+[ RUN      ] TestAny.MoveConstructor
+[       OK ] TestAny.MoveConstructor (0 ms)
+[ RUN      ] TestAny.FromAnyToTypeByCopy
+[       OK ] TestAny.FromAnyToTypeByCopy (0 ms)
+[ RUN      ] TestAny.FromAnyToTypeByMove
+[       OK ] TestAny.FromAnyToTypeByMove (0 ms)
+[ RUN      ] TestAny.CustomType
+[       OK ] TestAny.CustomType (0 ms)
+[----------] 14 tests from TestAny (1 ms total)
+
+[----------] 5 tests from TestCompileTimeCalculation
+[ RUN      ] TestCompileTimeCalculation.Factorial
+[       OK ] TestCompileTimeCalculation.Factorial (0 ms)
+[ RUN      ] TestCompileTimeCalculation.Fibonacci
+[       OK ] TestCompileTimeCalculation.Fibonacci (0 ms)
+[ RUN      ] TestCompileTimeCalculation.isNumber
+[       OK ] TestCompileTimeCalculation.isNumber (0 ms)
+[ RUN      ] TestCompileTimeCalculation.IsPrime
+[       OK ] TestCompileTimeCalculation.IsPrime (0 ms)
+[ RUN      ] TestCompileTimeCalculation.Pow
+[       OK ] TestCompileTimeCalculation.Pow (0 ms)
+[----------] 5 tests from TestCompileTimeCalculation (0 ms total)
+
+[----------] 3 tests from TestDelegate
+[ RUN      ] TestDelegate.MemberFunctionCalls
+[       OK ] TestDelegate.MemberFunctionCalls (0 ms)
+[ RUN      ] TestDelegate.LambdaCalls
+[       OK ] TestDelegate.LambdaCalls (0 ms)
+[ RUN      ] TestDelegate.CompareCopiedDelegates
+[       OK ] TestDelegate.CompareCopiedDelegates (0 ms)
+[----------] 3 tests from TestDelegate (0 ms total)
+
+[----------] 5 tests from TestFilesystem
+[ RUN      ] TestFilesystem.extension
+[       OK ] TestFilesystem.extension (0 ms)
+[ RUN      ] TestFilesystem.baseDir
+[       OK ] TestFilesystem.baseDir (0 ms)
+[ RUN      ] TestFilesystem.baseName
+[       OK ] TestFilesystem.baseName (0 ms)
+[ RUN      ] TestFilesystem.joinPath
+[       OK ] TestFilesystem.joinPath (0 ms)
+[ RUN      ] TestFilesystem.removeExtension
+[       OK ] TestFilesystem.removeExtension (0 ms)
+[----------] 5 tests from TestFilesystem (0 ms total)
+
+[----------] 1 test from TestFutureThen
+[ RUN      ] TestFutureThen.AsyncContinuation
+[       OK ] TestFutureThen.AsyncContinuation (7 ms)
+[----------] 1 test from TestFutureThen (7 ms total)
+
+[----------] 35 tests from TestString
+[ RUN      ] TestString.toCharCodes
+[       OK ] TestString.toCharCodes (0 ms)
+[ RUN      ] TestString.concat
+[       OK ] TestString.concat (0 ms)
+[ RUN      ] TestString.contains
+[       OK ] TestString.contains (0 ms)
+[ RUN      ] TestString.count
+[       OK ] TestString.count (0 ms)
+[ RUN      ] TestString.escape
+[       OK ] TestString.escape (0 ms)
+[ RUN      ] TestString.escapeStrings
+[       OK ] TestString.escapeStrings (0 ms)
+[ RUN      ] TestString.startsWith
+[       OK ] TestString.startsWith (0 ms)
+[ RUN      ] TestString.endsWith
+[       OK ] TestString.endsWith (0 ms)
+[ RUN      ] TestString.fromCharCode
+[       OK ] TestString.fromCharCode (0 ms)
+[ RUN      ] TestString.indexOf
+[       OK ] TestString.indexOf (0 ms)
+[ RUN      ] TestString.isDigit
+[       OK ] TestString.isDigit (2 ms)
+[ RUN      ] TestString.join
+[       OK ] TestString.join (0 ms)
+[ RUN      ] TestString.lastIndexOf
+[       OK ] TestString.lastIndexOf (0 ms)
+[ RUN      ] TestString.nthChar
+[       OK ] TestString.nthChar (0 ms)
+[ RUN      ] TestString.pad
+[       OK ] TestString.pad (0 ms)
+[ RUN      ] TestString.printf
+[       OK ] TestString.printf (0 ms)
+[ RUN      ] TestString.pushFront
+[       OK ] TestString.pushFront (0 ms)
+[ RUN      ] TestString.randomString
+[       OK ] TestString.randomString (0 ms)
+[ RUN      ] TestString.regexMatch
+[       OK ] TestString.regexMatch (0 ms)
+[ RUN      ] TestString.regexReplace
+[       OK ] TestString.regexReplace (2 ms)
+[ RUN      ] TestString.regexReplaceWithCallback
+[       OK ] TestString.regexReplaceWithCallback (2 ms)
+[ RUN      ] TestString.removeSubstring
+[       OK ] TestString.removeSubstring (0 ms)
+[ RUN      ] TestString.repeat
+[       OK ] TestString.repeat (0 ms)
+[ RUN      ] TestString.replace
+[       OK ] TestString.replace (0 ms)
+[ RUN      ] TestString.split
+[       OK ] TestString.split (0 ms)
+[ RUN      ] TestString.slice
+[       OK ] TestString.slice (0 ms)
+[ RUN      ] TestString.toLowerCase
+[       OK ] TestString.toLowerCase (0 ms)
+[ RUN      ] TestString.toUpperCase
+[       OK ] TestString.toUpperCase (0 ms)
+[ RUN      ] TestString.toNumber
+[       OK ] TestString.toNumber (0 ms)
+[ RUN      ] TestString.toString
+[       OK ] TestString.toString (0 ms)
+[ RUN      ] TestString.toTitleCase
+[       OK ] TestString.toTitleCase (0 ms)
+[ RUN      ] TestString.trim
+[       OK ] TestString.trim (0 ms)
+[ RUN      ] TestString.trimCopy
+[       OK ] TestString.trimCopy (0 ms)
+[ RUN      ] TestString.trimLeft
+[       OK ] TestString.trimLeft (0 ms)
+[ RUN      ] TestString.trimRight
+[       OK ] TestString.trimRight (0 ms)
+[----------] 35 tests from TestString (6 ms total)
+
+[----------] 1 test from TestTime
+[ RUN      ] TestTime.measureFunctionCall
+[       OK ] TestTime.measureFunctionCall (0 ms)
+[----------] 1 test from TestTime (0 ms total)
+
+[----------] 3 tests from TestTree
+[ RUN      ] TestTree.BasicTree
+[       OK ] TestTree.BasicTree (0 ms)
+[ RUN      ] TestTree.BasicSortedTree
+[       OK ] TestTree.BasicSortedTree (0 ms)
+[ RUN      ] TestTree.Iterate
+[       OK ] TestTree.Iterate (0 ms)
+[----------] 3 tests from TestTree (0 ms total)
+
+[----------] 6 tests from TestColor3
+[ RUN      ] TestColor3.Constructor
+[       OK ] TestColor3.Constructor (0 ms)
+[ RUN      ] TestColor3.FromHexString
+[       OK ] TestColor3.FromHexString (0 ms)
+[ RUN      ] TestColor3.Lerp
+[       OK ] TestColor3.Lerp (0 ms)
+[ RUN      ] TestColor3.Operators
+[       OK ] TestColor3.Operators (1 ms)
+[ RUN      ] TestColor3.RGB
+[       OK ] TestColor3.RGB (0 ms)
+[ RUN      ] TestColor3.ToHexString
+[       OK ] TestColor3.ToHexString (0 ms)
+[----------] 6 tests from TestColor3 (1 ms total)
+
+[----------] 6 tests from TestColor4
+[ RUN      ] TestColor4.CheckColors4
+[       OK ] TestColor4.CheckColors4 (0 ms)
+[ RUN      ] TestColor4.Constructor
+[       OK ] TestColor4.Constructor (0 ms)
+[ RUN      ] TestColor4.FromHexString
+[       OK ] TestColor4.FromHexString (0 ms)
+[ RUN      ] TestColor4.Lerp
+[       OK ] TestColor4.Lerp (0 ms)
+[ RUN      ] TestColor4.Operators
+[       OK ] TestColor4.Operators (0 ms)
+[ RUN      ] TestColor4.ToHexString
+[       OK ] TestColor4.ToHexString (0 ms)
+[----------] 6 tests from TestColor4 (0 ms total)
+
+[----------] 5 tests from TestMatrix
+[ RUN      ] TestMatrix.Constructor
+[       OK ] TestMatrix.Constructor (0 ms)
+[ RUN      ] TestMatrix.FromValues
+[       OK ] TestMatrix.FromValues (0 ms)
+[ RUN      ] TestMatrix.Determinant
+[       OK ] TestMatrix.Determinant (0 ms)
+[ RUN      ] TestMatrix.Transpose
+[       OK ] TestMatrix.Transpose (0 ms)
+[ RUN      ] TestMatrix.Clone
+[       OK ] TestMatrix.Clone (0 ms)
+[----------] 5 tests from TestMatrix (0 ms total)
+
+[----------] 17 tests from TestVector2
+[ RUN      ] TestVector2.Constructor
+[       OK ] TestVector2.Constructor (0 ms)
+[ RUN      ] TestVector2.CopyFrom
+[       OK ] TestVector2.CopyFrom (0 ms)
+[ RUN      ] TestVector2.CopyFromFloats
+[       OK ] TestVector2.CopyFromFloats (0 ms)
+[ RUN      ] TestVector2.GetHashCode
+[       OK ] TestVector2.GetHashCode (0 ms)
+[ RUN      ] TestVector2.Add
+[       OK ] TestVector2.Add (0 ms)
+[ RUN      ] TestVector2.Subtract
+[       OK ] TestVector2.Subtract (0 ms)
+[ RUN      ] TestVector2.Multiply
+[       OK ] TestVector2.Multiply (0 ms)
+[ RUN      ] TestVector2.Divide
+[       OK ] TestVector2.Divide (0 ms)
+[ RUN      ] TestVector2.Negate
+[       OK ] TestVector2.Negate (0 ms)
+[ RUN      ] TestVector2.Dot
+[       OK ] TestVector2.Dot (0 ms)
+[ RUN      ] TestVector2.Length
+[       OK ] TestVector2.Length (0 ms)
+[ RUN      ] TestVector2.LengthSquared
+[       OK ] TestVector2.LengthSquared (0 ms)
+[ RUN      ] TestVector2.Normalize
+[       OK ] TestVector2.Normalize (1 ms)
+[ RUN      ] TestVector2.Distance
+[       OK ] TestVector2.Distance (0 ms)
+[ RUN      ] TestVector2.DistanceSquared
+[       OK ] TestVector2.DistanceSquared (0 ms)
+[ RUN      ] TestVector2.Lerp
+[       OK ] TestVector2.Lerp (0 ms)
+[ RUN      ] TestVector2.Equals
+[       OK ] TestVector2.Equals (0 ms)
+[----------] 17 tests from TestVector2 (1 ms total)
+
+[----------] 18 tests from TestVector3
+[ RUN      ] TestVector3.Constructor
+[       OK ] TestVector3.Constructor (0 ms)
+[ RUN      ] TestVector3.CopyFrom
+[       OK ] TestVector3.CopyFrom (0 ms)
+[ RUN      ] TestVector3.CopyFromFloats
+[       OK ] TestVector3.CopyFromFloats (0 ms)
+[ RUN      ] TestVector3.GetHashCode
+[       OK ] TestVector3.GetHashCode (0 ms)
+[ RUN      ] TestVector3.Add
+[       OK ] TestVector3.Add (0 ms)
+[ RUN      ] TestVector3.AttributeIterate
+[       OK ] TestVector3.AttributeIterate (0 ms)
+[ RUN      ] TestVector3.Subtract
+[       OK ] TestVector3.Subtract (0 ms)
+[ RUN      ] TestVector3.Multiply
+[       OK ] TestVector3.Multiply (0 ms)
+[ RUN      ] TestVector3.Divide
+[       OK ] TestVector3.Divide (0 ms)
+[ RUN      ] TestVector3.Negate
+[       OK ] TestVector3.Negate (0 ms)
+[ RUN      ] TestVector3.Dot
+[       OK ] TestVector3.Dot (0 ms)
+[ RUN      ] TestVector3.Length
+[       OK ] TestVector3.Length (0 ms)
+[ RUN      ] TestVector3.LengthSquared
+[       OK ] TestVector3.LengthSquared (0 ms)
+[ RUN      ] TestVector3.Normalize
+[       OK ] TestVector3.Normalize (0 ms)
+[ RUN      ] TestVector3.Distance
+[       OK ] TestVector3.Distance (0 ms)
+[ RUN      ] TestVector3.DistanceSquared
+[       OK ] TestVector3.DistanceSquared (0 ms)
+[ RUN      ] TestVector3.Lerp
+[       OK ] TestVector3.Lerp (0 ms)
+[ RUN      ] TestVector3.Equals
+[       OK ] TestVector3.Equals (0 ms)
+[----------] 18 tests from TestVector3 (1 ms total)
+
+[----------] 15 tests from TestVector4
+[ RUN      ] TestVector4.Constructor
+[       OK ] TestVector4.Constructor (0 ms)
+[ RUN      ] TestVector4.CopyFrom
+[       OK ] TestVector4.CopyFrom (0 ms)
+[ RUN      ] TestVector4.CopyFromFloats
+[       OK ] TestVector4.CopyFromFloats (0 ms)
+[ RUN      ] TestVector4.GetHashCode
+[       OK ] TestVector4.GetHashCode (1 ms)
+[ RUN      ] TestVector4.Add
+[       OK ] TestVector4.Add (0 ms)
+[ RUN      ] TestVector4.Subtract
+[       OK ] TestVector4.Subtract (0 ms)
+[ RUN      ] TestVector4.Multiply
+[       OK ] TestVector4.Multiply (0 ms)
+[ RUN      ] TestVector4.Divide
+[       OK ] TestVector4.Divide (0 ms)
+[ RUN      ] TestVector4.Negate
+[       OK ] TestVector4.Negate (0 ms)
+[ RUN      ] TestVector4.Length
+[       OK ] TestVector4.Length (0 ms)
+[ RUN      ] TestVector4.LengthSquared
+[       OK ] TestVector4.LengthSquared (0 ms)
+[ RUN      ] TestVector4.Normalize
+[       OK ] TestVector4.Normalize (0 ms)
+[ RUN      ] TestVector4.Distance
+[       OK ] TestVector4.Distance (0 ms)
+[ RUN      ] TestVector4.DistanceSquared
+[       OK ] TestVector4.DistanceSquared (0 ms)
+[ RUN      ] TestVector4.Equals
+[       OK ] TestVector4.Equals (0 ms)
+[----------] 15 tests from TestVector4 (1 ms total)
+
+[----------] 1 test from TestGeometry
+[ RUN      ] TestGeometry.TestGetVerticesData_Vec3FloatColor
+[       OK ] TestGeometry.TestGetVerticesData_Vec3FloatColor (4 ms)
+[----------] 1 test from TestGeometry (4 ms total)
+
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.clone
+[       OK ] Mesh.clone (9 ms)
+[----------] 1 test from Mesh (9 ms total)
+
+[----------] 3 tests from TestPositionAndRotation
+[ RUN      ] TestPositionAndRotation.TestConversionBetweenQuaternionsAndEuler
+[       OK ] TestPositionAndRotation.TestConversionBetweenQuaternionsAndEuler (0 ms)
+[ RUN      ] TestPositionAndRotation.TestReordersVectorInPlace
+[       OK ] TestPositionAndRotation.TestReordersVectorInPlace (1 ms)
+[ RUN      ] TestPositionAndRotation.TestParenting
+[       OK ] TestPositionAndRotation.TestParenting (0 ms)
+[----------] 3 tests from TestPositionAndRotation (2 ms total)
+
+[----------] 5 tests from TestVertexData
+[ RUN      ] TestVertexData.CreateBox
+[       OK ] TestVertexData.CreateBox (0 ms)
+[ RUN      ] TestVertexData.CreateGround
+[       OK ] TestVertexData.CreateGround (0 ms)
+[ RUN      ] TestVertexData.CreatePlane
+[       OK ] TestVertexData.CreatePlane (0 ms)
+[ RUN      ] TestVertexData.CreateSphere
+[       OK ] TestVertexData.CreateSphere (0 ms)
+[ RUN      ] TestVertexData.CreateTiledGround
+[       OK ] TestVertexData.CreateTiledGround (0 ms)
+[----------] 5 tests from TestVertexData (0 ms total)
+
+[----------] 2 tests from TestObservables
+[ RUN      ] TestObservables.MouseClickObserver
+[       OK ] TestObservables.MouseClickObserver (0 ms)
+[ RUN      ] TestObservables.MouseObserver
+[       OK ] TestObservables.MouseObserver (0 ms)
+[----------] 2 tests from TestObservables (0 ms total)
+
+[----------] 1 test from TestTools
+[ RUN      ] TestTools.ExponentOfTwo
+[       OK ] TestTools.ExponentOfTwo (0 ms)
+[----------] 1 test from TestTools (0 ms total)
+
+[----------] 4 tests from TestBase64
+[ RUN      ] TestBase64.btoa
+[       OK ] TestBase64.btoa (0 ms)
+[ RUN      ] TestBase64.atob
+[       OK ] TestBase64.atob (0 ms)
+[ RUN      ] TestBase64.Encode
+[       OK ] TestBase64.Encode (0 ms)
+[ RUN      ] TestBase64.Decode
+[       OK ] TestBase64.Decode (0 ms)
+[----------] 4 tests from TestBase64 (0 ms total)
+
+[----------] 1 test from TestRandomColor
+[ RUN      ] TestRandomColor.HSVToRGB
+[       OK ] TestRandomColor.HSVToRGB (0 ms)
+[----------] 1 test from TestRandomColor (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 185 tests from 24 test suites ran. (35 ms total)
+[  PASSED  ] 185 tests.
+[5/15] Linking CXX executable build/bin/ExtensionsTests
+[==========] Running 43 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from TestClassTypeId
+[ RUN      ] TestClassTypeId.Incremental_IDs_for_types
+[       OK ] TestClassTypeId.Incremental_IDs_for_types (0 ms)
+[----------] 1 test from TestClassTypeId (0 ms total)
+
+[----------] 9 tests from TestComponentFilter
+[ RUN      ] TestComponentFilter.Requires_pass
+[       OK ] TestComponentFilter.Requires_pass (0 ms)
+[ RUN      ] TestComponentFilter.Requires_fail
+[       OK ] TestComponentFilter.Requires_fail (0 ms)
+[ RUN      ] TestComponentFilter.Excludes_pass
+[       OK ] TestComponentFilter.Excludes_pass (0 ms)
+[ RUN      ] TestComponentFilter.Excludes_fail_via_one
+[       OK ] TestComponentFilter.Excludes_fail_via_one (0 ms)
+[ RUN      ] TestComponentFilter.Excludes_fail_via_all
+[       OK ] TestComponentFilter.Excludes_fail_via_all (0 ms)
+[ RUN      ] TestComponentFilter.Requires_and_excludes_pass
+[       OK ] TestComponentFilter.Requires_and_excludes_pass (0 ms)
+[ RUN      ] TestComponentFilter.Requires_and_excludes_fail_via_requires
+[       OK ] TestComponentFilter.Requires_and_excludes_fail_via_requires (0 ms)
+[ RUN      ] TestComponentFilter.Requires_and_excludes_fail_via_excludes
+[       OK ] TestComponentFilter.Requires_and_excludes_fail_via_excludes (0 ms)
+[ RUN      ] TestComponentFilter.Requires_and_excludes_fail_via_both
+[       OK ] TestComponentFilter.Requires_and_excludes_fail_via_both (0 ms)
+[----------] 9 tests from TestComponentFilter (0 ms total)
+
+[----------] 21 tests from TestEntities
+[ RUN      ] TestEntities.Valid_entity_handle_new_entity
+[       OK ] TestEntities.Valid_entity_handle_new_entity (2 ms)
+[ RUN      ] TestEntities.Invalid_entity_handles_killing_entities
+[       OK ] TestEntities.Invalid_entity_handles_killing_entities (3 ms)
+[ RUN      ] TestEntities.Invalid_entity_handle_clearing_world
+[       OK ] TestEntities.Invalid_entity_handle_clearing_world (2 ms)
+[ RUN      ] TestEntities.Valid_entity_handle_duplicate_handles
+[       OK ] TestEntities.Valid_entity_handle_duplicate_handles (3 ms)
+[ RUN      ] TestEntities.Invalid_entity_handles_duplicate_and_kill_original
+[       OK ] TestEntities.Invalid_entity_handles_duplicate_and_kill_original (2 ms)
+[ RUN      ] TestEntities.Invalid_entity_handles_duplicate_and_kill_clone
+[       OK ] TestEntities.Invalid_entity_handles_duplicate_and_kill_clone (2 ms)
+[ RUN      ] TestEntities.Invalid_entity_handles_duplicate_and_kill_both
+[       OK ] TestEntities.Invalid_entity_handles_duplicate_and_kill_both (2 ms)
+[ RUN      ] TestEntities.Invalid_entity_handles_duplicate_and_clear_world
+[       OK ] TestEntities.Invalid_entity_handles_duplicate_and_clear_world (3 ms)
+[ RUN      ] TestEntities.Duplicate_invalid_killed_entity_handle
+[       OK ] TestEntities.Duplicate_invalid_killed_entity_handle (2 ms)
+[ RUN      ] TestEntities.isActivated_new_entity_false
+[       OK ] TestEntities.isActivated_new_entity_false (2 ms)
+[ RUN      ] TestEntities.Activate
+[       OK ] TestEntities.Activate (2 ms)
+[ RUN      ] TestEntities.Activate_to_Deactivate
+[       OK ] TestEntities.Activate_to_Deactivate (2 ms)
+[ RUN      ] TestEntities.Activate_to_Deactivate_to_Activate
+[       OK ] TestEntities.Activate_to_Deactivate_to_Activate (2 ms)
+[ RUN      ] TestEntities.Activating_an_entity_multiple_times
+[       OK ] TestEntities.Activating_an_entity_multiple_times (2 ms)
+[ RUN      ] TestEntities.De_activating_an_entity_multiple_times
+[       OK ] TestEntities.De_activating_an_entity_multiple_times (3 ms)
+[ RUN      ] TestEntities.New_entity_no_components_added
+[       OK ] TestEntities.New_entity_no_components_added (2 ms)
+[ RUN      ] TestEntities.Adding_components
+[       OK ] TestEntities.Adding_components (2 ms)
+[ RUN      ] TestEntities.Removing_components
+[       OK ] TestEntities.Removing_components (3 ms)
+[ RUN      ] TestEntities.Removing_all_components
+[       OK ] TestEntities.Removing_all_components (2 ms)
+[ RUN      ] TestEntities.Retrieving_an_Entity_via_ID_index_VALID_index
+[       OK ] TestEntities.Retrieving_an_Entity_via_ID_index_VALID_index (2 ms)
+[ RUN      ] TestEntities.Retrieving_an_Entity_via_ID_index_VALID_index_multiple_entities_created
+[       OK ] TestEntities.Retrieving_an_Entity_via_ID_index_VALID_index_multiple_entities_created (23 ms)
+[----------] 21 tests from TestEntities (70 ms total)
+
+[----------] 10 tests from TestSystems
+[ RUN      ] TestSystems.New_system
+[       OK ] TestSystems.New_system (0 ms)
+[ RUN      ] TestSystems.Adding_a_system_to_a_world
+[       OK ] TestSystems.Adding_a_system_to_a_world (2 ms)
+[ RUN      ] TestSystems.Adding_multiple_systems_of_the_same_type
+[       OK ] TestSystems.Adding_multiple_systems_of_the_same_type (2 ms)
+[ RUN      ] TestSystems.Removing_a_system_from_a_world
+[       OK ] TestSystems.Removing_a_system_from_a_world (2 ms)
+[ RUN      ] TestSystems.Removing_a_system_that_is_not_in_the_world
+[       OK ] TestSystems.Removing_a_system_that_is_not_in_the_world (3 ms)
+[ RUN      ] TestSystems.Removing_all_systems_from_the_world
+[       OK ] TestSystems.Removing_all_systems_from_the_world (3 ms)
+[ RUN      ] TestSystems.Attempt_to_add_an_Entity_that_does_confine_to_a_systems_filter
+[       OK ] TestSystems.Attempt_to_add_an_Entity_that_does_confine_to_a_systems_filter (2 ms)
+[ RUN      ] TestSystems.Attempt_to_add_an_Entity_that_does_NOT_confine_to_a_system_filter
+[       OK ] TestSystems.Attempt_to_add_an_Entity_that_does_NOT_confine_to_a_system_filter (2 ms)
+[ RUN      ] TestSystems.Removing_components_with_a_system_attached_to_the_world
+[       OK ] TestSystems.Removing_components_with_a_system_attached_to_the_world (3 ms)
+[ RUN      ] TestSystems.Removing_all_components_with_a_system_attached_to_the_world
+[       OK ] TestSystems.Removing_all_components_with_a_system_attached_to_the_world (3 ms)
+[----------] 10 tests from TestSystems (22 ms total)
+
+[----------] 2 tests from TestPathFinding
+[ RUN      ] TestPathFinding.WithoutCosts
+[       OK ] TestPathFinding.WithoutCosts (0 ms)
+[ RUN      ] TestPathFinding.WithCosts
+[       OK ] TestPathFinding.WithCosts (0 ms)
+[----------] 2 tests from TestPathFinding (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 43 tests from 5 test suites ran. (93 ms total)
+[  PASSED  ] 43 tests.
+[6/15] Building CXX object src/Samples/CMakeFiles/Samples.dir/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.o
+FAILED: src/Samples/CMakeFiles/Samples.dir/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.o 
+/usr/bin/cmake -E __run_co_compile --tidy="/home/pascal/Utils/clang/bin/clang-tidy;-checks=hicpp-use-equals-default" --source=../src/Samples/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp -- /home/pascal/Utils/clang/bin/clang++  -DGLAD_GLAPI_EXPORT -DIMGUI_IMPL_OPENGL_LOADER_GLAD -DSamples_EXPORTS -DWITH_LOADERS -I../external/json.hpp -I../src/Samples/include -I../src/Samples/../BabylonCpp/include -I../src/Samples/../Extensions/include -I../src/Samples/../MaterialsLibrary/include -I../src/Samples/../ProceduralTexturesLibrary/include -I../src/Samples/../Loaders/include -Isrc/Samples/../Loaders/include -I../external/imgui -I../external/imgui/examples -I../src/imgui_utils/.. -I../external/glfw/include -I../external/glad/include -I../src/BabylonCpp/include -Isrc/BabylonCpp/include -I../external/ImGuiColorTextEdit -I../external/ImGuiColorTextEdit/.. -I../src/Extensions/include -I../src/MaterialsLibrary/include -I../src/ProceduralTexturesLibrary/include -I../src/Loaders/include -Wextra -Wall -pedantic -ftemplate-depth=512 -ftemplate-backtrace-limit=0  -Wshadow  -Winvalid-source-encoding  -Wconditional-uninitialized  -Wnon-virtual-dtor -Winconsistent-missing-override  -Wheader-hygiene  -Wunused-variable -Wunused-private-field -Wignored-qualifiers -Wunreachable-code-return -Wmissing-field-initializers -Wno-missing-braces -Wno-unused-command-line-argument -Wno-float-equal  -Wno-sign-conversion -Wno-conversion -Wno-unused-private-field -fPIC -pthread -march=native -mpopcnt -g -fPIC   -std=gnu++1z -MD -MT src/Samples/CMakeFiles/Samples.dir/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.o -MF src/Samples/CMakeFiles/Samples.dir/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.o.d -o src/Samples/CMakeFiles/Samples.dir/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.o -c ../src/Samples/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp
+/home/pascal/dvp/BabylonCpp/build/../src/Samples/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp:532:27: error: extra qualification on member '~ShaderMaterialBoxesScene' [clang-diagnostic-error]
+ShaderMaterialBoxesScene::~ShaderMaterialBoxesScene() = default;
+~~~~~~~~~~~~~~~~~~~~~~~~~~^
+71 warnings and 1 error generated.
+Error while processing /home/pascal/dvp/BabylonCpp/build/../src/Samples/src/samples/materials/shadermaterial/shader_material_boxes_scene.cpp.
+Suppressed 71 warnings (71 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+Found compiler error(s).
+[7/15] Building CXX object src/Samples/CMakeFiles/Samples.dir/src/samples/materialslibrary/fire_material_scene.cpp.o
+FAILED: src/Samples/CMakeFiles/Samples.dir/src/samples/materialslibrary/fire_material_scene.cpp.o 
+/usr/bin/cmake -E __run_co_compile --tidy="/home/pascal/Utils/clang/bin/clang-tidy;-checks=hicpp-use-equals-default" --source=../src/Samples/src/samples/materialslibrary/fire_material_scene.cpp -- /home/pascal/Utils/clang/bin/clang++  -DGLAD_GLAPI_EXPORT -DIMGUI_IMPL_OPENGL_LOADER_GLAD -DSamples_EXPORTS -DWITH_LOADERS -I../external/json.hpp -I../src/Samples/include -I../src/Samples/../BabylonCpp/include -I../src/Samples/../Extensions/include -I../src/Samples/../MaterialsLibrary/include -I../src/Samples/../ProceduralTexturesLibrary/include -I../src/Samples/../Loaders/include -Isrc/Samples/../Loaders/include -I../external/imgui -I../external/imgui/examples -I../src/imgui_utils/.. -I../external/glfw/include -I../external/glad/include -I../src/BabylonCpp/include -Isrc/BabylonCpp/include -I../external/ImGuiColorTextEdit -I../external/ImGuiColorTextEdit/.. -I../src/Extensions/include -I../src/MaterialsLibrary/include -I../src/ProceduralTexturesLibrary/include -I../src/Loaders/include -Wextra -Wall -pedantic -ftemplate-depth=512 -ftemplate-backtrace-limit=0  -Wshadow  -Winvalid-source-encoding  -Wconditional-uninitialized  -Wnon-virtual-dtor -Winconsistent-missing-override  -Wheader-hygiene  -Wunused-variable -Wunused-private-field -Wignored-qualifiers -Wunreachable-code-return -Wmissing-field-initializers -Wno-missing-braces -Wno-unused-command-line-argument -Wno-float-equal  -Wno-sign-conversion -Wno-conversion -Wno-unused-private-field -fPIC -pthread -march=native -mpopcnt -g -fPIC   -std=gnu++1z -MD -MT src/Samples/CMakeFiles/Samples.dir/src/samples/materialslibrary/fire_material_scene.cpp.o -MF src/Samples/CMakeFiles/Samples.dir/src/samples/materialslibrary/fire_material_scene.cpp.o.d -o src/Samples/CMakeFiles/Samples.dir/src/samples/materialslibrary/fire_material_scene.cpp.o -c ../src/Samples/src/samples/materialslibrary/fire_material_scene.cpp
+/home/pascal/dvp/BabylonCpp/build/../src/Samples/src/samples/materialslibrary/fire_material_scene.cpp:42:20: error: extra qualification on member '~FireMaterialScene' [clang-diagnostic-error]
+FireMaterialScene::~FireMaterialScene() = default;
+~~~~~~~~~~~~~~~~~~~^
+71 warnings and 1 error generated.
+Error while processing /home/pascal/dvp/BabylonCpp/build/../src/Samples/src/samples/materialslibrary/fire_material_scene.cpp.
+Suppressed 71 warnings (71 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+Found compiler error(s).
+[8/15] Building CXX object src/MaterialsLibrary/CMakeFiles/MaterialsLibrary.dir/src/materialslibrary/gradient/gradient_material.cpp.o
+[9/15] Linking CXX shared library build/lib/libmaterialslibrary_d.so.3.3.0
+[10/15] Creating library symlink build/lib/libmaterialslibrary_d.so
+ninja: build stopped: cannot make progress due to previous errors.
