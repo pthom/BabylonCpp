@@ -1257,7 +1257,7 @@ std::unique_ptr<GL::IGLBuffer> Engine::createUniformBuffer(const Float32Array& e
 
   bindUniformBuffer(ubo.get());
 
-  _gl->bufferData(GL::UNIFORM_BUFFER, elements, GL::STATIC_DRAW);
+  _gl->bufferData(GL::UNIFORM_BUFFER, stl_util::as_span(elements), GL::STATIC_DRAW);
 
   bindUniformBuffer(nullptr);
 
@@ -1275,7 +1275,7 @@ std::unique_ptr<GL::IGLBuffer> Engine::createDynamicUniformBuffer(const Float32A
 
   bindUniformBuffer(ubo.get());
 
-  _gl->bufferData(GL::UNIFORM_BUFFER, elements, GL::DYNAMIC_DRAW);
+  _gl->bufferData(GL::UNIFORM_BUFFER, stl_util::as_span(elements), GL::DYNAMIC_DRAW);
 
   bindUniformBuffer(nullptr);
 
@@ -1293,7 +1293,7 @@ void Engine::updateUniformBuffer(GL::IGLBuffer* uniformBuffer, const Float32Arra
   }
 
   if (count == -1) {
-    _gl->bufferSubData(GL::UNIFORM_BUFFER, offset, elements);
+    _gl->bufferSubData(GL::UNIFORM_BUFFER, offset, stl_util::as_span(elements));
   }
   else {
     Float32Array subvector;
@@ -1322,7 +1322,7 @@ Engine::GLBufferPtr Engine::createVertexBuffer(const Float32Array& vertices)
 
   bindArrayBuffer(vbo.get());
 
-  _gl->bufferData(GL::ARRAY_BUFFER, vertices, GL::STATIC_DRAW);
+  _gl->bufferData(GL::ARRAY_BUFFER, stl_util::as_span(vertices), GL::STATIC_DRAW);
 
   _resetVertexBufferBinding();
   vbo->references = 1;
@@ -1339,7 +1339,7 @@ Engine::GLBufferPtr Engine::createDynamicVertexBuffer(const Float32Array& vertic
 
   bindArrayBuffer(vbo.get());
 
-  _gl->bufferData(GL::ARRAY_BUFFER, vertices, GL::DYNAMIC_DRAW);
+  _gl->bufferData(GL::ARRAY_BUFFER, stl_util::as_span(vertices), GL::DYNAMIC_DRAW);
 
   _resetVertexBufferBinding();
   vbo->references = 1;
@@ -1369,7 +1369,7 @@ void Engine::updateDynamicVertexBuffer(const Engine::GLBufferPtr& vertexBuffer,
   }
 
   if (byteLength == -1) {
-    _gl->bufferSubData(GL::ARRAY_BUFFER, byteOffset, data);
+    _gl->bufferSubData(GL::ARRAY_BUFFER, byteOffset, stl_util::as_span(data));
   }
   else {
     auto byteArray = stl_util::to_array<uint8_t>(data, static_cast<size_t>(byteOffset),
@@ -1474,7 +1474,7 @@ void Engine::bindBuffer(GL::IGLBuffer* buffer, int target)
 
 void Engine::updateArrayBuffer(const Float32Array& data)
 {
-  _gl->bufferSubData(GL::ARRAY_BUFFER, 0, data);
+  _gl->bufferSubData(GL::ARRAY_BUFFER, 0, stl_util::as_span(data));
 }
 
 void Engine::_vertexAttribPointer(GL::IGLBuffer* buffer, unsigned int indx, int size,
@@ -1743,7 +1743,7 @@ void Engine::updateAndBindInstancesBuffer(GL::IGLBuffer* instancesBuffer, const 
 {
   _gl->bindBuffer(GL::ARRAY_BUFFER, instancesBuffer);
   if (!data.empty()) {
-    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, data);
+    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, stl_util::as_span(data));
   }
 
   for (unsigned int index = 0; index < 4; ++index) {
@@ -1770,7 +1770,7 @@ void Engine::updateAndBindInstancesBuffer(
 {
   _gl->bindBuffer(GL::ARRAY_BUFFER, instancesBuffer);
   if (!data.empty()) {
-    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, data);
+    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, stl_util::as_span(data));
   }
 
   int stride = 0;
@@ -2203,7 +2203,7 @@ void Engine::setIntArray(GL::IGLUniformLocation* uniform, const Int32Array& arra
     return;
   }
 
-  _gl->uniform1iv(uniform, array);
+  _gl->uniform1iv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setIntArray2(GL::IGLUniformLocation* uniform, const Int32Array& array)
@@ -2212,7 +2212,7 @@ void Engine::setIntArray2(GL::IGLUniformLocation* uniform, const Int32Array& arr
     return;
   }
 
-  _gl->uniform2iv(uniform, array);
+  _gl->uniform2iv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setIntArray3(GL::IGLUniformLocation* uniform, const Int32Array& array)
@@ -2221,7 +2221,7 @@ void Engine::setIntArray3(GL::IGLUniformLocation* uniform, const Int32Array& arr
     return;
   }
 
-  _gl->uniform3iv(uniform, array);
+  _gl->uniform3iv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setIntArray4(GL::IGLUniformLocation* uniform, const Int32Array& array)
@@ -2230,7 +2230,7 @@ void Engine::setIntArray4(GL::IGLUniformLocation* uniform, const Int32Array& arr
     return;
   }
 
-  _gl->uniform4iv(uniform, array);
+  _gl->uniform4iv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setFloatArray(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2239,7 +2239,7 @@ void Engine::setFloatArray(GL::IGLUniformLocation* uniform, const Float32Array& 
     return;
   }
 
-  _gl->uniform1fv(uniform, array);
+  _gl->uniform1fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setFloatArray2(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2248,7 +2248,7 @@ void Engine::setFloatArray2(GL::IGLUniformLocation* uniform, const Float32Array&
     return;
   }
 
-  _gl->uniform2fv(uniform, array);
+  _gl->uniform2fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setFloatArray3(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2257,7 +2257,7 @@ void Engine::setFloatArray3(GL::IGLUniformLocation* uniform, const Float32Array&
     return;
   }
 
-  _gl->uniform3fv(uniform, array);
+  _gl->uniform3fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setFloatArray4(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2266,7 +2266,7 @@ void Engine::setFloatArray4(GL::IGLUniformLocation* uniform, const Float32Array&
     return;
   }
 
-  _gl->uniform4fv(uniform, array);
+  _gl->uniform4fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setArray(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2275,7 +2275,7 @@ void Engine::setArray(GL::IGLUniformLocation* uniform, const Float32Array& array
     return;
   }
 
-  _gl->uniform1fv(uniform, array);
+  _gl->uniform1fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setArray2(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2284,7 +2284,7 @@ void Engine::setArray2(GL::IGLUniformLocation* uniform, const Float32Array& arra
     return;
   }
 
-  _gl->uniform2fv(uniform, array);
+  _gl->uniform2fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setArray3(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2293,7 +2293,7 @@ void Engine::setArray3(GL::IGLUniformLocation* uniform, const Float32Array& arra
     return;
   }
 
-  _gl->uniform3fv(uniform, array);
+  _gl->uniform3fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setArray4(GL::IGLUniformLocation* uniform, const Float32Array& array)
@@ -2302,7 +2302,7 @@ void Engine::setArray4(GL::IGLUniformLocation* uniform, const Float32Array& arra
     return;
   }
 
-  _gl->uniform4fv(uniform, array);
+  _gl->uniform4fv(uniform, stl_util::as_span(array));
 }
 
 void Engine::setMatrices(GL::IGLUniformLocation* uniform, const Float32Array& matrices)
@@ -2311,7 +2311,7 @@ void Engine::setMatrices(GL::IGLUniformLocation* uniform, const Float32Array& ma
     return;
   }
 
-  _gl->uniformMatrix4fv(uniform, false, matrices);
+  _gl->uniformMatrix4fv(uniform, false, stl_util::as_span(matrices));
 }
 
 void Engine::setMatrix(GL::IGLUniformLocation* uniform, const Matrix& matrix)
@@ -2320,7 +2320,8 @@ void Engine::setMatrix(GL::IGLUniformLocation* uniform, const Matrix& matrix)
     return;
   }
 
-  _gl->uniformMatrix4fv(uniform, false, matrix.toArray());
+  auto arr = matrix.toArray();
+  _gl->uniformMatrix4fv(uniform, false, stl_util::as_span(arr));
 }
 
 void Engine::setMatrix3x3(GL::IGLUniformLocation* uniform, const Float32Array& matrix)
@@ -2329,7 +2330,7 @@ void Engine::setMatrix3x3(GL::IGLUniformLocation* uniform, const Float32Array& m
     return;
   }
 
-  _gl->uniformMatrix3fv(uniform, false, matrix);
+  _gl->uniformMatrix3fv(uniform, false, stl_util::as_span(matrix));
 }
 
 void Engine::setMatrix2x2(GL::IGLUniformLocation* uniform, const Float32Array& matrix)
@@ -2338,7 +2339,7 @@ void Engine::setMatrix2x2(GL::IGLUniformLocation* uniform, const Float32Array& m
     return;
   }
 
-  _gl->uniformMatrix2fv(uniform, false, matrix);
+  _gl->uniformMatrix2fv(uniform, false, stl_util::as_span(matrix));
 }
 
 void Engine::setInt(GL::IGLUniformLocation* uniform, int value)
@@ -2892,7 +2893,7 @@ InternalTexturePtr Engine::createTexture(
 
           if (isPot) {
             _gl->texImage2D(GL::TEXTURE_2D, 0, static_cast<int>(internalFormat), img.width,
-                            img.height, 0, GL::RGBA, GL::UNSIGNED_BYTE, &img.data);
+                            img.height, 0, GL::RGBA, GL::UNSIGNED_BYTE, stl_util::as_span(img.data));
             return false;
           }
 
@@ -2922,7 +2923,7 @@ InternalTexturePtr Engine::createTexture(
             auto source = InternalTexture::New(this, InternalTexture::DATASOURCE_TEMP);
             _bindTextureDirectly(GL::TEXTURE_2D, source);
             _gl->texImage2D(GL::TEXTURE_2D, 0, static_cast<int>(internalFormat), img.width,
-                            img.height, 0, GL::RGBA, GL::UNSIGNED_BYTE, &img.data);
+                            img.height, 0, GL::RGBA, GL::UNSIGNED_BYTE, stl_util::as_span(img.data));
 
             _gl->texParameteri(GL::TEXTURE_2D, GL::TEXTURE_MAG_FILTER, GL::LINEAR);
             _gl->texParameteri(GL::TEXTURE_2D, GL::TEXTURE_MIN_FILTER, GL::LINEAR);
@@ -3035,12 +3036,12 @@ void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Arra
 
   if (!compression.empty() && !data.empty()) {
     //_gl->compressedTexImage2D(GL::TEXTURE_2D, 0, getCaps().s3tc[compression],
-    //                          texture->_width, texture->_height, 0, data);
+    //                          texture->_width, texture->_height, 0, stl_util::as_span(data));
   }
   else {
     auto _internalSizedFomat = static_cast<GL::GLint>(internalSizedFomat);
     _gl->texImage2D(GL::TEXTURE_2D, 0, _internalSizedFomat, texture->width, texture->height, 0,
-                    internalFormat, textureType, &data);
+                    internalFormat, textureType, stl_util::as_span(data));
   }
 
   if (texture->generateMipMaps) {
@@ -3313,22 +3314,22 @@ InternalTexturePtr Engine::_createDepthStencilTexture(const std::variant<int, IS
     if (internalOptions.generateStencil.has_value() && *internalOptions.generateStencil) {
       _gl->texImage2D(GL::TEXTURE_2D, 0, GL::DEPTH24_STENCIL8, internalTexture->width,
                       internalTexture->height, 0, GL::DEPTH_STENCIL, GL::UNSIGNED_INT_24_8,
-                      nullptr);
+                      std::nullopt);
     }
     else {
       _gl->texImage2D(GL::TEXTURE_2D, 0, GL::DEPTH_COMPONENT24, internalTexture->width,
-                      internalTexture->height, 0, GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, nullptr);
+                      internalTexture->height, 0, GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, std::nullopt);
     }
   }
   else {
     if (internalOptions.generateStencil.has_value() && *internalOptions.generateStencil) {
       _gl->texImage2D(GL::TEXTURE_2D, 0, GL::DEPTH_STENCIL, internalTexture->width,
                       internalTexture->height, 0, GL::DEPTH_STENCIL, GL::UNSIGNED_INT_24_8,
-                      nullptr);
+                      std::nullopt);
     }
     else {
       _gl->texImage2D(GL::TEXTURE_2D, 0, GL::DEPTH_COMPONENT, internalTexture->width,
-                      internalTexture->height, 0, GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, nullptr);
+                      internalTexture->height, 0, GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, std::nullopt);
     }
   }
 
@@ -3367,11 +3368,11 @@ Engine::_createDepthStencilCubeTexture(int size, const DepthTextureCreationOptio
   for (unsigned int face = 0; face < 6; ++face) {
     if (internalOptions.generateStencil.has_value() && *internalOptions.generateStencil) {
       gl.texImage2D(GL::TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL::DEPTH24_STENCIL8, size, size, 0,
-                    GL::DEPTH_STENCIL, GL::UNSIGNED_INT_24_8, nullptr);
+                    GL::DEPTH_STENCIL, GL::UNSIGNED_INT_24_8, std::nullopt);
     }
     else {
       gl.texImage2D(GL::TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL::DEPTH_COMPONENT24, size, size, 0,
-                    GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, nullptr);
+                    GL::DEPTH_COMPONENT, GL::UNSIGNED_INT, std::nullopt);
     }
   }
 
@@ -3483,7 +3484,7 @@ InternalTexturePtr Engine::createRenderTargetTexture(const std::variant<ISize, f
                   static_cast<GL::GLint>(_getRGBABufferInternalSizedFormat(
                     fullOptions.type.value(), fullOptions.format.value())),
                   width, height, 0, _getInternalFormat(fullOptions.format.value()),
-                  _getWebGLTextureType(fullOptions.type.value()), nullptr);
+                  _getWebGLTextureType(fullOptions.type.value()), std::nullopt);
 
   // Create the framebuffer
   auto currentFrameBuffer = _currentFramebuffer;
@@ -3592,7 +3593,7 @@ Engine::createMultipleRenderTarget(ISize size, const IMultiRenderTargetOptions& 
     gl.texParameteri(GL::TEXTURE_2D, GL::TEXTURE_WRAP_T, GL::CLAMP_TO_EDGE);
 
     gl.texImage2D(GL::TEXTURE_2D, 0, static_cast<int>(_getRGBABufferInternalSizedFormat(type)),
-                  width, height, 0, GL::RGBA, _getWebGLTextureType(type), nullptr);
+                  width, height, 0, GL::RGBA, _getWebGLTextureType(type), std::nullopt);
 
     gl.framebufferTexture2D(GL::DRAW_FRAMEBUFFER, attachment, GL::TEXTURE_2D,
                             texture->_webGLTexture.get(), 0);
@@ -3639,7 +3640,7 @@ Engine::createMultipleRenderTarget(ISize size, const IMultiRenderTargetOptions& 
                   0,                                                                  //
                   GL::DEPTH_COMPONENT,                                                //
                   GL::UNSIGNED_SHORT,                                                 //
-                  nullptr                                                             //
+                  std::nullopt                                                             //
     );
 
     gl.framebufferTexture2D(GL::FRAMEBUFFER,                   //
@@ -3878,13 +3879,13 @@ unsigned int Engine::updateMultipleRenderTargetTextureSampleCount(
 void Engine::_uploadCompressedDataToTextureDirectly(const InternalTexturePtr& /*texture*/,
                                                     unsigned int /*internalFormat*/,
                                                     float /*width*/, float /*height*/,
-                                                    const Uint8Array& /*data*/,
+                                                    const Uint8Span_ro& /*data*/,
                                                     unsigned int /*faceIndex*/, int /*lod*/)
 {
 }
 
 void Engine::_uploadDataToTextureDirectly(const InternalTexturePtr& texture,
-                                          const ArrayBufferView& imageData, unsigned int faceIndex,
+                                          const Uint8Span_ro& imageData, unsigned int faceIndex,
                                           int lod)
 {
   auto textureType    = _getWebGLTextureType(texture->type);
@@ -3904,11 +3905,11 @@ void Engine::_uploadDataToTextureDirectly(const InternalTexturePtr& texture,
   const auto height       = static_cast<int>(std::pow(2, std::max(lodMaxHeight - lod, 0)));
 
   _gl->texImage2D(target, lod, internalFormat, width, height, 0, format, textureType,
-                  &imageData.uint8Array);
+                  imageData);
 }
 
 void Engine::_uploadArrayBufferViewToTexture(const InternalTexturePtr& texture,
-                                             const Uint8Array& imageData, unsigned int faceIndex,
+                                             const Uint8Span_ro& imageData, unsigned int faceIndex,
                                              int lod)
 {
   auto bindTarget = texture->isCube ? GL::TEXTURE_CUBE_MAP : GL::TEXTURE_2D;
@@ -3938,7 +3939,7 @@ void Engine::_uploadImageToTexture(const InternalTexturePtr& texture, const Imag
   }
 
   _gl->texImage2D(target, lod, static_cast<int>(internalFormat), image.width, image.height, 0,
-                  format, textureType, &image.data);
+                  format, textureType, stl_util::as_span(image.data));
   _bindTextureDirectly(bindTarget, nullptr, true);
 }
 
@@ -3997,7 +3998,7 @@ InternalTexturePtr Engine::createRenderTargetCubeTexture(const ISize& size,
                   static_cast<GL::GLint>(_getRGBABufferInternalSizedFormat(
                     fullOptions.type.value(), fullOptions.format.value())),
                   size.width, size.height, 0, _getInternalFormat(fullOptions.format.value()),
-                  _getWebGLTextureType(fullOptions.type.value()), nullptr);
+                  _getWebGLTextureType(fullOptions.type.value()), std::nullopt);
   }
 
   // Create the framebuffer
@@ -4239,7 +4240,8 @@ InternalTexturePtr Engine::createCubeTexture(
                         GL::UNSIGNED_BYTE, _workingCanvas);
 #else
           gl.texImage2D(faces[index], 0, static_cast<int>(internalFormat), imgs[index].width,
-                        imgs[index].height, 0, GL::RGBA, GL::UNSIGNED_BYTE, &imgs[index].data);
+                        imgs[index].height, 0, GL::RGBA, GL::UNSIGNED_BYTE,
+                        stl_util::as_span(imgs[index].data));
 #endif
         }
 
@@ -4335,12 +4337,12 @@ void Engine::updateRawCubeTexture(const InternalTexturePtr& texture,
           = _convertRGBtoRGBATextureData(faceData, texture->width, texture->height, type);
         gl.texImage2D(facesIndex[index], static_cast<int>(level),
                       static_cast<int>(internalSizedFomat), texture->width, texture->height, 0,
-                      internalFormat, textureType, &convertedFaceData.uint8Array);
+                      internalFormat, textureType, stl_util::as_span(convertedFaceData.uint8Array));
       }
       else {
         gl.texImage2D(facesIndex[index], static_cast<int>(level),
                       static_cast<int>(internalSizedFomat), texture->width, texture->height, 0,
-                      internalFormat, textureType, &faceData.uint8Array);
+                      internalFormat, textureType, stl_util::as_span(faceData.uint8Array));
       }
     }
   }
@@ -4515,7 +4517,8 @@ InternalTexturePtr Engine::createRawCubeTextureFromUrl(
             mipFaceData = _convertRGBtoRGBATextureData(mipFaceData, mipSize, mipSize, type);
           }
           gl.texImage2D(faceIndex, static_cast<int>(level), static_cast<int>(internalSizedFomat),
-                        mipSize, mipSize, 0, internalFormat, textureType, &mipFaceData.uint8Array);
+                        mipSize, mipSize, 0, internalFormat, textureType,
+                        stl_util::as_span(mipFaceData.uint8Array));
         }
       }
 
@@ -4575,7 +4578,8 @@ void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBu
   }
   else {
     _gl->texImage3D(GL::TEXTURE_3D, 0, static_cast<int>(internalSizedFomat), texture->width,
-                    texture->height, texture->depth, 0, internalFormat, internalType, _data);
+                    texture->height, texture->depth, 0, internalFormat, internalType,
+                    stl_util::as_span(_data));
   }
 
   if (texture->generateMipMaps) {
@@ -5252,8 +5256,8 @@ void Engine::_setTextureParameterInteger(unsigned int target, unsigned int param
 
 Uint8Array Engine::readPixels(int x, int y, int width, int height)
 {
-  Uint8Array data(static_cast<unsigned int>(height * width * 4));
-  _gl->readPixels(x, y, width, height, GL::RGBA, GL::UNSIGNED_BYTE, data);
+  Uint8Array data(static_cast<size_t>(height * width * 4));
+  _gl->readPixels(x, y, width, height, GL::RGBA, GL::UNSIGNED_BYTE, stl_util::as_span_rw(data));
   return data;
 }
 
@@ -5486,7 +5490,7 @@ ArrayBufferView Engine::_readTexturePixels(const InternalTexturePtr& texture, in
         buffer = ArrayBufferView(Uint8Array(static_cast<std::size_t>(4 * width * height)));
       }
       readType = GL::UNSIGNED_BYTE;
-      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, buffer->uint8Array);
+      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, stl_util::as_span_rw(buffer->uint8Array));
       _gl->bindFramebuffer(GL::FRAMEBUFFER, _currentFramebuffer.get());
 
     } break;
@@ -5495,7 +5499,7 @@ ArrayBufferView Engine::_readTexturePixels(const InternalTexturePtr& texture, in
         buffer = ArrayBufferView(Float32Array(static_cast<std::size_t>(4 * width * height)));
       }
       readType = GL::FLOAT;
-      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, buffer->float32Array);
+      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, stl_util::as_span_rw(buffer->float32Array));
       _gl->bindFramebuffer(GL::FRAMEBUFFER, _currentFramebuffer.get());
     } break;
   }

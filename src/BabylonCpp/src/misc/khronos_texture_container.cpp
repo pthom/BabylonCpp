@@ -142,7 +142,7 @@ void KhronosTextureContainer::_upload2DCompressedLevels(
     dataOffset += 4; // image data starts from next multiple of 4 offset. Each
                      // face refers to same imagesize field above.
     for (unsigned int face = 0; face < numberOfFaces; face++) {
-      auto byteArray = stl_util::to_array<uint8_t>(
+      auto byteArray = stl_util::as_span_with_byte_offset(
         arrayBuffer, dataOffset, static_cast<size_t>(imageSize));
 
       auto engine = texture->getEngine();

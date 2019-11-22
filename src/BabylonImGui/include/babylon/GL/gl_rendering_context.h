@@ -38,13 +38,13 @@ public:
   void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0,
                        GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) override;
   void bufferData(GLenum target, GLsizeiptr size, GLenum usage) override;
-  void bufferData(GLenum target, const Float32Array& data, GLenum usage) override;
-  void bufferData(GLenum target, const Int32Array& data, GLenum usage) override;
-  void bufferData(GLenum target, const Uint16Array& data, GLenum usage) override;
-  void bufferData(GLenum target, const Uint32Array& data, GLenum usage) override;
-  void bufferSubData(GLenum target, GLintptr offset, const Uint8Array& data) override;
-  void bufferSubData(GLenum target, GLintptr offset, const Float32Array& data) override;
-  void bufferSubData(GLenum target, GLintptr offset, Int32Array& data) override;
+  void bufferData(GLenum target, const Float32Span_ro& data, GLenum usage) override;
+  void bufferData(GLenum target, const Int32Span_ro& data, GLenum usage) override;
+  void bufferData(GLenum target, const Uint16Span_ro& data, GLenum usage) override;
+  void bufferData(GLenum target, const Uint32Span_ro& data, GLenum usage) override;
+  void bufferSubData(GLenum target, GLintptr offset, const Uint8Span_ro& data) override;
+  void bufferSubData(GLenum target, GLintptr offset, const Float32Span_ro& data) override;
+  void bufferSubData(GLenum target, GLintptr offset, Int32Span_ro& data) override;
   void bindVertexArray(GL::IGLVertexArrayObject* vao) override;
   GLenum checkFramebufferStatus(GLenum target) override;
   void clear(GLbitfield mask) override;
@@ -61,7 +61,7 @@ public:
   void colorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) override;
   void compileShader(IGLShader* shader) override;
   void compressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width,
-                            GLsizei height, GLint border, const Uint8Array& pixels) override;
+                            GLsizei height, GLint border, const Uint8Span_ro& pixels) override;
   void compressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                GLsizei width, GLsizei height, GLenum format,
                                GLsizeiptr size) override;
@@ -152,9 +152,9 @@ public:
   void polygonOffset(GLfloat factor, GLfloat units) override;
   void readBuffer(GLenum src) override;
   void readPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type,
-                  Float32Array& pixels) override;
+                  Float32Span_rw pixels) override;
   void readPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type,
-                  Uint8Array& pixels) override;
+                  Uint8Span_rw pixels) override;
   void renderbufferStorage(GLenum target, GLenum internalformat, GLsizei width,
                            GLsizei height) override;
   void renderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalFormat,
@@ -170,10 +170,10 @@ public:
   void stencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass) override;
   void texImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height,
                   GLint border, GLenum format, GLenum type,
-                  const Uint8Array* const pixels) override;
+                  const std::optional<Uint8Span_ro> pixels) override;
   void texImage3D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height,
                   GLsizei depth, GLint border, GLenum format, GLenum type,
-                  const Uint8Array& pixels) override;
+                  const Uint8Span_ro& pixels) override;
   void texParameterf(GLenum target, GLenum pname, GLfloat param) override;
   void texParameteri(GLenum target, GLenum pname, GLint param) override;
   void texStorage3D(GLenum target, GLint levels, GLenum internalformat, GLsizei width,
@@ -183,42 +183,42 @@ public:
   void transformFeedbackVaryings(IGLProgram* program, const std::vector<std::string>& varyings,
                                  GLenum bufferMode) override;
   void uniform1f(IGLUniformLocation* location, GLfloat v0) override;
-  void uniform1fv(GL::IGLUniformLocation* location, const Float32Array& array) override;
+  void uniform1fv(GL::IGLUniformLocation* location, const Float32Span_ro& array) override;
   void uniform1i(IGLUniformLocation* location, GLint v0) override;
-  void uniform1iv(IGLUniformLocation* location, const Int32Array& v) override;
+  void uniform1iv(IGLUniformLocation* location, const Int32Span_ro& v) override;
   void uniform2f(IGLUniformLocation* location, GLfloat v0, GLfloat v1) override;
-  void uniform2fv(IGLUniformLocation* location, const Float32Array& v) override;
+  void uniform2fv(IGLUniformLocation* location, const Float32Span_ro& v) override;
   void uniform2i(IGLUniformLocation* location, GLint v0, GLint v1) override;
-  void uniform2iv(IGLUniformLocation* location, const Int32Array& v) override;
+  void uniform2iv(IGLUniformLocation* location, const Int32Span_ro& v) override;
   void uniform3f(IGLUniformLocation* location, GLfloat v0, GLfloat v1, GLfloat v2) override;
-  void uniform3fv(IGLUniformLocation* location, const Float32Array& v) override;
+  void uniform3fv(IGLUniformLocation* location, const Float32Span_ro& v) override;
   void uniform3i(IGLUniformLocation* location, GLint v0, GLint v1, GLint v2) override;
-  void uniform3iv(IGLUniformLocation* location, const Int32Array& v) override;
+  void uniform3iv(IGLUniformLocation* location, const Int32Span_ro& v) override;
   void uniform4f(IGLUniformLocation* location, GLfloat v0, GLfloat v1, GLfloat v2,
                  GLfloat v3) override;
-  void uniform4fv(IGLUniformLocation* location, const Float32Array& v) override;
+  void uniform4fv(IGLUniformLocation* location, const Float32Span_ro& v) override;
   void uniform4i(IGLUniformLocation* location, GLint v0, GLint v1, GLint v2, GLint v3) override;
-  void uniform4iv(IGLUniformLocation* location, const Int32Array& v) override;
+  void uniform4iv(IGLUniformLocation* location, const Int32Span_ro& v) override;
   void uniformBlockBinding(IGLProgram* program, GLuint uniformBlockIndex,
                            GLuint uniformBlockBinding) override;
   void uniformMatrix2fv(IGLUniformLocation* location, GLboolean transpose,
-                        const Float32Array& value) override;
+                        const Float32Span_ro& value) override;
   void uniformMatrix3fv(IGLUniformLocation* location, GLboolean transpose,
-                        const Float32Array& value) override;
+                        const Float32Span_ro& value) override;
   void uniformMatrix4fv(IGLUniformLocation* location, GLboolean transpose,
-                        const Float32Array& value) override;
+                        const Float32Span_ro& value) override;
   void uniformMatrix4fv(IGLUniformLocation* location, GLboolean transpose,
                         const std::array<float, 16>& value) override;
   void useProgram(IGLProgram* program) override;
   void validateProgram(IGLProgram* program) override;
   void vertexAttrib1f(GLuint index, GLfloat v0) override;
-  void vertexAttrib1fv(GLuint indx, Float32Array& values) override;
+  void vertexAttrib1fv(GLuint indx, Float32Span_ro& values) override;
   void vertexAttrib2f(GLuint index, GLfloat v0, GLfloat v1) override;
-  void vertexAttrib2fv(GLuint index, Float32Array& values) override;
+  void vertexAttrib2fv(GLuint index, Float32Span_ro& values) override;
   void vertexAttrib3f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) override;
-  void vertexAttrib3fv(GLuint index, Float32Array& values) override;
+  void vertexAttrib3fv(GLuint index, Float32Span_ro& values) override;
   void vertexAttrib4f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) override;
-  void vertexAttrib4fv(GLuint index, Float32Array& values) override;
+  void vertexAttrib4fv(GLuint index, Float32Span_ro& values) override;
   void vertexAttribDivisor(GLuint index, GLuint divisor) override;
   void vertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized,
                            GLint stride, GLintptr offset) override;

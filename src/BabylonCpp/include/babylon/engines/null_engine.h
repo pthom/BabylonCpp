@@ -135,13 +135,13 @@ public:
   void hideLoadingUI() override;
   void _uploadCompressedDataToTextureDirectly(const InternalTexturePtr& texture,
                                               unsigned int internalFormat, float width,
-                                              float height, const Uint8Array& data,
+                                              float height, const Uint8Span_ro& data,
                                               unsigned int faceIndex = 0, int lod = 0) override;
   void _uploadDataToTextureDirectly(const InternalTexturePtr& texture,
-                                    const ArrayBufferView& imageData, unsigned int faceIndex = 0,
+                                    const Uint8Span_ro& imageData, unsigned int faceIndex = 0,
                                     int lod = 0) override;
   void _uploadArrayBufferViewToTexture(const InternalTexturePtr& texture,
-                                       const Uint8Array& imageData, unsigned int faceIndex = 0,
+                                       const Uint8Span_ro& imageData, unsigned int faceIndex = 0,
                                        int lod = 0) override;
   void _uploadImageToTexture(const InternalTexturePtr& texture, const Image& image,
                              unsigned int faceIndex = 0, int lod = 0) override;

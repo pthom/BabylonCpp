@@ -229,7 +229,7 @@ void TGATools::UploadContent(const InternalTexturePtr& texture,
   }
 
   auto engine = texture->getEngine();
-  engine->_uploadDataToTextureDirectly(texture, imageData);
+  engine->_uploadDataToTextureDirectly(texture, stl_util::as_span(imageData));
 }
 
 Uint8Array TGATools::_getImageData8bits(const TGAHeader& header,

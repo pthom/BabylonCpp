@@ -43,7 +43,7 @@ void FramebufferCanvas::initializeFrameBuffer()
   _renderingContext->bindTexture(GL_TEXTURE_2D, mTextureColorBuffer.get());
   _renderingContext->texImage2D(GL_TEXTURE_2D, 0, GL_RGB, clientWidth,
                                 clientHeight, 0, GL_RGB, GL_UNSIGNED_BYTE,
-                                nullptr);
+                                std::nullopt);
   _renderingContext->texParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                                    GL_LINEAR);
   _renderingContext->texParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,

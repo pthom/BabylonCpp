@@ -541,19 +541,19 @@ void NullEngine::hideLoadingUI()
 void NullEngine::_uploadCompressedDataToTextureDirectly(const InternalTexturePtr& /*texture*/,
                                                         unsigned int /*internalFormat*/,
                                                         float /*width*/, float /*height*/,
-                                                        const Uint8Array& /*data*/,
+                                                        const Uint8Span_ro& /*data*/,
                                                         unsigned int /*faceIndex*/, int /*lod*/)
 {
 }
 
 void NullEngine::_uploadDataToTextureDirectly(const InternalTexturePtr& /*texture*/,
-                                              const ArrayBufferView& /*imageData*/,
+                                              const Uint8Span_ro& /*imageData*/,
                                               unsigned int /*faceIndex*/, int /*lod*/)
 {
 }
 
 void NullEngine::_uploadArrayBufferViewToTexture(const InternalTexturePtr& /*texture*/,
-                                                 const Uint8Array& /*imageData*/,
+                                                 const Uint8Span_ro& /*imageData*/,
                                                  unsigned int /*faceIndex*/, int /*lod*/)
 {
 }
