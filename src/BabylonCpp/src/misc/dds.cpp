@@ -294,8 +294,8 @@ Uint8Array DDSTools::_GetRGBAArrayBuffer(float width, float height,
                                          int aOffset)
 {
   Uint8Array byteArray(dataLength);
-  Uint8Array srcData(
-    stl_util::to_array<uint8_t>(arrayBuffer, static_cast<size_t>(dataOffset)));
+  auto srcData =
+    stl_util::as_span_with_byte_offset(arrayBuffer, static_cast<size_t>(dataOffset));
   size_t index = 0;
   for (float y = 0; y < height; ++y) {
     for (float x = 0; x < width; ++x) {
@@ -327,8 +327,8 @@ Uint8Array DDSTools::_GetRGBArrayBuffer(float width, float height,
                                         int rOffset, int gOffset, int bOffset)
 {
   Uint8Array byteArray(dataLength);
-  Uint8Array srcData(
-    stl_util::to_array<uint8_t>(arrayBuffer, static_cast<size_t>(dataOffset)));
+  auto srcData =
+    stl_util::as_span_with_byte_offset(arrayBuffer, static_cast<size_t>(dataOffset));
   size_t index = 0;
   for (float y = 0; y < height; ++y) {
     for (float x = 0; x < width; ++x) {
@@ -349,8 +349,8 @@ Uint8Array DDSTools::_GetLuminanceArrayBuffer(float width, float height,
                                               const Uint8Array& arrayBuffer)
 {
   Uint8Array byteArray(dataLength);
-  Uint8Array srcData(
-    stl_util::to_array<uint8_t>(arrayBuffer, static_cast<size_t>(dataOffset)));
+  auto srcData =
+    stl_util::as_span_with_byte_offset(arrayBuffer, static_cast<size_t>(dataOffset));
   size_t index = 0;
   for (float y = 0; y < height; ++y) {
     for (float x = 0; x < width; ++x) {
@@ -546,7 +546,7 @@ void DDSTools::UploadDDSLevels(
           }
 
           if (floatArray) {
-            engine->_uploadDataToTextureDirectly(texture, floatArray, face, i);
+            engine->_uploadDataToTextureDirectly(texture, floatArray.uint8Array, face, i);
           }
         }
         else if (info.isRGB) {

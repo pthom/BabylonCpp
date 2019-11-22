@@ -1,6 +1,8 @@
 #ifndef BABYLON_STL_UTIL_H
 #define BABYLON_STL_UTIL_H
 
+#include <babylon/span_lite.h>
+
 #include <bitset>
 #include <cstring>
 #include <functional>
@@ -147,6 +149,46 @@ std::vector<C> to_array(const std::vector<T> buffer)
 {
   return to_array<C>(buffer, 0, (buffer.size() * sizeof(T)) / sizeof(C));
 }
+
+//
+// <span>
+//
+template <typename T>
+nonstd::span<const T> as_span(const std::vector<T>& buffer)
+{
+  return nonstd::span(buffer);
+}
+
+template <typename T>
+nonstd::span<T> as_span_rw(std::vector<T>& buffer)
+{
+  return nonstd::span(buffer);
+}
+
+template <typename T>
+nonstd::span<const T> as_span_with_byte_offset(
+  const std::vector<T>& buffer,
+  size_t byteOffset,
+  size_t length)
+{
+  size_t nb_elems_before_offset = byteOffset / sizeof(T);
+  size_t nb_elems_after_offset = length;
+  return nonstd::span(buffer.data() + nb_elems_before_offset, nb_elems_after_offset);
+}
+
+template <typename T>
+nonstd::span<const T> as_span_with_byte_offset(
+  const std::vector<T>& buffer,
+  size_t byteOffset)
+{
+  size_t nb_elems_before_offset = byteOffset / sizeof(T);
+  size_t nb_elems_after_offset = buffer.size() - nb_elems_before_offset;
+  return nonstd::span(buffer.data() + nb_elems_before_offset, nb_elems_after_offset);
+}
+//
+// </span>
+//
+
 
 template <typename C, typename T>
 std::vector<C> cast_array_elements(const std::vector<T> buffer)

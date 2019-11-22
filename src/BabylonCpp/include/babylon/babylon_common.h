@@ -1,6 +1,7 @@
 #ifndef BABYLON_COMMON_H
 #define BABYLON_COMMON_H
 
+#include <babylon/span_lite.h>
 #include <vector>
 #include <chrono>
 #include <cstdint>
@@ -45,6 +46,28 @@ using Uint64Array = std::vector<uint64_t>;
 using Float32Array = std::vector<float>;
 // 64-bit IEEE floating point number
 using Float64Array = std::vector<double>;
+
+using Int8Span_ro = nonstd::span<const int8_t>;
+using Uint8Span_ro = nonstd::span<const uint8_t>;
+using Int16Span_ro = nonstd::span<const int16_t>;
+using Uint16Span_ro = nonstd::span<const uint16_t>;
+using Int32Span_ro  = nonstd::span<const int32_t>;
+using Uint32Span_ro = nonstd::span<const uint32_t>;
+using Int64Span_ro  = nonstd::span<const int64_t>;
+using Uint64Span_ro = nonstd::span<const uint64_t>;
+using Float32Span_ro = nonstd::span<const float>;
+using Float64Span_ro = nonstd::span<const double>;
+
+using Int8Span_rw = nonstd::span<int8_t>;
+using Uint8Span_rw = nonstd::span<uint8_t>;
+using Int16Span_rw = nonstd::span<int16_t>;
+using Uint16Span_rw = nonstd::span<uint16_t>;
+using Int32Span_rw  = nonstd::span<int32_t>;
+using Uint32Span_rw = nonstd::span<uint32_t>;
+using Int64Span_rw  = nonstd::span<int64_t>;
+using Uint64Span_rw = nonstd::span<uint64_t>;
+using Float32Span_rw = nonstd::span<float>;
+using Float64Span_rw = nonstd::span<double>;
 
 // Indices array alias
 using IndicesArray = std::vector<uint32_t>;

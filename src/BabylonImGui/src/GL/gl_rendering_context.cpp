@@ -314,28 +314,28 @@ void GLRenderingContext::bufferData(GLenum target, GLsizeiptr sizeiptr,
                reinterpret_cast<any>(sizeiptr & 0x0000ffff), usage);
 }
 
-void GLRenderingContext::bufferData(GLenum target, const Float32Array& data,
+void GLRenderingContext::bufferData(GLenum target, const Float32Span_ro& data,
                                     GLenum usage)
 {
   glBufferData(target, static_cast<GLint>(data.size() * sizeof(GLfloat)),
                data.data(), usage);
 }
 
-void GLRenderingContext::bufferData(GLenum target, const Int32Array& data,
+void GLRenderingContext::bufferData(GLenum target, const Int32Span_ro& data,
                                     GLenum usage)
 {
   glBufferData(target, static_cast<GLint>(data.size() * sizeof(int32_t)),
                data.data(), usage);
 }
 
-void GLRenderingContext::bufferData(GLenum target, const Uint16Array& data,
+void GLRenderingContext::bufferData(GLenum target, const Uint16Span_ro& data,
                                     GLenum usage)
 {
   glBufferData(target, static_cast<GLint>(data.size() * sizeof(uint16_t)),
                data.data(), usage);
 }
 
-void GLRenderingContext::bufferData(GLenum target, const Uint32Array& data,
+void GLRenderingContext::bufferData(GLenum target, const Uint32Span_ro& data,
                                     GLenum usage)
 {
   glBufferData(target, static_cast<GLint>(data.size() * sizeof(uint32_t)),
@@ -343,7 +343,7 @@ void GLRenderingContext::bufferData(GLenum target, const Uint32Array& data,
 }
 
 void GLRenderingContext::bufferSubData(GLenum target, GLintptr offset,
-                                       const Uint8Array& data)
+                                       const Uint8Span_ro& data)
 {
   glBufferSubData(target, offset,
                   static_cast<GLint>(data.size() * sizeof(GLbyte)),
@@ -351,15 +351,14 @@ void GLRenderingContext::bufferSubData(GLenum target, GLintptr offset,
 }
 
 void GLRenderingContext::bufferSubData(GLenum target, GLintptr offset,
-                                       const Float32Array& data)
+                                       const Float32Span_ro& data)
 {
   glBufferSubData(target, offset,
                   static_cast<GLint>(data.size() * sizeof(GLfloat)),
                   data.data());
 }
 
-void GLRenderingContext::bufferSubData(GLenum target, GLintptr offset,
-                                       Int32Array& data)
+void GLRenderingContext::bufferSubData(GLenum target, GLintptr offset, Int32Span_ro& data)
 {
   glBufferSubData(target, offset,
                   static_cast<GLint>(data.size() * sizeof(int32_t)),
@@ -439,7 +438,7 @@ void GLRenderingContext::compressedTexImage2D(GLenum target, GLint level,
                                               GLenum internalformat,
                                               GLint width, GLint height,
                                               GLint border,
-                                              const Uint8Array& pixels)
+                                              const Uint8Span_ro& pixels)
 {
   glCompressedTexImage2D(target, level, internalformat, width, height, border,
                          static_cast<GLint>(pixels.size() * sizeof(GLbyte)),
@@ -965,14 +964,13 @@ void GLRenderingContext::readBuffer(GLenum src)
 
 void GLRenderingContext::readPixels(GLint x, GLint y, GLsizei width,
                                     GLsizei height, GLenum format, GLenum type,
-                                    Float32Array& pixels)
+                                    Float32Span_rw pixels)
 {
   glReadPixels(x, y, width, height, format, type, &pixels[0]);
 }
 
 void GLRenderingContext::readPixels(GLint x, GLint y, GLint width, GLint height,
-                                    GLenum format, GLenum type,
-                                    Uint8Array& pixels)
+                                    GLenum format, GLenum type, Uint8Span_rw pixels)
 {
   glReadPixels(x, y, width, height, format, type, &pixels[0]);
 }
@@ -1047,9 +1045,9 @@ void GLRenderingContext::stencilOpSeparate(GLenum face, GLenum fail,
 void GLRenderingContext::texImage2D(GLenum target, GLint level,
                                     GLint internalformat, GLsizei width,
                                     GLsizei height, GLint border, GLenum format,
-                                    GLenum type, const Uint8Array* const pixels)
+                                    GLenum type, const std::optional<Uint8Span_ro> pixels)
 {
-  if (pixels == nullptr) {
+  if (pixels == std::nullopt) {
     glTexImage2D(target, level, internalformat, width, height, border, format,
                  type, nullptr);
   }
@@ -1063,7 +1061,7 @@ void GLRenderingContext::texImage3D(GLenum target, GLint level,
                                     GLint internalformat, GLsizei width,
                                     GLsizei height, GLsizei depth, GLint border,
                                     GLenum format, GLenum type,
-                                    const Uint8Array& pixels)
+                                    const Uint8Span_ro& pixels)
 {
   glTexImage3D(target, level, internalformat, width, height, depth, border,
                format, type, &pixels[0]);
@@ -1115,7 +1113,7 @@ void GLRenderingContext::uniform1f(IGLUniformLocation* location, GLfloat x)
 }
 
 void GLRenderingContext::GLRenderingContext::uniform1fv(
-  GL::IGLUniformLocation* uniform, const Float32Array& array)
+  GL::IGLUniformLocation* uniform, const Float32Span_ro& array)
 {
   glUniform1fv(uniform->value, static_cast<int>(array.size() * sizeof(GLfloat)),
                array.data());
@@ -1127,7 +1125,7 @@ void GLRenderingContext::uniform1i(IGLUniformLocation* location, GLint x)
 }
 
 void GLRenderingContext::uniform1iv(IGLUniformLocation* location,
-                                    const Int32Array& v)
+                                    const Int32Span_ro& v)
 {
   glUniform1iv(location->value, static_cast<GLint>(v.size() * sizeof(int32_t)),
                v.data());
@@ -1140,7 +1138,7 @@ void GLRenderingContext::uniform2f(IGLUniformLocation* location, GLfloat x,
 }
 
 void GLRenderingContext::uniform2fv(IGLUniformLocation* location,
-                                    const Float32Array& v)
+                                    const Float32Span_ro& v)
 {
   glUniform2fv(location->value, static_cast<GLint>(v.size() * sizeof(GLfloat)),
                v.data());
@@ -1153,7 +1151,7 @@ void GLRenderingContext::uniform2i(IGLUniformLocation* location, GLint x,
 }
 
 void GLRenderingContext::uniform2iv(IGLUniformLocation* location,
-                                    const Int32Array& v)
+                                    const Int32Span_ro& v)
 {
   glUniform2iv(location->value, static_cast<GLint>(v.size() * sizeof(int32_t)),
                v.data());
@@ -1166,7 +1164,7 @@ void GLRenderingContext::uniform3f(IGLUniformLocation* location, GLfloat x,
 }
 
 void GLRenderingContext::uniform3fv(IGLUniformLocation* location,
-                                    const Float32Array& v)
+                                    const Float32Span_ro& v)
 {
   glUniform3fv(location->value, static_cast<GLint>(v.size() * sizeof(GLfloat)),
                v.data());
@@ -1179,7 +1177,7 @@ void GLRenderingContext::uniform3i(IGLUniformLocation* location, GLint x,
 }
 
 void GLRenderingContext::uniform3iv(IGLUniformLocation* location,
-                                    const Int32Array& v)
+                                    const Int32Span_ro& v)
 {
   glUniform3iv(location->value, static_cast<GLint>(v.size() * sizeof(int32_t)),
                v.data());
@@ -1192,7 +1190,7 @@ void GLRenderingContext::uniform4f(IGLUniformLocation* location, GLfloat x,
 }
 
 void GLRenderingContext::uniform4fv(IGLUniformLocation* location,
-                                    const Float32Array& v)
+                                    const Float32Span_ro& v)
 {
   glUniform4fv(location->value, static_cast<GLint>(v.size() * sizeof(GLfloat)),
                v.data());
@@ -1205,7 +1203,7 @@ void GLRenderingContext::uniform4i(IGLUniformLocation* location, GLint x,
 }
 
 void GLRenderingContext::uniform4iv(IGLUniformLocation* location,
-                                    const Int32Array& v)
+                                    const Int32Span_ro& v)
 {
   glUniform4iv(location->value, static_cast<GLint>(v.size() * sizeof(int32_t)),
                v.data());
@@ -1220,7 +1218,7 @@ void GLRenderingContext::uniformBlockBinding(IGLProgram* program,
 
 void GLRenderingContext::uniformMatrix2fv(IGLUniformLocation* location,
                                           GLboolean transpose,
-                                          const Float32Array& value)
+                                          const Float32Span_ro& value)
 {
   glUniformMatrix2fv(location->value, static_cast<GLint>(value.size() / 16),
                      transpose, value.data());
@@ -1228,7 +1226,7 @@ void GLRenderingContext::uniformMatrix2fv(IGLUniformLocation* location,
 
 void GLRenderingContext::uniformMatrix3fv(IGLUniformLocation* location,
                                           GLboolean transpose,
-                                          const Float32Array& value)
+                                          const Float32Span_ro& value)
 {
   glUniformMatrix3fv(location->value, static_cast<GLint>(value.size() / 16),
                      transpose, value.data());
@@ -1236,7 +1234,7 @@ void GLRenderingContext::uniformMatrix3fv(IGLUniformLocation* location,
 
 void GLRenderingContext::uniformMatrix4fv(IGLUniformLocation* location,
                                           GLboolean transpose,
-                                          const Float32Array& value)
+                                          const Float32Span_ro& value)
 {
   glUniformMatrix4fv(location->value, static_cast<GLint>(value.size() / 16),
                      transpose, value.data());
@@ -1266,7 +1264,7 @@ void GLRenderingContext::vertexAttrib1f(GLuint indx, GLfloat x)
   glVertexAttrib1f(indx, x);
 }
 
-void GLRenderingContext::vertexAttrib1fv(GLuint indx, Float32Array& values)
+void GLRenderingContext::vertexAttrib1fv(GLuint indx, Float32Span_ro& values)
 {
   glVertexAttrib1fv(indx, values.data());
 }
@@ -1276,7 +1274,7 @@ void GLRenderingContext::vertexAttrib2f(GLuint indx, GLfloat x, GLfloat y)
   glVertexAttrib2f(indx, x, y);
 }
 
-void GLRenderingContext::vertexAttrib2fv(GLuint indx, Float32Array& values)
+void GLRenderingContext::vertexAttrib2fv(GLuint indx, Float32Span_ro& values)
 {
   glVertexAttrib2fv(indx, values.data());
 }
@@ -1287,7 +1285,7 @@ void GLRenderingContext::vertexAttrib3f(GLuint indx, GLfloat x, GLfloat y,
   glVertexAttrib3f(indx, x, y, z);
 }
 
-void GLRenderingContext::vertexAttrib3fv(GLuint indx, Float32Array& values)
+void GLRenderingContext::vertexAttrib3fv(GLuint indx, Float32Span_ro& values)
 {
   glVertexAttrib3fv(indx, values.data());
 }
@@ -1298,7 +1296,7 @@ void GLRenderingContext::vertexAttrib4f(GLuint indx, GLfloat x, GLfloat y,
   glVertexAttrib4f(indx, x, y, z, w);
 }
 
-void GLRenderingContext::vertexAttrib4fv(GLuint indx, Float32Array& values)
+void GLRenderingContext::vertexAttrib4fv(GLuint indx, Float32Span_ro& values)
 {
   glVertexAttrib4fv(indx, values.data());
 }

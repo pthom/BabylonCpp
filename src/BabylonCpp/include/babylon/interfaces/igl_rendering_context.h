@@ -929,41 +929,41 @@ public:
   /**
    * @brief Initializes and creates the buffer object's data store.
    * @param target A GLenum specifying the binding point (target).
-   * @param data A Float32Array typed array that will be copied into the data
+   * @param data A Float32Span typed array that will be copied into the data
    * store.
    * @param usage A GLenum specifying the usage pattern of the data store.
    */
-  virtual void bufferData(GLenum target, const Float32Array& data, GLenum usage)
+  virtual void bufferData(GLenum target, const Float32Span_ro& data, GLenum usage)
     = 0;
 
   /**
    * @brief Initializes and creates the buffer object's data store.
    * @param target A GLenum specifying the binding point (target).
-   * @param data An Int32Array typed array that will be copied into the data
+   * @param data An Int32Span typed array that will be copied into the data
    * store.
    * @param usage A GLenum specifying the usage pattern of the data store.
    */
-  virtual void bufferData(GLenum target, const Int32Array& data, GLenum usage)
+  virtual void bufferData(GLenum target, const Int32Span_ro& data, GLenum usage)
     = 0;
 
   /**
    * @brief Initializes and creates the buffer object's data store.
    * @param target A GLenum specifying the binding point (target).
-   * @param data An Uint16Array typed array that will be copied into the data
+   * @param data An Uint16Span typed array that will be copied into the data
    * store.
    * @param usage A GLenum specifying the usage pattern of the data store.
    */
-  virtual void bufferData(GLenum target, const Uint16Array& data, GLenum usage)
+  virtual void bufferData(GLenum target, const Uint16Span_ro& data, GLenum usage)
     = 0;
 
   /**
    * @brief Initializes and creates the buffer object's data store.
    * @param target A GLenum specifying the binding point (target).
-   * @param data An Uint32Array typed array that will be copied into the data
+   * @param data An Uint32Span typed array that will be copied into the data
    * store.
    * @param usage A GLenum specifying the usage pattern of the data store.
    */
-  virtual void bufferData(GLenum target, const Uint32Array& data, GLenum usage)
+  virtual void bufferData(GLenum target, const Uint32Span_ro& data, GLenum usage)
     = 0;
 
   /**
@@ -971,11 +971,11 @@ public:
    * @param target A GLenum specifying the binding point (target).
    * @param offset A GLintptr specifying an offset in bytes where the data
    * replacement will start.
-   * @param data A Uint8Array typed array that will be copied into the data
+   * @param data A Uint8Span typed array that will be copied into the data
    * store.
    */
   virtual void bufferSubData(GLenum target, GLintptr offset,
-                             const Uint8Array& data)
+                             const Uint8Span_ro& data)
     = 0;
 
   /**
@@ -983,11 +983,11 @@ public:
    * @param target A GLenum specifying the binding point (target).
    * @param offset A GLintptr specifying an offset in bytes where the data
    * replacement will start.
-   * @param data A Float32Array typed array that will be copied into the data
+   * @param data A Float32Span typed array that will be copied into the data
    * store.
    */
   virtual void bufferSubData(GLenum target, GLintptr offset,
-                             const Float32Array& data)
+                             const Float32Span_ro& data)
     = 0;
 
   /**
@@ -995,10 +995,10 @@ public:
    * @param target A GLenum specifying the binding point (target).
    * @param offset A GLintptr specifying an offset in bytes where the data
    * replacement will start.
-   * @param data An Int32Array typed array that will be copied into the data
+   * @param data An Int32Span typed array that will be copied into the data
    * store.
    */
-  virtual void bufferSubData(GLenum target, GLintptr offset, Int32Array& data)
+  virtual void bufferSubData(GLenum target, GLintptr offset, Int32Span_ro& data)
     = 0;
 
   /**
@@ -1133,13 +1133,13 @@ public:
    * @param width A GLsizei specifying the width of the texture.
    * @param height A GLsizei specifying the height of the texture.
    * @param border A GLint specifying the width of the border. Must be 0.
-   * @param pixels An Uint8Array that be used as a data store for the compressed
+   * @param pixels An Uint8Span that be used as a data store for the compressed
    * image data in memory.
    */
   virtual void compressedTexImage2D(GLenum target, GLint level,
                                     GLenum internalformat, GLsizei width,
                                     GLsizei height, GLint border,
-                                    const Uint8Array& pixels)
+                                    const Uint8Span_ro& pixels)
     = 0;
 
   /**
@@ -1824,7 +1824,7 @@ public:
 
   /**
    * @brief Reads a block of pixels from a specified rectangle of the current
-   * color framebuffer into an Uint8Array object.
+   * color framebuffer into a Float32Span_rw object.
    * @param x A GLint specifying the first horizontal pixel that is read from
    * the lower left corner of a rectangular block of pixels.
    * @param y A GLint specifying the first vertical pixel that is read from the
@@ -1833,15 +1833,15 @@ public:
    * @param height A GLsizei specifying the height of the rectangle.
    * @param format A GLenum specifying the format of the pixel data.
    * @param type A GLenum specifying the data type of the pixel data.
-   * @param pixels An Float32Array object to read data into.
+   * @param pixels An Float32Span object to read data into.
    */
   virtual void readPixels(GLint x, GLint y, GLsizei width, GLsizei height,
-                          GLenum format, GLenum type, Float32Array& pixels)
+                          GLenum format, GLenum type, Float32Span_rw pixels)
     = 0;
 
   /**
    * @brief Reads a block of pixels from a specified rectangle of the current
-   * color framebuffer into an Uint8Array object.
+   * color framebuffer into an Uint8Span object.
    * @param x A GLint specifying the first horizontal pixel that is read from
    * the lower left corner of a rectangular block of pixels.
    * @param y A GLint specifying the first vertical pixel that is read from the
@@ -1850,10 +1850,10 @@ public:
    * @param height A GLsizei specifying the height of the rectangle.
    * @param format A GLenum specifying the format of the pixel data.
    * @param type A GLenum specifying the data type of the pixel data.
-   * @param pixels An Uint8Array object to read data into.
+   * @param pixels An Uint8Span object to read data into.
    */
   virtual void readPixels(GLint x, GLint y, GLsizei width, GLsizei height,
-                          GLenum format, GLenum type, Uint8Array& pixels)
+                          GLenum format, GLenum type, Uint8Span_rw pixels)
     = 0;
 
   /**
@@ -2003,13 +2003,14 @@ public:
    * @param border A GLint specifying the width of the border. Must be 0.
    * @param format A GLenum specifying the format of the texel data.
    * @param type A GLenum specifying the data type of the texel data.
-   * @param pixels An Uint8Array pixel source for the texture (can be nullptr)
+   * @param pixels An Uint8Span pixel source for the texture (can be std::nullopt)
    */
   virtual void texImage2D(GLenum target, GLint level, GLint internalformat,
                           GLsizei width, GLsizei height, GLint border,
                           GLenum format, GLenum type,
-                          const Uint8Array* const pixels) // NOLINT ([readability-avoid-const-params-in-decls])
+                          const std::optional<Uint8Span_ro> pixels)
     = 0;
+
 
   /**
    * @brief Specifies a three-dimensional texture image.
@@ -2025,12 +2026,12 @@ public:
    * @param border A GLint specifying the width of the border. Must be 0.
    * @param format A GLenum specifying the format of the texel data.
    * @param type A GLenum specifying the data type of the texel data.
-   * @param pixels An Uint8Array pixel source for the texture.
+   * @param pixels An Uint8Span pixel source for the texture.
    */
   virtual void texImage3D(GLenum target, GLint level, GLint internalformat,
                           GLsizei width, GLsizei height, GLsizei depth,
                           GLint border, GLenum format, GLenum type,
-                          const Uint8Array& pixels)
+                          const Uint8Span_ro& pixels)
     = 0;
 
   /**
@@ -2115,10 +2116,10 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param array A Float32Array to be used for the uniform variable.
+   * @param array A Float32Span to be used for the uniform variable.
    */
   virtual void uniform1fv(GL::IGLUniformLocation* location,
-                          const Float32Array& array)
+                          const Float32Span_ro& array)
     = 0;
 
   /**
@@ -2133,9 +2134,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v An Int32Array to be used for the uniform variable.
+   * @param v An Int32Span to be used for the uniform variable.
    */
-  virtual void uniform1iv(IGLUniformLocation* location, const Int32Array& v)
+  virtual void uniform1iv(IGLUniformLocation* location, const Int32Span_ro& v)
     = 0;
 
   /**
@@ -2152,9 +2153,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v A Float32Array to be used for the uniform variable.
+   * @param v A Float32Span to be used for the uniform variable.
    */
-  virtual void uniform2fv(IGLUniformLocation* location, const Float32Array& v)
+  virtual void uniform2fv(IGLUniformLocation* location, const Float32Span_ro& v)
     = 0;
 
   /**
@@ -2170,9 +2171,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v An Int32Array to be used for the uniform variable.
+   * @param v An Int32Span to be used for the uniform variable.
    */
-  virtual void uniform2iv(IGLUniformLocation* location, const Int32Array& v)
+  virtual void uniform2iv(IGLUniformLocation* location, const Int32Span_ro& v)
     = 0;
 
   /**
@@ -2191,9 +2192,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v A Float32Array to be used for the uniform variable.
+   * @param v A Float32Span to be used for the uniform variable.
    */
-  virtual void uniform3fv(IGLUniformLocation* location, const Float32Array& v)
+  virtual void uniform3fv(IGLUniformLocation* location, const Float32Span_ro& v)
     = 0;
 
   /**
@@ -2212,9 +2213,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v An Int32Array to be used for the uniform variable.
+   * @param v An Int32Span to be used for the uniform variable.
    */
-  virtual void uniform3iv(IGLUniformLocation* location, const Int32Array& v)
+  virtual void uniform3iv(IGLUniformLocation* location, const Int32Span_ro& v)
     = 0;
 
   /**
@@ -2234,9 +2235,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param v A Float32Array to be used for the uniform variable.
+   * @param v A Float32Span to be used for the uniform variable.
    */
-  virtual void uniform4fv(IGLUniformLocation* location, const Float32Array& v)
+  virtual void uniform4fv(IGLUniformLocation* location, const Float32Span_ro& v)
     = 0;
 
   /**
@@ -2256,9 +2257,9 @@ public:
    * @brief Specifies the values of the uniform variable.
    * @param location An IGLUniformLocation object containing the location of the
    * uniform attribute to modify.
-   * @param An Int32Array to be used for the uniform variable.
+   * @param An Int32Span to be used for the uniform variable.
    */
-  virtual void uniform4iv(IGLUniformLocation* location, const Int32Array& v)
+  virtual void uniform4iv(IGLUniformLocation* location, const Int32Span_ro& v)
     = 0;
 
   /**
@@ -2281,10 +2282,10 @@ public:
    * uniform attribute to modify.
    * @param transpose A GLboolean specifying whether to transpose the matrix.
    * Must be false.
-   * @param value A Float32Array of float values.
+   * @param value A Float32Span of float values.
    */
   virtual void uniformMatrix2fv(IGLUniformLocation* location,
-                                GLboolean transpose, const Float32Array& value)
+                                GLboolean transpose, const Float32Span_ro& value)
     = 0;
 
   /**
@@ -2293,10 +2294,10 @@ public:
    * uniform attribute to modify.
    * @param transpose A GLboolean specifying whether to transpose the matrix.
    * Must be false.
-   * @param value A Float32Array of float values.
+   * @param value A Float32Span of float values.
    */
   virtual void uniformMatrix3fv(IGLUniformLocation* location,
-                                GLboolean transpose, const Float32Array& value)
+                                GLboolean transpose, const Float32Span_ro& value)
     = 0;
 
   /**
@@ -2305,10 +2306,10 @@ public:
    * uniform attribute to modify.
    * @param transpose A GLboolean specifying whether to transpose the matrix.
    * Must be false.
-   * @param value A Float32Array of float values.
+   * @param value A Float32Span of float values.
    */
   virtual void uniformMatrix4fv(IGLUniformLocation* location,
-                                GLboolean transpose, const Float32Array& value)
+                                GLboolean transpose, const Float32Span_ro& value)
     = 0;
 
   /**
@@ -2317,7 +2318,7 @@ public:
    * uniform attribute to modify.
    * @param transpose A GLboolean specifying whether to transpose the matrix.
    * Must be false.
-   * @param value A Float32Array of float values.
+   * @param value A Float32Span of float values.
    */
   virtual void uniformMatrix4fv(IGLUniformLocation* location,
                                 GLboolean transpose,
@@ -2344,7 +2345,7 @@ public:
    * @param v0 A floating point Number for the vertex attribute value.
    */
   virtual void vertexAttrib1f(GLuint index, GLfloat v0)           = 0;
-  virtual void vertexAttrib1fv(GLuint indx, Float32Array& values) = 0;
+  virtual void vertexAttrib1fv(GLuint indx, Float32Span_ro& values) = 0;
 
   /**
    * @brief Specifies values for generic vertex attributes.
@@ -2359,10 +2360,10 @@ public:
    * @brief Specifies values for generic vertex attributes.
    * @param index A GLuint specifying the position of the vertex attribute to be
    * modified.
-   * @param values A Float32Array for floating point vector vertex attribute
+   * @param values A Float32Span for floating point vector vertex attribute
    * values.
    */
-  virtual void vertexAttrib2fv(GLuint index, Float32Array& values) = 0;
+  virtual void vertexAttrib2fv(GLuint index, Float32Span_ro& values) = 0;
 
   /**
    * @brief Specifies values for generic vertex attributes.
@@ -2379,10 +2380,10 @@ public:
    * @brief Specifies values for generic vertex attributes.
    * @param index A GLuint specifying the position of the vertex attribute to be
    * modified.
-   * @param values A Float32Array for floating point vector vertex attribute
+   * @param values A Float32Span for floating point vector vertex attribute
    * values.
    */
-  virtual void vertexAttrib3fv(GLuint index, Float32Array& values) = 0;
+  virtual void vertexAttrib3fv(GLuint index, Float32Span_ro& values) = 0;
 
   /**
    * @brief Specifies values for generic vertex attributes.
@@ -2401,10 +2402,10 @@ public:
    * @brief Specifies the values for generic vertex attributes.
    * @param index A GLuint specifying the position of the vertex attribute to be
    * modified.
-   * @param values A Float32Array for floating point vector vertex attribute
+   * @param values A Float32Span for floating point vector vertex attribute
    * values.
    */
-  virtual void vertexAttrib4fv(GLuint index, Float32Array& values) = 0;
+  virtual void vertexAttrib4fv(GLuint index, Float32Span_ro& values) = 0;
 
   /**
    * @brief Modifies the rate at which generic vertex attributes advance when

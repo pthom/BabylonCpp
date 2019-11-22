@@ -1643,21 +1643,21 @@ public:
    */
   virtual void _uploadCompressedDataToTextureDirectly(const InternalTexturePtr& texture,
                                                       unsigned int internalFormat, float width,
-                                                      float height, const Uint8Array& data,
+                                                      float height, const Uint8Span_ro& data,
                                                       unsigned int faceIndex = 0, int lod = 0);
 
   /**
    * @brief Hidden
    */
   virtual void _uploadDataToTextureDirectly(const InternalTexturePtr& texture,
-                                            const ArrayBufferView& imageData,
+                                            const Uint8Span_ro& imageData,
                                             unsigned int faceIndex = 0, int lod = 0);
 
   /**
    * @brief Hidden
    */
   virtual void _uploadArrayBufferViewToTexture(const InternalTexturePtr& texture,
-                                               const Uint8Array& imageData,
+                                               const Uint8Span_ro& imageData,
                                                unsigned int faceIndex = 0, int lod = 0);
 
   /**
