@@ -295,22 +295,21 @@ void EnvironmentTextureTools::UploadLevels(const InternalTexturePtr& texture,
     auto dataLength = static_cast<size_t>(size * size * 4);
     switch (texture->type) {
       case Constants::TEXTURETYPE_UNSIGNED_INT: {
-        data = Uint8Array(dataLength);
+        data = ArrayBufferView(Uint8Array(dataLength));
         break;
       }
       case Constants::TEXTURETYPE_HALF_FLOAT: {
-        data = Uint16Array(dataLength);
+        data = ArrayBufferView(Uint16Array(dataLength));
         break;
       }
       case Constants::TEXTURETYPE_FLOAT: {
-        data = Float32Array(dataLength);
+        data = ArrayBufferView(Float32Array(dataLength));
         break;
       }
     }
     for (size_t i = imageData.size(); i < mipmapsCount; ++i) {
       for (unsigned int face = 0; face < 6; face++) {
-        engine->_uploadArrayBufferViewToTexture(texture, data.uint8Array, face,
-                                                static_cast<int>(i));
+        engine->_uploadArrayBufferViewToTexture(texture, data.uint8Span(), face, static_cast<int>(i));
       }
     }
   }

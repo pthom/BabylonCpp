@@ -12,6 +12,7 @@
 
 namespace BABYLON {
 
+class ArrayBufferView;
 class BaseTexture;
 class Engine;
 class ICanvasRenderingContext2D;

@@ -481,7 +481,7 @@ UnpackedBinary GLTFFileLoader::_unpackBinaryV1(BinaryReader& binaryReader) const
 
   return UnpackedBinary{
     content, // json
-    body     // bin
+    ArrayBufferView(body)     // bin
   };
 }
 
@@ -529,7 +529,7 @@ UnpackedBinary GLTFFileLoader::_unpackBinaryV2(BinaryReader& binaryReader) const
 
   return UnpackedBinary{
     json, // json
-    bin   // bin
+    ArrayBufferView(bin)   // bin
   };
 }
 

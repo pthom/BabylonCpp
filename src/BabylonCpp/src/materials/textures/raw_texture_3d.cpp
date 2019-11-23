@@ -15,16 +15,16 @@ RawTexture3D::RawTexture3D(const ArrayBufferView& data, int width, int height,
 {
   _engine = scene->getEngine();
 
-  _texture = scene->getEngine()->createRawTexture3D(data,            //
-                                                    width,           //
-                                                    height,          //
-                                                    depth,           //
-                                                    iFormat,         //
-                                                    generateMipMaps, //
-                                                    invertY,         //
-                                                    iSamplingMode,   //
-                                                    "",              //
-                                                    iTextureType     //
+  _texture = scene->getEngine()->createRawTexture3D(data.uint8Span(),
+                                                    width,
+                                                    height,
+                                                    depth,
+                                                    iFormat,
+                                                    generateMipMaps,
+                                                    invertY,
+                                                    iSamplingMode,
+                                                    "",
+                                                    iTextureType
   );
 
   is3D = true;
@@ -37,7 +37,7 @@ void RawTexture3D::update(const ArrayBufferView& data)
   if (!_texture) {
     return;
   }
-  _engine->updateRawTexture3D(_texture, data, _texture->format,
+  _engine->updateRawTexture3D(_texture, data.uint8Span(), _texture->format,
                               _texture->invertY, "", _texture->type);
 }
 

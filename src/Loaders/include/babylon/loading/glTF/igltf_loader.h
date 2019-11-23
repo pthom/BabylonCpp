@@ -17,7 +17,7 @@ namespace BABYLON {
 
 class AbstractMesh;
 class AnimationGroup;
-struct ArrayBufferView;
+class ArrayBufferView;
 struct ImportedMeshes;
 class IParticleSystem;
 class ProgressEvent;

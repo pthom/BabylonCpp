@@ -496,8 +496,8 @@ void DDSTools::UploadDDSLevels(
                                           // issues with float and half float
                                           // generation
             if (bpp == 128) {
-              floatArray = DDSTools::_GetFloatAsUIntRGBAArrayBuffer(
-                width, height, dataOffset, dataLength, arrayBuffer, i);
+              floatArray = ArrayBufferView(DDSTools::_GetFloatAsUIntRGBAArrayBuffer(
+                width, height, dataOffset, dataLength, arrayBuffer, i));
               if (i == 0) {
                 sphericalPolynomialFaces.emplace_back(
                   DDSTools::_GetFloatRGBAArrayBuffer(
@@ -505,8 +505,8 @@ void DDSTools::UploadDDSLevels(
               }
             }
             else if (bpp == 64) {
-              floatArray = DDSTools::_GetHalfFloatAsUIntRGBAArrayBuffer(
-                width, height, dataOffset, dataLength, arrayBuffer, i);
+              floatArray = ArrayBufferView(DDSTools::_GetHalfFloatAsUIntRGBAArrayBuffer(
+                width, height, dataOffset, dataLength, arrayBuffer, i));
               if (i == 0) {
                 sphericalPolynomialFaces.emplace_back(
                   DDSTools::_GetHalfFloatAsFloatRGBAArrayBuffer(
@@ -519,24 +519,24 @@ void DDSTools::UploadDDSLevels(
           else {
             if (bpp == 128) {
               texture->type = Constants::TEXTURETYPE_FLOAT;
-              floatArray    = DDSTools::_GetFloatRGBAArrayBuffer(
-                width, height, dataOffset, dataLength, arrayBuffer, i);
+              floatArray    = ArrayBufferView(DDSTools::_GetFloatRGBAArrayBuffer(
+                width, height, dataOffset, dataLength, arrayBuffer, i));
               if (i == 0) {
                 sphericalPolynomialFaces.emplace_back(floatArray);
               }
             }
             else if (bpp == 64 && !engine->getCaps().textureHalfFloat) {
               texture->type = Constants::TEXTURETYPE_FLOAT;
-              floatArray    = DDSTools::_GetHalfFloatAsFloatRGBAArrayBuffer(
-                width, height, dataOffset, dataLength, arrayBuffer, i);
+              floatArray    = ArrayBufferView(DDSTools::_GetHalfFloatAsFloatRGBAArrayBuffer(
+                width, height, dataOffset, dataLength, arrayBuffer, i));
               if (i == 0) {
                 sphericalPolynomialFaces.emplace_back(floatArray);
               }
             }
             else { // 64
               texture->type = Constants::TEXTURETYPE_HALF_FLOAT;
-              floatArray    = DDSTools::_GetHalfFloatRGBAArrayBuffer(
-                width, height, dataOffset, dataLength, arrayBuffer, i);
+              floatArray    = ArrayBufferView(DDSTools::_GetHalfFloatRGBAArrayBuffer(
+                width, height, dataOffset, dataLength, arrayBuffer, i));
               if (i == 0) {
                 sphericalPolynomialFaces.emplace_back(
                   DDSTools::_GetHalfFloatAsFloatRGBAArrayBuffer(
@@ -546,7 +546,7 @@ void DDSTools::UploadDDSLevels(
           }
 
           if (floatArray) {
-            engine->_uploadDataToTextureDirectly(texture, floatArray.uint8Array, face, i);
+            engine->_uploadDataToTextureDirectly(texture, floatArray.uint8Span(), face, i);
           }
         }
         else if (info.isRGB) {

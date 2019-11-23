@@ -166,7 +166,7 @@ void HDRCubeTexture::loadTexture()
         byteArray.resize(_size * _size * 3);
       }
 
-      auto& dataFace = data[HDRCubeTexture::_facesMapping[j]].float32Array;
+      auto dataFace = data[HDRCubeTexture::_facesMapping[j]].float32Span_rw();
 
       // If special cases.
       if (gammaSpace || !byteArray.empty()) {
@@ -205,10 +205,10 @@ void HDRCubeTexture::loadTexture()
       }
 
       if (!byteArray.empty()) {
-        results.emplace_back(byteArray);
+        results.push_back(ArrayBufferView(byteArray));
       }
       else {
-        results.emplace_back(dataFace);
+        results.push_back(ArrayBufferView(dataFace));
       }
     }
     return results;
