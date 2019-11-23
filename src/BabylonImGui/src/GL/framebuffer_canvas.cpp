@@ -85,7 +85,7 @@ void FramebufferCanvas::resize(int iWidth, int iHeight)
     _renderingContext->activeTexture(GL_TEXTURE0);
     _renderingContext->bindTexture(GL_TEXTURE_2D, mTextureColorBuffer.get());
     _renderingContext->texImage2D(GL_TEXTURE_2D, 0, GL_RGB, clientWidth, clientHeight, 0, GL_RGB,
-                                  GL_UNSIGNED_BYTE, nullptr);
+                                  GL_UNSIGNED_BYTE, std::nullopt);
 
     // Bind the frame buffer
     _renderingContext->bindFramebuffer(GL_FRAMEBUFFER, mFrameBuffer.get());

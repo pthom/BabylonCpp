@@ -10,7 +10,7 @@
 
 namespace BABYLON {
 
-struct ArrayBufferView;
+class ArrayBufferView;
 class ProgressEvent;
 
 /**
@@ -70,7 +70,7 @@ public:
    * @param buffer the arraybuffer holding the image data
    * @return the decoded image
    */
-  static Image ArrayBufferToImage(const ArrayBuffer& buffer, bool flipVertically = false);
+  static Image ArrayBufferToImage(const Uint8Span_ro& buffer, bool flipVertically = false);
 
   /**
    * @brief Converts an string to an image.

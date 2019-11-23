@@ -112,7 +112,7 @@ void FileTools::LoadImageFromBuffer(
     onLoad(FileTools::ArrayBufferToImage(std::get<ArrayBuffer>(input), invertY));
   }
   else if (std::holds_alternative<ArrayBufferView>(input)) {
-    onLoad(FileTools::ArrayBufferToImage(std::get<ArrayBufferView>(input).uint8Array, invertY));
+    onLoad(FileTools::ArrayBufferToImage(std::get<ArrayBufferView>(input).uint8Span(), invertY));
   }
   else if (std::holds_alternative<Image>(input)) {
     onLoad(std::get<Image>(input));
@@ -128,7 +128,7 @@ void FileTools::LoadImageFromBuffer(
   }
 }
 
-Image FileTools::ArrayBufferToImage(const ArrayBuffer& buffer, bool flipVertically)
+Image FileTools::ArrayBufferToImage(const Uint8Span_ro& buffer, bool flipVertically)
 {
   if (buffer.empty()) {
     return Image();
