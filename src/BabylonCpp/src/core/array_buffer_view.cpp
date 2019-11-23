@@ -4,88 +4,83 @@
 
 namespace BABYLON {
 
-ArrayBufferView::ArrayBufferView() = default;
+template<typename DestinationType>
+nonstd::span<DestinationType> reinterpret_buffer_as_span(
+  std::vector<byte> & buffer)
+{
+  nonstd::span<DestinationType> r(
+    reinterpret_cast<DestinationType *>(buffer.data()),
+    buffer.size() / sizeof(DestinationType)
+    );
+  return r;
+}
+
+void ArrayBufferView::initSpans_ShareMemory_Gory()
+{
+  this->_int8Array = reinterpret_buffer_as_span<int8_t>(_sharedMemoryBuffer);
+  this->_uint8Array = reinterpret_buffer_as_span<uint8_t>(_sharedMemoryBuffer);
+  this->_int16Array = reinterpret_buffer_as_span<int16_t>(_sharedMemoryBuffer);
+  this->_uint16Array = reinterpret_buffer_as_span<uint16_t>(_sharedMemoryBuffer);
+  this->_int32Array = reinterpret_buffer_as_span<int32_t>(_sharedMemoryBuffer);
+  this->_uint32Array = reinterpret_buffer_as_span<uint32_t>(_sharedMemoryBuffer);
+  this->_float32Array = reinterpret_buffer_as_span<float>(_sharedMemoryBuffer);
+}
+
+ArrayBufferView::ArrayBufferView()
+{
+  std::vector<uint8_t> emptyBuffer;
+  initFromVector(emptyBuffer);
+}
 
 ArrayBufferView::ArrayBufferView(const Int8Array& buffer)
-    : byteOffset{0}
-    , int8Array{buffer}
-    , uint8Array{stl_util::to_array<uint8_t>(buffer)}
-    , int16Array{stl_util::to_array<int16_t>(buffer)}
-    , uint16Array{stl_util::to_array<uint16_t>(buffer)}
-    , int32Array{stl_util::to_array<int32_t>(buffer)}
-    , uint32Array{stl_util::to_array<uint32_t>(buffer)}
-    , float32Array{stl_util::to_array<float>(buffer)}
 {
+  initFromVector(buffer);
 }
 
-ArrayBufferView::ArrayBufferView(const ArrayBuffer& arrayBuffer)
-    : byteOffset{0}
-    , int8Array{stl_util::to_array<int8_t>(arrayBuffer)}
-    , uint8Array{arrayBuffer}
-    , int16Array{stl_util::to_array<int16_t>(arrayBuffer)}
-    , uint16Array{stl_util::to_array<uint16_t>(arrayBuffer)}
-    , int32Array{stl_util::to_array<int32_t>(arrayBuffer)}
-    , uint32Array{stl_util::to_array<uint32_t>(arrayBuffer)}
-    , float32Array{stl_util::to_array<float>(arrayBuffer)}
+ArrayBufferView::ArrayBufferView(const ArrayBuffer& buffer)
 {
+  initFromVector(buffer);
 }
 
-ArrayBufferView::ArrayBufferView(const Uint16Array& buffer)
-    : byteOffset{0}
-    , int8Array{stl_util::to_array<int8_t>(buffer)}
-    , uint8Array{stl_util::to_array<uint8_t>(buffer)}
-    , int16Array{stl_util::to_array<int16_t>(buffer)}
-    , uint16Array{buffer}
-    , int32Array{stl_util::to_array<int32_t>(buffer)}
-    , uint32Array{stl_util::to_array<uint32_t>(buffer)}
-    , float32Array{stl_util::to_array<float>(buffer)}
+ArrayBufferView::ArrayBufferView(const ::BABYLON::Uint16Array& buffer)
 {
+  initFromVector(buffer);
 }
 
-ArrayBufferView::ArrayBufferView(const Uint32Array& buffer)
-    : byteOffset{0}
-    , int8Array{stl_util::to_array<int8_t>(buffer)}
-    , uint8Array{stl_util::to_array<uint8_t>(buffer)}
-    , int16Array{stl_util::to_array<int16_t>(buffer)}
-    , uint16Array{stl_util::to_array<uint16_t>(buffer)}
-    , int32Array{stl_util::to_array<int32_t>(buffer)}
-    , uint32Array{buffer}
-    , float32Array{stl_util::to_array<float>(buffer)}
+ArrayBufferView::ArrayBufferView(const ::BABYLON::Uint32Array& buffer)
 {
+  initFromVector(buffer);
 }
 
 ArrayBufferView::ArrayBufferView(const Float32Array& buffer)
-    : byteOffset{0}
-    , int8Array{stl_util::to_array<int8_t>(buffer)}
-    , uint8Array{stl_util::to_array<uint8_t>(buffer)}
-    , int16Array{stl_util::to_array<int16_t>(buffer)}
-    , uint16Array{stl_util::to_array<uint16_t>(buffer)}
-    , int32Array{stl_util::to_array<int32_t>(buffer)}
-    , uint32Array{stl_util::to_array<uint32_t>(buffer)}
-    , float32Array{buffer}
 {
+  initFromVector(buffer);
 }
-
-ArrayBufferView::ArrayBufferView(const ArrayBufferView& other) = default;
-
-ArrayBufferView::ArrayBufferView(ArrayBufferView&& other) = default;
-
-ArrayBufferView& ArrayBufferView::operator=(const ArrayBufferView& other) = default;
-
-ArrayBufferView& ArrayBufferView::operator=(ArrayBufferView&& other) = default;
-
-ArrayBufferView::~ArrayBufferView() = default;
 
 size_t ArrayBufferView::byteLength() const
 {
-  return uint8Array.size();
+  return _sharedMemoryBuffer.size();
 }
 
 ArrayBufferView::operator bool() const
 {
-  return !int8Array.empty() && !uint8Array.empty() && !int16Array.empty()
-         && !uint16Array.empty() && !int32Array.empty() && !uint32Array.empty()
-         && !float32Array.empty();
+  return _sharedMemoryBuffer.empty();
 }
+
+ArrayBufferView & ArrayBufferView::operator=(const ArrayBufferView& other)
+{
+  if (this != &other) {
+    copyData(other._uint8Array);
+    initSpans_ShareMemory_Gory();
+  }
+  return *this;
+}
+
+ArrayBufferView::ArrayBufferView(const ArrayBufferView& other)
+{
+  copyData(other._uint8Array);
+  initSpans_ShareMemory_Gory();
+}
+
 
 } // end of namespace BABYLON

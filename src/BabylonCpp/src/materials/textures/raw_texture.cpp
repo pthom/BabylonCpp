@@ -17,7 +17,7 @@ RawTexture::RawTexture(const ArrayBufferView& data, int width, int height,
 {
   _engine  = scene->getEngine();
   _texture = scene->getEngine()->createRawTexture(
-    data.uint8Array, width, height, format, generateMipMaps, iInvertY,
+    data.uint8Span(), width, height, format, generateMipMaps, iInvertY,
     iSamplingMode, "", iType);
 
   wrapU = TextureConstants::CLAMP_ADDRESSMODE;
@@ -29,8 +29,8 @@ RawTexture::~RawTexture() = default;
 void RawTexture::update(const ArrayBufferView& data)
 {
   if (_texture) {
-    _engine->updateRawTexture(_texture, data.uint8Array, _texture->format,
-                              _texture->invertY, "", _texture->type);
+    _engine->updateRawTexture(_texture, data.uint8Span(), _texture->format, _texture->invertY, "",
+                              _texture->type);
   }
 }
 

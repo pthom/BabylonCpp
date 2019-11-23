@@ -146,9 +146,10 @@ void InternalTexture::_rebuild()
     }
       return;
     case InternalTexture::DATASOURCE_RAW3D: {
-      proxy = _engine->createRawTexture3D(_bufferView, baseWidth, baseHeight,
-                                          baseDepth, format, generateMipMaps,
-                                          invertY, samplingMode, _compression);
+      proxy = _engine->createRawTexture3D(
+        stl_util::as_span(_bufferView), baseWidth, baseHeight,
+        baseDepth, format, generateMipMaps,
+        invertY, samplingMode, _compression);
       proxy->_swapAndDie(shared_from_this());
       isReady = true;
     }

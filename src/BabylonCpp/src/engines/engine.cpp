@@ -282,8 +282,10 @@ InternalTexturePtr& Engine::emptyTexture()
 InternalTexturePtr& Engine::emptyTexture3D()
 {
   if (!_emptyTexture3D) {
-    _emptyTexture3D = createRawTexture3D(Uint8Array(4), 1, 1, 1, Constants::TEXTUREFORMAT_RGBA,
-                                         false, false, Constants::TEXTURE_NEAREST_SAMPLINGMODE);
+    Uint8Array emptyTextureBuffer(4);
+    _emptyTexture3D = createRawTexture3D(
+      stl_util::as_span(emptyTextureBuffer), 1, 1, 1, Constants::TEXTUREFORMAT_RGBA,
+      false, false, Constants::TEXTURE_NEAREST_SAMPLINGMODE);
   }
 
   return _emptyTexture3D;
@@ -1372,9 +1374,13 @@ void Engine::updateDynamicVertexBuffer(const Engine::GLBufferPtr& vertexBuffer,
     _gl->bufferSubData(GL::ARRAY_BUFFER, byteOffset, stl_util::as_span(data));
   }
   else {
-    auto byteArray = stl_util::to_array<uint8_t>(data, static_cast<size_t>(byteOffset),
-                                                 static_cast<size_t>(byteLength));
-    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, byteArray);
+    //auto byteArray = stl_util::to_array<uint8_t>(data, static_cast<size_t>(byteOffset),
+    //                                             static_cast<size_t>(byteLength));
+    //_gl->bufferSubData(GL::ARRAY_BUFFER, 0, byteArray);
+    size_t floatOffset = byteOffset / sizeof(float);
+    size_t floatLength = byteLength / sizeof(float);
+    nonstd::span<const float> dataAsSpan = nonstd::span(data.data() + floatOffset, floatLength);
+    _gl->bufferSubData(GL::ARRAY_BUFFER, 0, dataAsSpan);
   }
 
   _resetVertexBufferBinding();
@@ -3005,7 +3011,7 @@ void Engine::_rescaleTexture(const InternalTexturePtr& source,
   });
 }
 
-void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Array& data,
+void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Span_ro& data,
                               unsigned int format, bool invertY, const std::string& compression,
                               unsigned int type)
 {
@@ -3023,7 +3029,8 @@ void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Arra
   _unpackFlipY(invertY);
 
   if (!_doNotHandleContextLost) {
-    texture->_bufferView  = data;
+    std::copy(data.begin(), data.end(), std::back_inserter(texture->_bufferView));
+    //texture->_bufferView  = data;
     texture->format       = format;
     texture->type         = type;
     texture->invertY      = invertY;
@@ -3041,7 +3048,7 @@ void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Arra
   else {
     auto _internalSizedFomat = static_cast<GL::GLint>(internalSizedFomat);
     _gl->texImage2D(GL::TEXTURE_2D, 0, _internalSizedFomat, texture->width, texture->height, 0,
-                    internalFormat, textureType, stl_util::as_span(data));
+                    internalFormat, textureType, data);
   }
 
   if (texture->generateMipMaps) {
@@ -3052,7 +3059,7 @@ void Engine::updateRawTexture(const InternalTexturePtr& texture, const Uint8Arra
   texture->isReady = true;
 }
 
-InternalTexturePtr Engine::createRawTexture(const Uint8Array& data, int width, int height,
+InternalTexturePtr Engine::createRawTexture(const Uint8Span_ro& data, int width, int height,
                                             unsigned int format, bool generateMipMaps, bool invertY,
                                             unsigned int samplingMode,
                                             const std::string& compression, unsigned int type)
@@ -3070,7 +3077,8 @@ InternalTexturePtr Engine::createRawTexture(const Uint8Array& data, int width, i
   texture->type            = type;
 
   if (!_doNotHandleContextLost) {
-    texture->_bufferView = data;
+    std::copy(data.begin(), data.end(), std::back_inserter(texture->_bufferView));
+    //texture->_bufferView = data;
   }
 
   updateRawTexture(texture, data, format, invertY, compression, type);
@@ -4337,12 +4345,12 @@ void Engine::updateRawCubeTexture(const InternalTexturePtr& texture,
           = _convertRGBtoRGBATextureData(faceData, texture->width, texture->height, type);
         gl.texImage2D(facesIndex[index], static_cast<int>(level),
                       static_cast<int>(internalSizedFomat), texture->width, texture->height, 0,
-                      internalFormat, textureType, stl_util::as_span(convertedFaceData.uint8Array));
+                      internalFormat, textureType, convertedFaceData.uint8Span());
       }
       else {
         gl.texImage2D(facesIndex[index], static_cast<int>(level),
                       static_cast<int>(internalSizedFomat), texture->width, texture->height, 0,
-                      internalFormat, textureType, stl_util::as_span(faceData.uint8Array));
+                      internalFormat, textureType, faceData.uint8Span());
       }
     }
   }
@@ -4518,7 +4526,7 @@ InternalTexturePtr Engine::createRawCubeTextureFromUrl(
           }
           gl.texImage2D(faceIndex, static_cast<int>(level), static_cast<int>(internalSizedFomat),
                         mipSize, mipSize, 0, internalFormat, textureType,
-                        stl_util::as_span(mipFaceData.uint8Array));
+                        mipFaceData.uint8Span());
         }
       }
 
@@ -4546,11 +4554,12 @@ InternalTexturePtr Engine::createRawCubeTextureFromUrl(
   return texture;
 }
 
-void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBufferView& data,
-                                unsigned int format, bool invertY, const std::string& compression,
-                                unsigned int textureType)
+void Engine::updateRawTexture3D(
+  const InternalTexturePtr& texture,
+  const Uint8Span_ro& data,
+  unsigned int format, bool invertY, const std::string& compression,
+  unsigned int textureType)
 {
-  const auto& _data = data.uint8Array;
 
   auto internalType       = _getWebGLTextureType(textureType);
   auto internalFormat     = _getInternalFormat(format);
@@ -4561,7 +4570,7 @@ void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBu
   _unpackFlipY(invertY);
 
   if (!_doNotHandleContextLost) {
-    texture->_bufferView  = _data;
+    std::copy(data.begin(), data.end(), std::back_inserter(texture->_bufferView));
     texture->format       = format;
     texture->invertY      = invertY;
     texture->_compression = compression;
@@ -4571,7 +4580,7 @@ void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBu
     _gl->pixelStorei(GL::UNPACK_ALIGNMENT, 1);
   }
 
-  if (!compression.empty() && !_data.empty()) {
+  if (!compression.empty() && !data.empty()) {
     // _gl.compressedTexImage3D(GL::TEXTURE_3D, 0,
     // (<any>getCaps().s3tc)[compression], texture->width, texture->height,
     // texture->depth, 0, data);
@@ -4579,7 +4588,7 @@ void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBu
   else {
     _gl->texImage3D(GL::TEXTURE_3D, 0, static_cast<int>(internalSizedFomat), texture->width,
                     texture->height, texture->depth, 0, internalFormat, internalType,
-                    stl_util::as_span(_data));
+                    data);
   }
 
   if (texture->generateMipMaps) {
@@ -4590,7 +4599,7 @@ void Engine::updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBu
   texture->isReady = true;
 }
 
-InternalTexturePtr Engine::createRawTexture3D(const ArrayBufferView& data, int width, int height,
+InternalTexturePtr Engine::createRawTexture3D(const Uint8Span_ro& data, int width, int height,
                                               int depth, unsigned int format, bool generateMipMaps,
                                               bool invertY, unsigned int samplingMode,
                                               const std::string& compression,
@@ -4610,7 +4619,7 @@ InternalTexturePtr Engine::createRawTexture3D(const ArrayBufferView& data, int w
   texture->is3D            = true;
 
   if (!_doNotHandleContextLost) {
-    texture->_bufferView = data.uint8Array;
+    std::copy(data.begin(), data.end(), std::back_inserter(texture->_bufferView));
   }
 
   updateRawTexture3D(texture, data, format, invertY, compression, textureType);
@@ -4762,9 +4771,9 @@ ArrayBufferView Engine::_convertRGBtoRGBATextureData(const ArrayBufferView& rgbD
         auto newIndex = static_cast<size_t>((y * width + x) * 4);
 
         // Map Old Value to new value.
-        rgbaData[newIndex + 0] = rgbData.float32Array[index + 0];
-        rgbaData[newIndex + 1] = rgbData.float32Array[index + 1];
-        rgbaData[newIndex + 2] = rgbData.float32Array[index + 2];
+        rgbaData[newIndex + 0] = rgbData.float32Span()[index + 0];
+        rgbaData[newIndex + 1] = rgbData.float32Span()[index + 1];
+        rgbaData[newIndex + 2] = rgbData.float32Span()[index + 2];
 
         // Add fully opaque alpha channel.
         rgbaData[newIndex + 3] = 1.f;
@@ -4781,9 +4790,9 @@ ArrayBufferView Engine::_convertRGBtoRGBATextureData(const ArrayBufferView& rgbD
         auto newIndex = static_cast<size_t>((y * width + x) * 4);
 
         // Map Old Value to new value.
-        rgbaData[newIndex + 0] = rgbData.uint32Array[index + 0];
-        rgbaData[newIndex + 1] = rgbData.uint32Array[index + 1];
-        rgbaData[newIndex + 2] = rgbData.uint32Array[index + 2];
+        rgbaData[newIndex + 0] = rgbData.uint32Span()[index + 0];
+        rgbaData[newIndex + 1] = rgbData.uint32Span()[index + 1];
+        rgbaData[newIndex + 2] = rgbData.uint32Span()[index + 2];
 
         // Add fully opaque alpha channel.
         rgbaData[newIndex + 3] = 1;
@@ -5490,7 +5499,8 @@ ArrayBufferView Engine::_readTexturePixels(const InternalTexturePtr& texture, in
         buffer = ArrayBufferView(Uint8Array(static_cast<std::size_t>(4 * width * height)));
       }
       readType = GL::UNSIGNED_BYTE;
-      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, stl_util::as_span_rw(buffer->uint8Array));
+      _gl->readPixels(0, 0, width, height, GL::RGBA, readType,
+                      buffer->uint8Span_rw());
       _gl->bindFramebuffer(GL::FRAMEBUFFER, _currentFramebuffer.get());
 
     } break;
@@ -5499,7 +5509,8 @@ ArrayBufferView Engine::_readTexturePixels(const InternalTexturePtr& texture, in
         buffer = ArrayBufferView(Float32Array(static_cast<std::size_t>(4 * width * height)));
       }
       readType = GL::FLOAT;
-      _gl->readPixels(0, 0, width, height, GL::RGBA, readType, stl_util::as_span_rw(buffer->float32Array));
+      _gl->readPixels(0, 0, width, height, GL::RGBA, readType,
+                      buffer->float32Span_rw());
       _gl->bindFramebuffer(GL::FRAMEBUFFER, _currentFramebuffer.get());
     } break;
   }

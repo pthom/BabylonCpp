@@ -60,18 +60,18 @@ CubeMapInfo PanoramaToCubeMapTools::ConvertPanoramaToCubemap(
     return cubeMapInfo;
   }
 
-  cubeMapInfo.front = CreateCubemapTexture(size, FACE_FRONT, float32Array,
-                                           inputWidth, inputHeight);
-  cubeMapInfo.back  = CreateCubemapTexture(size, FACE_BACK, float32Array,
-                                          inputWidth, inputHeight);
-  cubeMapInfo.left  = CreateCubemapTexture(size, FACE_LEFT, float32Array,
-                                          inputWidth, inputHeight);
-  cubeMapInfo.right = CreateCubemapTexture(size, FACE_RIGHT, float32Array,
-                                           inputWidth, inputHeight);
-  cubeMapInfo.up = CreateCubemapTexture(size, FACE_UP, float32Array, inputWidth,
-                                        inputHeight);
-  cubeMapInfo.down       = CreateCubemapTexture(size, FACE_DOWN, float32Array,
-                                          inputWidth, inputHeight);
+  cubeMapInfo.front = ArrayBufferView(CreateCubemapTexture(size, FACE_FRONT, float32Array,
+                                           inputWidth, inputHeight));
+  cubeMapInfo.back  = ArrayBufferView(CreateCubemapTexture(size, FACE_BACK, float32Array,
+                                          inputWidth, inputHeight));
+  cubeMapInfo.left  = ArrayBufferView(CreateCubemapTexture(size, FACE_LEFT, float32Array,
+                                          inputWidth, inputHeight));
+  cubeMapInfo.right = ArrayBufferView(CreateCubemapTexture(size, FACE_RIGHT, float32Array,
+                                           inputWidth, inputHeight));
+  cubeMapInfo.up = ArrayBufferView(CreateCubemapTexture(size, FACE_UP, float32Array, inputWidth,
+                                        inputHeight));
+  cubeMapInfo.down       = ArrayBufferView(CreateCubemapTexture(size, FACE_DOWN, float32Array,
+                                          inputWidth, inputHeight));
   cubeMapInfo.size       = size;
   cubeMapInfo.type       = Constants::TEXTURETYPE_FLOAT;
   cubeMapInfo.format     = Constants::TEXTUREFORMAT_RGB;

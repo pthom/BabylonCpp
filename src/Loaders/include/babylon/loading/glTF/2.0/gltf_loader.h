@@ -27,7 +27,7 @@ namespace BABYLON {
 
 class AbstractMesh;
 class AnimationGroup;
-struct ArrayBufferView;
+class ArrayBufferView;
 class BaseTexture;
 class Bone;
 class Buffer;

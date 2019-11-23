@@ -93,7 +93,7 @@ CubeMapToSphericalPolynomialTools::ConvertCubeMapToSphericalPolynomial(
 
   for (auto faceIndex = 0u; faceIndex < 6; ++faceIndex) {
     const auto& fileFace  = FileFaces[faceIndex];
-    const auto& dataArray = cubeInfo[fileFace.name].float32Array;
+    const auto& dataArray = cubeInfo[fileFace.name].float32Span();
     auto v                = minUV;
 
     // TODO: we could perform the summation directly into a SphericalPolynomial

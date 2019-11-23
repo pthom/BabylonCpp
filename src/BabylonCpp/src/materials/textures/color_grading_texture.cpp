@@ -2,6 +2,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <babylon/babylon_stl_util.h>
 #include <babylon/core/string.h>
 #include <babylon/engines/constants.h>
 #include <babylon/engines/engine.h>
@@ -61,8 +62,9 @@ InternalTexturePtr ColorGradingTexture::load3dlTexture()
       TextureConstants::BILINEAR_SAMPLINGMODE);
   }
   else {
+    ArrayBuffer emptyBuffer;
     texture = _engine->createRawTexture3D(
-      Uint8Array(), 1, 1, 1, Constants::TEXTUREFORMAT_RGBA, false, false,
+      stl_util::as_span(emptyBuffer), 1, 1, 1, Constants::TEXTUREFORMAT_RGBA, false, false,
       TextureConstants::BILINEAR_SAMPLINGMODE);
   }
 
@@ -152,12 +154,12 @@ InternalTexturePtr ColorGradingTexture::load3dlTexture()
     const auto _size = static_cast<int>(size);
     if (_texture->is3D) {
       _texture->updateSize(_size, _size, _size);
-      _engine->updateRawTexture3D(_texture, data, Constants::TEXTUREFORMAT_RGBA,
+      _engine->updateRawTexture3D(_texture, stl_util::as_span(data), Constants::TEXTUREFORMAT_RGBA,
                                   false);
     }
     else {
       _texture->updateSize(_size * _size, _size);
-      _engine->updateRawTexture(_texture, data, Constants::TEXTUREFORMAT_RGBA,
+      _engine->updateRawTexture(_texture, stl_util::as_span(data), Constants::TEXTUREFORMAT_RGBA,
                                 false);
     }
   };

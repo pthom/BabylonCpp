@@ -480,7 +480,7 @@ protected:
   void _reset() override;
 
 private:
-  float _fetchR(float u, float v, float width, float height, const Uint8Array& pixels);
+  float _fetchR(float u, float v, float width, float height, const Uint8Span_ro& pixels);
   void _addFactorGradient(std::vector<FactorGradient>& factorGradients, float gradient,
                           float factor, const std::optional<float>& factor2 = std::nullopt);
   void _removeFactorGradient(std::vector<FactorGradient>& factorGradients, float gradient);

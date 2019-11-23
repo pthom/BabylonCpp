@@ -418,7 +418,7 @@ void Skeleton::prepare()
             }
 
             mesh->_transformMatrixTexture = RawTexture::CreateRGBATexture(
-              mesh->_bonesTransformMatrices,
+              ArrayBufferView(mesh->_bonesTransformMatrices),
               static_cast<int>((bones.size() + 1) * 4), 1, _scene, false, false,
               Constants::TEXTURE_NEAREST_SAMPLINGMODE,
               Constants::TEXTURETYPE_FLOAT);
@@ -429,7 +429,7 @@ void Skeleton::prepare()
       _computeTransformMatrices(mesh->_bonesTransformMatrices, poseMatrix);
 
       if (isUsingTextureForMatrices && mesh->_transformMatrixTexture) {
-        mesh->_transformMatrixTexture->update(mesh->_bonesTransformMatrices);
+        mesh->_transformMatrixTexture->update(ArrayBufferView(mesh->_bonesTransformMatrices));
       }
     }
   }
@@ -443,7 +443,8 @@ void Skeleton::prepare()
         }
 
         _transformMatrixTexture = RawTexture::CreateRGBATexture(
-          _transformMatrices, static_cast<int>((bones.size() + 1) * 4), 1,
+          ArrayBufferView(_transformMatrices),
+          static_cast<int>((bones.size() + 1) * 4), 1,
           _scene, false, false, Constants::TEXTURE_NEAREST_SAMPLINGMODE,
           Constants::TEXTURETYPE_FLOAT);
       }
@@ -452,7 +453,7 @@ void Skeleton::prepare()
     _computeTransformMatrices(_transformMatrices);
 
     if (isUsingTextureForMatrices && _transformMatrixTexture) {
-      _transformMatrixTexture->update(_transformMatrices);
+      _transformMatrixTexture->update(ArrayBufferView(_transformMatrices));
     }
   }
 

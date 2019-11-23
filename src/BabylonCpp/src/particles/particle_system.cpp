@@ -91,11 +91,11 @@ ParticleSystem::ParticleSystem(const std::string& iName, size_t capacity,
   // Update
   updateFunction = [this](std::vector<Particle*>& particles) {
     std::optional<ISize> noiseTextureSize = std::nullopt;
-    std::optional<Uint8Array> noiseTextureData;
+    std::optional<Uint8Span_ro> noiseTextureData;
 
     if (noiseTexture()) { // We need to get texture data back to CPU
       noiseTextureSize = noiseTexture()->getSize();
-      noiseTextureData = noiseTexture()->getContent().uint8Array;
+      noiseTextureData = noiseTexture()->getContent().uint8Span();
     }
 
     for (unsigned int index = 0; index < _particles.size(); ++index) {
@@ -591,7 +591,7 @@ void ParticleSystem::_createRampGradientTexture()
   }
 
   _rampGradientsTexture = RawTexture::CreateRGBATexture(
-    data, _rawTextureWidth, 1, _scene, false, false,
+    ArrayBufferView(data), _rawTextureWidth, 1, _scene, false, false,
     TextureConstants::NEAREST_SAMPLINGMODE);
 }
 
@@ -683,7 +683,7 @@ IParticleSystem& ParticleSystem::removeColorGradient(float gradient)
 }
 
 float ParticleSystem::_fetchR(float u, float v, float width, float height,
-                              const Uint8Array& pixels)
+                              const Uint8Span_ro& pixels)
 {
   u = std::abs(u) * 0.5f + 0.5f;
   v = std::abs(v) * 0.5f + 0.5f;

@@ -1495,7 +1495,7 @@ public:
    * @param type defines the type fo the data (Engine.TEXTURETYPE_UNSIGNED_INT
    * by default)
    */
-  void updateRawTexture(const InternalTexturePtr& texture, const Uint8Array& data,
+  void updateRawTexture(const InternalTexturePtr& texture, const Uint8Span_ro& data,
                         unsigned int format, bool invertY = true,
                         const std::string& compression = "",
                         unsigned int type              = Constants::TEXTURETYPE_UNSIGNED_INT);
@@ -1515,7 +1515,7 @@ public:
    * by default)
    * @returns the raw texture inside an InternalTexture
    */
-  InternalTexturePtr createRawTexture(const Uint8Array& data, int width, int height,
+  InternalTexturePtr createRawTexture(const Uint8Span_ro& data, int width, int height,
                                       unsigned int format, bool generateMipMaps, bool invertY,
                                       unsigned int samplingMode,
                                       const std::string& compression = "",
@@ -1818,7 +1818,7 @@ public:
    * @param textureType defines the texture Type
    * (Engine.TEXTURETYPE_UNSIGNED_INT, Engine.TEXTURETYPE_FLOAT...)
    */
-  void updateRawTexture3D(const InternalTexturePtr& texture, const ArrayBufferView& data,
+  void updateRawTexture3D(const InternalTexturePtr& texture, const Uint8Span_ro& data,
                           unsigned int format, bool invertY = true,
                           const std::string& compression = "",
                           unsigned int textureType       = Constants::TEXTURETYPE_UNSIGNED_INT);
@@ -1839,7 +1839,7 @@ public:
    * @returns a new raw 3D texture (stored in an InternalTexture)
    */
   InternalTexturePtr
-  createRawTexture3D(const ArrayBufferView& data, int width, int height, int depth,
+  createRawTexture3D(const Uint8Span_ro& data, int width, int height, int depth,
                      unsigned int format, bool generateMipMaps, bool invertY,
                      unsigned int samplingMode, const std::string& compression = "",
                      unsigned int textureType = Constants::TEXTURETYPE_UNSIGNED_INT);

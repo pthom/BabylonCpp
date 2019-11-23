@@ -1095,7 +1095,7 @@ void GPUParticleSystem::_createFactorGradientTexture(
 
   _setRawTextureByName(textureName,
                        RawTexture::CreateRTexture(
-                         data, static_cast<int>(_rawTextureWidth), 1, _scene,
+                         ArrayBufferView(data), static_cast<int>(_rawTextureWidth), 1, _scene,
                          false, false, TextureConstants::NEAREST_SAMPLINGMODE));
 }
 
@@ -1152,7 +1152,7 @@ void GPUParticleSystem::_createColorGradientTexture()
   }
 
   _colorGradientsTexture = RawTexture::CreateRGBATexture(
-    data, static_cast<int>(_rawTextureWidth), 1, _scene, false, false,
+    ArrayBufferView(data), static_cast<int>(_rawTextureWidth), 1, _scene, false, false,
     TextureConstants::NEAREST_SAMPLINGMODE);
 }
 
