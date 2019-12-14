@@ -14,6 +14,8 @@ class Buffer;
 class DataView;
 class Engine;
 class Scene;
+class WebGLDataBuffer;
+using WebGLDataBufferPtr = std::shared_ptr<WebGLDataBuffer>;
 
 namespace GL {
 class IGLBuffer;
@@ -206,7 +208,7 @@ public:
    * @brief Gets underlying native buffer.
    * @returns underlying native buffer
    */
-  GL::IGLBuffer* getBuffer();
+  WebGLDataBufferPtr getBuffer();
 
   /**
    * @brief Gets the stride in float32 units (i.e. byte stride / 4).
