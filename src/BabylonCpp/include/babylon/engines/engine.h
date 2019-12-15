@@ -1102,7 +1102,7 @@ public:
   /**
    * @brief Hidden
    */
-  bool _isRenderingStateCompiled(const IPipelineContextPtr& pipelineContext);
+  bool _isRenderingStateCompiled(IPipelineContext* pipelineContext);
 
   /**
    * @brief Hidden
@@ -1481,7 +1481,6 @@ public:
    */
   virtual InternalTexturePtr createTexture(
     const std::string& urlArg, bool noMipmap, bool invertY, Scene* scene,
-    std::vector<IInternalTextureLoaderPtr>& excludeLoaders,
     unsigned int samplingMode = Constants::TEXTURE_TRILINEAR_SAMPLINGMODE,
     const std::function<void(InternalTexture*, EventState&)>& onLoad = nullptr,
     const std::function<void(const std::string& message, const std::string& exception)>& onError
@@ -2220,7 +2219,7 @@ public:
    * @brief Bind a webGL buffer for a transform feedback operation.
    * @param value defines the webGL buffer to bind
    */
-  void bindTransformFeedbackBuffer(GL::IGLBuffer* value);
+  void bindTransformFeedbackBuffer(const WebGLDataBufferPtr& value);
 
   /**
    * @brief Hidden
@@ -2387,7 +2386,7 @@ private:
                        const GL::IGLShaderPtr& vertexShader, const GL::IGLShaderPtr& fragmentShader,
                        GL::IGLRenderingContext* context,
                        const std::vector<std::string>& transformFeedbackVaryings = {});
-  void _finalizePipelineContext(const WebGLPipelineContextPtr& pipelineContext);
+  void _finalizePipelineContext(WebGLPipelineContext* pipelineContext);
   void _prepareWebGLTextureContinuation(const InternalTexturePtr& texture, Scene* scene,
                                         bool noMipmap, bool isCompressed,
                                         unsigned int samplingMode);

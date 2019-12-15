@@ -104,7 +104,7 @@ std::function<PostProcessPtr(Engine* engine)> Engine::_RescalePostProcessFactory
 std::vector<Engine*> Engine::Instances()
 {
   return EngineStore::Instances;
-};
+}
 
 Engine::Engine(ICanvas* canvas, const EngineOptions& options)
     : _shaderProcessor{nullptr}
@@ -1453,13 +1453,13 @@ void Engine::bindArrayBuffer(const WebGLDataBufferPtr& buffer)
 
 void Engine::bindUniformBuffer(const WebGLDataBufferPtr& buffer)
 {
-  _gl->bindBuffer(GL::UNIFORM_BUFFER, buffer ? buffer->underlyingResource() : nullptr);
+  _gl->bindBuffer(GL::UNIFORM_BUFFER, buffer ? buffer->underlyingResource().get() : nullptr);
 }
 
 void Engine::bindUniformBufferBase(const WebGLDataBufferPtr& buffer, unsigned int location)
 {
   _gl->bindBufferBase(GL::UNIFORM_BUFFER, location,
-                      buffer ? buffer->underlyingResource() : nullptr);
+                      buffer ? buffer->underlyingResource().get() : nullptr);
 }
 
 void Engine::bindUniformBlock(const IPipelineContextPtr& pipelineContext,
@@ -1485,7 +1485,7 @@ void Engine::bindBuffer(const WebGLDataBufferPtr& buffer, int target)
   if (_vaoRecordInProgress || (_currentBoundBuffer.find(target) == _currentBoundBuffer.end())
       || (_currentBoundBuffer[target] != buffer)) {
     _gl->bindBuffer(static_cast<unsigned int>(target),
-                    buffer ? buffer->underlyingResource() : nullptr);
+                    buffer ? buffer->underlyingResource().get() : nullptr);
     _currentBoundBuffer[target] = buffer;
   }
 }
@@ -1739,7 +1739,7 @@ bool Engine::_releaseBuffer(const WebGLDataBufferPtr& buffer)
 
 void Engine::_deleteBuffer(const WebGLDataBufferPtr& buffer)
 {
-  _gl->deleteBuffer(buffer->underlyingResource());
+  _gl->deleteBuffer(buffer->underlyingResource().get());
 }
 
 WebGLDataBufferPtr Engine::createInstancesBuffer(unsigned int capacity)
@@ -1750,7 +1750,7 @@ WebGLDataBufferPtr Engine::createInstancesBuffer(unsigned int capacity)
     throw std::runtime_error("Unable to create instance buffer");
   }
 
-  auto result      = std::make_shared<WebGLDataBuffer>();
+  auto result      = std::make_shared<WebGLDataBuffer>(buffer);
   result->capacity = capacity;
 
   bindArrayBuffer(result);
@@ -1761,7 +1761,7 @@ WebGLDataBufferPtr Engine::createInstancesBuffer(unsigned int capacity)
 
 void Engine::deleteInstancesBuffer(const WebGLDataBufferPtr& buffer)
 {
-  _gl->deleteBuffer(buffer->underlyingResource());
+  _gl->deleteBuffer(buffer->underlyingResource().get());
 }
 
 void Engine::updateAndBindInstancesBuffer(const WebGLDataBufferPtr& instancesBuffer,
@@ -2127,13 +2127,13 @@ GL::IGLProgramPtr Engine::_createShaderProgram(
   pipelineContext->fragmentShader = fragmentShader;
 
   if (!pipelineContext->isParallelCompiled) {
-    _finalizePipelineContext(pipelineContext);
+    _finalizePipelineContext(pipelineContext.get());
   }
 
   return shaderProgram;
 }
 
-void Engine::_finalizePipelineContext(const WebGLPipelineContextPtr& pipelineContext)
+void Engine::_finalizePipelineContext(WebGLPipelineContext* pipelineContext)
 {
   const auto& context        = pipelineContext->context;
   const auto& vertexShader   = pipelineContext->vertexShader;
@@ -2211,9 +2211,9 @@ void Engine::_preparePipelineContext(const IPipelineContextPtr& pipelineContext,
   webGLRenderingState->program->__SPECTOR_rebuildProgram = nullptr; // rebuildRebind;
 }
 
-bool Engine::_isRenderingStateCompiled(const IPipelineContextPtr& pipelineContext)
+bool Engine::_isRenderingStateCompiled(IPipelineContext* pipelineContext)
 {
-  auto webGLPipelineContext = std::static_pointer_cast<WebGLPipelineContext>(pipelineContext);
+  auto webGLPipelineContext = static_cast<WebGLPipelineContext*>(pipelineContext);
   if (_gl->getProgramParameter(webGLPipelineContext->program.get(),
                                _caps.parallelShaderCompile->COMPLETION_STATUS_KHR)) {
     _finalizePipelineContext(webGLPipelineContext);
@@ -2824,14 +2824,11 @@ InternalTexturePtr Engine::createTexture(
     return nullptr;
   }
 
-  std::vector<IInternalTextureLoaderPtr> excludeLoaders;
-  return createTexture(list[0], noMipmap, invertY, scene, excludeLoaders, samplingMode, onLoad,
-                       onError, buffer);
+  return createTexture(list[0], noMipmap, invertY, scene, samplingMode, onLoad, onError, buffer);
 }
 
 InternalTexturePtr Engine::createTexture(
-  const std::string& urlArg, bool noMipmap, bool invertY, Scene* scene,
-  std::vector<IInternalTextureLoaderPtr>& excludeLoaders, unsigned int samplingMode,
+  const std::string& urlArg, bool noMipmap, bool invertY, Scene* scene, unsigned int samplingMode,
   const std::function<void(InternalTexture*, EventState&)>& onLoad,
   const std::function<void(const std::string& message, const std::string& exception)>& onError,
   const std::optional<std::variant<std::string, ArrayBuffer, ArrayBufferView, Image>>& buffer,
@@ -2853,9 +2850,8 @@ InternalTexturePtr Engine::createTexture(
 
   IInternalTextureLoaderPtr loader = nullptr;
   for (const auto& availableLoader : Engine::_TextureLoaders) {
-    if (!stl_util::contains(excludeLoaders, availableLoader)
-        && availableLoader->canLoad(extension, _textureFormatInUse, fallback, isBase64,
-                                    buffer ? true : false)) {
+    if (availableLoader->canLoad(extension, _textureFormatInUse, fallback, isBase64,
+                                 buffer ? true : false)) {
       loader = availableLoader;
       break;
     }
@@ -2898,9 +2894,8 @@ InternalTexturePtr Engine::createTexture(
       if (!fallbackUrl.empty()) {
         // Add Back
         customFallback = true;
-        excludeLoaders.emplace_back(loader);
-        createTexture(urlArg, noMipmap, texture->invertY, scene, excludeLoaders, samplingMode,
-                      nullptr, onError, buffer, texture);
+        createTexture(urlArg, noMipmap, texture->invertY, scene, samplingMode, nullptr, onError,
+                      buffer, texture);
         return;
       }
     }
@@ -2910,8 +2905,8 @@ InternalTexturePtr Engine::createTexture(
         texture->onLoadedObservable.remove(onLoadObserver);
       }
       if (EngineStore::UseFallbackTexture) {
-        createTexture(EngineStore::FallbackTexture, noMipmap, texture->invertY, scene,
-                      excludeLoaders, samplingMode, nullptr, onError, buffer, texture);
+        createTexture(EngineStore::FallbackTexture, noMipmap, texture->invertY, scene, samplingMode,
+                      nullptr, onError, buffer, texture);
         return;
       }
     }
@@ -5434,11 +5429,8 @@ void Engine::dispose()
     _gl->deleteFramebuffer(_dummyFramebuffer.get());
   }
 
-  // WebVR
-  // disableVR();
-
   // Remove from Instances
-  auto index = stl_util::index_of(Engine::Instances, this);
+  auto index = stl_util::index_of(EngineStore::Instances, this);
 
   if (index >= 0) {
     stl_util::splice(EngineStore::Instances, index, 1);
@@ -6070,9 +6062,9 @@ void Engine::setTranformFeedbackVaryings(GL::IGLProgram* program,
   _gl->transformFeedbackVaryings(program, value, GL::INTERLEAVED_ATTRIBS);
 }
 
-void Engine::bindTransformFeedbackBuffer(GL::IGLBuffer* value)
+void Engine::bindTransformFeedbackBuffer(const WebGLDataBufferPtr& value)
 {
-  _gl->bindBufferBase(GL::TRANSFORM_FEEDBACK_BUFFER, 0, value);
+  _gl->bindBufferBase(GL::TRANSFORM_FEEDBACK_BUFFER, 0, value->underlyingResource().get());
 }
 
 IFileRequest Engine::_loadFile(

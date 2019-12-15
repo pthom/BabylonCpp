@@ -192,11 +192,6 @@ protected:
    */
   PerfCounter& get_drawCallsCounter();
 
-  /**
-   * @brief Gets the perf counter used for texture collisions.
-   */
-  PerfCounter& get_textureCollisionsCounter();
-
 public:
   // Properties
 
@@ -309,11 +304,6 @@ public:
    * Perf counter used for draw calls.
    */
   ReadOnlyProperty<SceneInstrumentation, PerfCounter> drawCallsCounter;
-
-  /**
-   * Perf counter used for texture collisions.
-   */
-  ReadOnlyProperty<SceneInstrumentation, PerfCounter> textureCollisionsCounter;
 
 private:
   bool _captureActiveMeshesEvaluationTime;

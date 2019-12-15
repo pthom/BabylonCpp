@@ -200,7 +200,7 @@ bool Effect::_isReadyInternal() const
     return true;
   }
   if (_pipelineContext) {
-    return _pipelineContext->isReady;
+    return _pipelineContext->isReady();
   }
   return false;
 }

@@ -69,7 +69,7 @@ public:
                       GLsizei width, GLsizei height, GLint border) override;
   void copyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y,
                          GLint width, GLint height) override;
-  std::unique_ptr<IGLBuffer> createBuffer() override;
+  std::shared_ptr<IGLBuffer> createBuffer() override;
   IGLFramebufferPtr createFramebuffer() override;
   IGLProgramPtr createProgram() override;
   std::unique_ptr<IGLQuery> createQuery() override;
