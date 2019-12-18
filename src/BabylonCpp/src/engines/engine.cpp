@@ -14,6 +14,7 @@
 #include <babylon/engines/engine_store.h>
 #include <babylon/engines/instancing_attribute_info.h>
 #include <babylon/engines/scene.h>
+#include <babylon/engines/webgl/webgl2_shader_processor.h>
 #include <babylon/engines/webgl/webgl_pipeline_context.h>
 #include <babylon/interfaces/icanvas.h>
 #include <babylon/interfaces/icanvas_rendering_context2D.h>
@@ -235,10 +236,10 @@ Engine::Engine(ICanvas* canvas, const EngineOptions& options)
     _currentBufferPointers[i] = BufferPointer();
   }
 
-  // Load WebVR Devices
-  // if (options.autoEnableWebVR) {
-  //  initWebVR();
-  //}
+  // Shader processor
+  if (webGLVersion() > 1.f) {
+    _shaderProcessor = std::make_shared<WebGL2ShaderProcessor>();
+  }
 
   BABYLON_LOGF_INFO("Engine", "BabylonCpp engine (v%s) launched", Engine::Version().c_str())
 }
