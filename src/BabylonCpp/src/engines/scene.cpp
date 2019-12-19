@@ -3826,8 +3826,7 @@ void Scene::render(bool updateCameras, bool ignoreAnimations)
   }
   else {
     if (!_activeCamera) {
-      BABYLON_LOG_ERROR("Scene", "No camera defined")
-      return;
+      throw std::runtime_error("No camera defined");
     }
 
     _processSubCameras(_activeCamera);

@@ -1133,16 +1133,18 @@ void Engine::unBindFramebuffer(const InternalTexturePtr& texture, bool disableGe
                                const std::function<void()>& onBeforeUnbind)
 {
   // If MSAA, we need to bitblt back to main texture
+  auto& gl = *_gl;
+
   if (texture->_MSAAFramebuffer) {
-    _gl->bindFramebuffer(GL::READ_FRAMEBUFFER, texture->_MSAAFramebuffer.get());
-    _gl->bindFramebuffer(GL::DRAW_FRAMEBUFFER, texture->_framebuffer.get());
-    _gl->blitFramebuffer(0, 0, texture->width, texture->height, 0, 0, texture->width,
-                         texture->height, GL::COLOR_BUFFER_BIT, GL::NEAREST);
+    gl.bindFramebuffer(GL::READ_FRAMEBUFFER, texture->_MSAAFramebuffer.get());
+    gl.bindFramebuffer(GL::DRAW_FRAMEBUFFER, texture->_framebuffer.get());
+    gl.blitFramebuffer(0, 0, texture->width, texture->height, 0, 0, texture->width, texture->height,
+                       GL::COLOR_BUFFER_BIT, GL::NEAREST);
   }
 
   if (texture->generateMipMaps && !disableGenerateMipMaps && !texture->isCube) {
     _bindTextureDirectly(GL::TEXTURE_2D, texture, true);
-    _gl->generateMipmap(GL::TEXTURE_2D);
+    gl.generateMipmap(GL::TEXTURE_2D);
     _bindTextureDirectly(GL::TEXTURE_2D, nullptr);
   }
 
@@ -1267,7 +1269,6 @@ WebGLDataBufferPtr Engine::createUniformBuffer(const Float32Array& elements)
   bindUniformBuffer(nullptr);
 
   result->references = 1;
-
   return result;
 }
 
@@ -1287,7 +1288,6 @@ WebGLDataBufferPtr Engine::createDynamicUniformBuffer(const Float32Array& elemen
   bindUniformBuffer(nullptr);
 
   result->references = 1;
-
   return result;
 }
 
@@ -1354,7 +1354,6 @@ WebGLDataBufferPtr Engine::createDynamicVertexBuffer(const Float32Array& vertice
 
   _resetVertexBufferBinding();
   result->references = 1;
-
   return result;
 }
 
@@ -1404,8 +1403,7 @@ WebGLDataBufferPtr Engine::createIndexBuffer(const IndicesArray& indices, bool u
   auto dataBuffer = std::make_shared<WebGLDataBuffer>(vbo);
 
   if (!vbo) {
-    BABYLON_LOG_ERROR("Engine", "Unable to create index buffer")
-    return nullptr;
+    throw std::runtime_error("Unable to create index buffer");
   }
 
   bindIndexBuffer(dataBuffer);
@@ -1499,21 +1497,21 @@ void Engine::updateArrayBuffer(const Float32Array& data)
 void Engine::_vertexAttribPointer(const WebGLDataBufferPtr& buffer, unsigned int indx, int size,
                                   unsigned int type, bool normalized, int stride, int offset)
 {
+  auto& pointer = _currentBufferPointers[indx];
+
   auto changed = false;
-  if (_currentBufferPointers.find(indx) == _currentBufferPointers.end()) {
-    changed                      = true;
-    _currentBufferPointers[indx] = BufferPointer(true,       // active
-                                                 indx,       // indx
-                                                 size,       // size
-                                                 type,       // type
-                                                 normalized, // normalized
-                                                 stride,     // stride
-                                                 offset,     // offset
-                                                 buffer      // buffer
-    );
+  if (!pointer.active) {
+    changed            = true;
+    pointer.active     = true;
+    pointer.index      = indx;
+    pointer.size       = size;
+    pointer.type       = type;
+    pointer.normalized = normalized;
+    pointer.stride     = stride;
+    pointer.offset     = offset;
+    pointer.buffer     = buffer;
   }
   else {
-    auto& pointer = _currentBufferPointers[indx];
     if (pointer.buffer != buffer) {
       pointer.buffer = buffer;
       changed        = true;
@@ -5128,7 +5126,7 @@ bool Engine::_setTexture(int channel, const BaseTexturePtr& texture, bool isPart
 {
   // Not ready?
   if (!texture) {
-    if (!stl_util::contains(_boundTexturesCache, channel)
+    if (stl_util::contains(_boundTexturesCache, channel)
         && (_boundTexturesCache[channel] != nullptr)) {
       _activeChannel = channel;
       _bindTextureDirectly(GL::TEXTURE_2D, nullptr);
@@ -5352,7 +5350,6 @@ void Engine::unbindAllAttributes()
       _vertexAttribArraysEnabled[i]    = false;
       _currentBufferPointers[i].active = false;
     }
-    _currentBufferPointers.clear();
     return;
   }
 

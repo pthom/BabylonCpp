@@ -77,14 +77,13 @@ using WebGLDataBufferPtr             = std::shared_ptr<WebGLDataBuffer>;
 using WebGLPipelineContextPtr        = std::shared_ptr<WebGLPipelineContext>;
 
 /**
- * @brief The engine class is responsible for interfacing with all lower-level
- * APIs such as WebGL and Audio.
+ * @brief The engine class is responsible for interfacing with all lower-level APIs such as WebGL
+ * and Audio.
  */
 class BABYLON_SHARED_EXPORT Engine {
 
 public:
   using ArrayBufferViewArray   = std::vector<ArrayBufferView>;
-  using GLBufferPtr            = std::unique_ptr<GL::IGLBuffer>;
   using GLFrameBufferPtr       = std::unique_ptr<GL::IGLFramebuffer>;
   using GLProgramPtr           = std::unique_ptr<GL::IGLProgram>;
   using GLQueryPtr             = std::unique_ptr<GL::IGLQuery>;

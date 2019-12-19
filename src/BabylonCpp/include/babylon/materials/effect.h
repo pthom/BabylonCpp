@@ -36,7 +36,6 @@ using RenderTargetTexturePtr = std::shared_ptr<RenderTargetTexture>;
 using WebGLDataBufferPtr     = std::shared_ptr<WebGLDataBuffer>;
 
 namespace GL {
-class IGLBuffer;
 class IGLProgram;
 class IGLUniformLocation;
 } // end of namespace GL

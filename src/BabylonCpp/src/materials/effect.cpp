@@ -110,7 +110,7 @@ Effect::Effect(
   processorOptions.supportsUniformBuffers       = _engine->supportsUniformBuffers();
   processorOptions.shadersRepository            = Effect::ShadersRepository;
   processorOptions.includesShadersStore         = Effect::IncludesShadersStore();
-  processorOptions.version                      = std::to_string(_engine->webGLVersion() * 100);
+  processorOptions.version      = std::to_string(static_cast<int>(_engine->webGLVersion() * 100));
   processorOptions.platformName = _engine->webGLVersion() >= 2 ? "WEBGL2" : "WEBGL1";
 
   _loadVertexShader(
@@ -402,7 +402,7 @@ void Effect::_dumpShadersSource(std::string vertexCode, std::string fragmentCode
   std::string vertexShaderName;
   std::string fragmentShaderName;
   if (std::holds_alternative<std::unordered_map<std::string, std::string>>(name)) {
-    auto& iName = std::get<std::unordered_map<std::string, std::string>>(name);
+    const auto& iName = std::get<std::unordered_map<std::string, std::string>>(name);
     // Vertex shader
     if (stl_util::contains(iName, "vertexElement")) {
       vertexShaderName = iName.at("vertexElement");
@@ -458,10 +458,9 @@ void Effect::_rebuildProgram(
 
 void Effect::_prepareEffect()
 {
-  auto attributesNames = _attributesNames;
   _valueCache.clear();
 
-  auto& previousPipelineContext = _pipelineContext;
+  auto previousPipelineContext = _pipelineContext;
 
   try {
     auto engine = _engine;
@@ -479,52 +478,55 @@ void Effect::_prepareEffect()
                                       false, rebuildRebind, defines, _transformFeedbackVaryings);
     }
 
-    engine->_executeWhenRenderingStateIsCompiled(_pipelineContext, [&]() -> void {
-      if (engine->supportsUniformBuffers()) {
-        for (const auto& item : _uniformBuffersNames) {
-          bindUniformBlock(item.first, item.second);
+    engine->_executeWhenRenderingStateIsCompiled(
+      _pipelineContext, [this, previousPipelineContext]() -> void {
+        auto attributesNames = _attributesNames;
+        auto engine          = _engine;
+        if (engine->supportsUniformBuffers()) {
+          for (const auto& [uniformBuffersName, value] : _uniformBuffersNames) {
+            bindUniformBlock(uniformBuffersName, value);
+          }
         }
-      }
 
-      auto uniforms = engine->getUniforms(_pipelineContext, _uniformsNames);
-      for (auto& [uniformsName, uniformLocation] : uniforms) {
-        _uniforms[uniformsName] = std::move(uniformLocation);
-      }
-
-      _attributes = engine->getAttributes(_pipelineContext, attributesNames);
-
-      for (unsigned int index = 0; index < _samplerList.size(); ++index) {
-        auto sampler = getUniform(_samplerList[index]);
-
-        if (!sampler) {
-          stl_util::splice(_samplerList, static_cast<int>(index), 1);
-          --index;
+        auto uniforms = engine->getUniforms(_pipelineContext, _uniformsNames);
+        for (auto& [uniformsName, uniformLocation] : uniforms) {
+          _uniforms[uniformsName] = std::move(uniformLocation);
         }
-      }
 
-      for (unsigned int index = 0; index < _samplerList.size(); ++index) {
-        _samplers[_samplerList[index]] = static_cast<int>(index);
-      }
+        _attributes = engine->getAttributes(_pipelineContext, attributesNames);
 
-      engine->bindSamplers(*this);
+        for (unsigned int index = 0; index < _samplerList.size(); ++index) {
+          auto sampler = getUniform(_samplerList[index]);
 
-      _compilationError.clear();
-      _isReady = true;
-      if (onCompiled) {
-        onCompiled(this);
-      }
-      onCompileObservable.notifyObservers(this);
-      onCompileObservable.clear();
+          if (!sampler) {
+            stl_util::splice(_samplerList, static_cast<int>(index), 1);
+            --index;
+          }
+        }
 
-      // Unbind mesh reference in fallbacks
-      if (_fallbacks) {
-        _fallbacks->unBindMesh();
-      }
+        for (unsigned int index = 0; index < _samplerList.size(); ++index) {
+          _samplers[_samplerList[index]] = static_cast<int>(index);
+        }
 
-      if (previousPipelineContext) {
-        getEngine()->_deletePipelineContext(previousPipelineContext);
-      }
-    });
+        engine->bindSamplers(*this);
+
+        _compilationError.clear();
+        _isReady = true;
+        if (onCompiled) {
+          onCompiled(this);
+        }
+        onCompileObservable.notifyObservers(this);
+        onCompileObservable.clear();
+
+        // Unbind mesh reference in fallbacks
+        if (_fallbacks) {
+          _fallbacks->unBindMesh();
+        }
+
+        if (previousPipelineContext) {
+          getEngine()->_deletePipelineContext(previousPipelineContext);
+        }
+      });
 
     if (_pipelineContext->isAsync()) {
       _checkIsReady();
