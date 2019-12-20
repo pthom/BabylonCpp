@@ -648,17 +648,6 @@ EngineCapabilities& Engine::getCaps()
   return _caps;
 }
 
-// Methods
-void Engine::backupGLState()
-{
-  _gl->backupGLState();
-}
-
-void Engine::restoreGLState()
-{
-  _gl->restoreGLState();
-}
-
 int Engine::getDepthFunction() const
 {
   return *_depthCullingState->depthFunc();

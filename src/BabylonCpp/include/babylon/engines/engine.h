@@ -359,16 +359,6 @@ public:
   /** Methods **/
 
   /**
-   * @brief Backup the GL state.
-   */
-  void backupGLState();
-
-  /**
-   * @brief Restore the GL state.
-   */
-  void restoreGLState();
-
-  /**
    * @brief Gets the current depth function.
    * @returns a number defining the depth function
    */

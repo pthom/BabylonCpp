@@ -504,7 +504,9 @@ enum GLEnums : GLenum {
   COMPLETION_STATUS_KHR = 0x91B1,
   // IGL_EXT_texture_filter_anisotropic
   TEXTURE_MAX_ANISOTROPY_EXT     = 0x84FE,
-  MAX_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FF
+  MAX_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FF,
+  // Debugging
+  DEBUG_TYPE_ERROR = 0x824C
 }; // end of enum GLEnums
 
 class IGLFramebuffer;
@@ -758,8 +760,6 @@ public:
 public:
   virtual ~IGLRenderingContext()                          = default;
   virtual bool initialize(bool enableGLDebugging = false) = 0;
-  virtual void backupGLState()                            = 0;
-  virtual void restoreGLState()                           = 0;
   // virtual ICanvas* getCanvas() = 0;
   // virtual GLsizei getDrawingBufferWidth() = 0;
   // virtual GLsizei getDrawingBufferHeight() = 0;
@@ -2372,23 +2372,6 @@ public:
    * @param height A non-negative GLsizei specifying the height of the viewport.
    */
   virtual void viewport(GLint x, GLint y, GLsizei width, GLsizei height) = 0;
-
-protected:
-  GLuint last_program;
-  GLint last_texture;
-  GLint last_active_texture;
-  GLint last_array_buffer;
-  GLint last_element_array_buffer;
-  GLint last_vertex_array;
-  GLint last_blend_src;
-  GLint last_blend_dst;
-  GLint last_blend_equation_rgb;
-  GLint last_blend_equation_alpha;
-  GLint last_viewport[4];
-  GLboolean last_enable_blend;
-  GLboolean last_enable_cull_face;
-  GLboolean last_enable_depth_test;
-  GLboolean last_enable_scissor_test;
 
 }; // end of class GLRenderContext
 

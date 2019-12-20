@@ -1,5 +1,5 @@
-#ifndef BABYLON_IMPL_GL_RENDERING_CONTEXT_H
-#define BABYLON_IMPL_GL_RENDERING_CONTEXT_H
+#ifndef BABYLON_GL_GL_RENDERING_CONTEXT_H
+#define BABYLON_GL_GL_RENDERING_CONTEXT_H
 
 #include <babylon/babylon_api.h>
 #include <babylon/interfaces/igl_rendering_context.h>
@@ -15,8 +15,6 @@ public:
   ~GLRenderingContext() override; // = default
 
   bool initialize(bool enableGLDebugging = false) override;
-  void backupGLState() override;
-  void restoreGLState() override;
   GLenum operator[](const std::string& name) override;
   void activeTexture(GLenum texture) override;
   void attachShader(IGLProgram* program, IGLShader* shader) override;
@@ -232,4 +230,4 @@ private:
 } // end of namespace GL
 } // end of namespace BABYLON
 
-#endif // end of BABYLON_IMPL_GL_RENDERING_CONTEXT_H
+#endif // end of BABYLON_GL_GL_RENDERING_CONTEXT_H

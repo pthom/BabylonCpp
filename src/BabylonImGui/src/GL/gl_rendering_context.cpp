@@ -9,6 +9,7 @@
 // below. #define GLAD_DEBUG
 #include <glad/glad.h>
 
+#define GLFW_INCLUDE_NONE
 // GLFW
 #include <GLFW/glfw3.h>
 #ifdef _WIN32
@@ -32,7 +33,7 @@ void MessageCallback(GLenum /*source*/, GLenum type, GLuint /*id*/, GLenum sever
                      GLsizei /*length*/, const GLchar* message, const void* /*userParam*/)
 {
   fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-          (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
+          (type == DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
 GLRenderingContext::GLRenderingContext()
@@ -122,12 +123,6 @@ std::string GlErrorCodeStr(GLenum error_code)
     case GL_INVALID_OPERATION:
       error = "INVALID_OPERATION";
       break;
-    case GL_STACK_OVERFLOW:
-      error = "STACK_OVERFLOW";
-      break;
-    case GL_STACK_UNDERFLOW:
-      error = "STACK_UNDERFLOW";
-      break;
     case GL_OUT_OF_MEMORY:
       error = "OUT_OF_MEMORY";
       break;
@@ -167,12 +162,12 @@ bool GLRenderingContext::initialize(bool enableGLDebugging)
 {
   // HUM : glad already loaded by imgui ?
   // Initialize glad
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    fprintf(stderr, "gladLoadGLLoader: Failed to initialize OpenGL context\n");
+  if (!gladLoadGLES2Loader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
+    fprintf(stderr, "gladLoadGLLoader: Failed to initialize OpenGL ES context\n");
     return false;
   }
-  if (!GLAD_GL_VERSION_3_3) {
-    fprintf(stderr, "GLAD could not initialize OpenGl 3.3\n");
+  if (!GLAD_GL_ES_VERSION_3_0) {
+    fprintf(stderr, "GLAD could not initialize OpenGl ES 3.0\n");
   }
 #ifdef GLAD_DEBUG
   glad_set_pre_callback(glad_pre_call_callback);
@@ -183,81 +178,15 @@ bool GLRenderingContext::initialize(bool enableGLDebugging)
   BABYLON_LOGF_INFO("GLRenderingContext", "Using GL version: %s", glGetString(GL_VERSION))
 
   // Setup OpenGL options
-  glEnable(GL_MULTISAMPLE);
-
-  // backupGLState();
+  // glEnable(GL_MULTISAMPLE);
 
   // Enable debug output
   if (enableGLDebugging) {
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(MessageCallback, nullptr);
+    // glEnable(GL_DEBUG_OUTPUT);
+    // glDebugMessageCallback(MessageCallback, nullptr);
   }
 
   return true;
-}
-
-void GLRenderingContext::backupGLState()
-{
-  // Force states
-  // glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glEnable(GL_DEPTH_TEST);
-  glDisable(GL_SCISSOR_TEST);
-  // Backup GL state
-  glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-  glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
-  glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
-  glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &last_element_array_buffer);
-  glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
-  glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
-  glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
-  glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
-  glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);
-  glGetIntegerv(GL_VIEWPORT, last_viewport);
-  last_enable_blend        = glIsEnabled(GL_BLEND);
-  last_enable_cull_face    = glIsEnabled(GL_CULL_FACE);
-  last_enable_depth_test   = glIsEnabled(GL_DEPTH_TEST);
-  last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);
-  glUseProgram(last_program);
-}
-
-void GLRenderingContext::restoreGLState()
-{
-  // Restore modified GL state
-  glUseProgram(0);
-  glActiveTexture(static_cast<GLenum>(last_active_texture));
-  glBindTexture(GL_TEXTURE_2D, static_cast<GLenum>(last_texture));
-  glBindVertexArray(static_cast<GLenum>(last_vertex_array));
-  glBindBuffer(GL_ARRAY_BUFFER, static_cast<GLenum>(last_array_buffer));
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLenum>(last_element_array_buffer));
-  glBlendEquationSeparate(static_cast<GLenum>(last_blend_equation_rgb),
-                          static_cast<GLenum>(last_blend_equation_alpha));
-  glBlendFunc(static_cast<GLenum>(last_blend_src), static_cast<GLenum>(last_blend_dst));
-  if (last_enable_blend) {
-    glEnable(GL_BLEND);
-  }
-  else {
-    glDisable(GL_BLEND);
-  }
-  if (last_enable_cull_face) {
-    glEnable(GL_CULL_FACE);
-  }
-  else {
-    glDisable(GL_CULL_FACE);
-  }
-  if (last_enable_depth_test) {
-    glEnable(GL_DEPTH_TEST);
-  }
-  else {
-    glDisable(GL_DEPTH_TEST);
-  }
-  if (last_enable_scissor_test) {
-    glEnable(GL_SCISSOR_TEST);
-  }
-  else {
-    glDisable(GL_SCISSOR_TEST);
-  }
-  glViewport(last_viewport[0], last_viewport[1], last_viewport[2], last_viewport[3]);
-  // glPopAttrib();
 }
 
 GLenum GLRenderingContext::operator[](const std::string& name)
@@ -447,7 +376,7 @@ void GLRenderingContext::clearColor(GLclampf red, GLclampf green, GLclampf blue,
 
 void GLRenderingContext::clearDepth(GLclampf depth)
 {
-  glClearDepth(static_cast<double>(depth));
+  glClearDepthf(depth);
 }
 
 void GLRenderingContext::clearStencil(GLint stencil)
@@ -618,7 +547,7 @@ void GLRenderingContext::depthMask(GLboolean flag)
 
 void GLRenderingContext::depthRange(GLclampf zNear, GLclampf zFar)
 {
-  glDepthRange(static_cast<double>(zNear), static_cast<double>(zFar));
+  glDepthRangef(zNear, zFar);
 }
 
 void GLRenderingContext::detachShader(IGLProgram* program, IGLShader* shader)
@@ -760,8 +689,8 @@ GLfloat GLRenderingContext::getParameterf(GLenum pname)
 
 GLboolean GLRenderingContext::getQueryParameterb(IGLQuery* query, GLenum pname)
 {
-  int parameter = 0;
-  glGetQueryObjectiv(query->value, pname, &parameter);
+  GLuint parameter = 0;
+  glGetQueryObjectuiv(query->value, pname, &parameter);
   return parameter == GL_TRUE;
 }
 
@@ -808,10 +737,6 @@ const char* GLRenderingContext::getErrorString(GLenum err)
       return "Invalid value";
     case GL_OUT_OF_MEMORY:
       return "Out of memory";
-    case GL_STACK_OVERFLOW:
-      return "Stack overflow";
-    case GL_STACK_UNDERFLOW:
-      return "Stack underflow";
     default:
       return "Unknown error";
   }
@@ -1219,7 +1144,6 @@ void GLRenderingContext::uniformMatrix4fv(IGLUniformLocation* location, GLboolea
 
 void GLRenderingContext::useProgram(IGLProgram* program)
 {
-  last_program = program->value;
   glUseProgram(program->value);
 }
 
