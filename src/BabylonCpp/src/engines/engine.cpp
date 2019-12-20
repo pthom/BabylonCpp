@@ -102,7 +102,7 @@ void setShadersRepository(const std::string& value)
 
 std::function<PostProcessPtr(Engine* engine)> Engine::_RescalePostProcessFactory = nullptr;
 
-std::vector<Engine*> Engine::Instances()
+std::vector<Engine*>& Engine::Instances()
 {
   return EngineStore::Instances;
 }

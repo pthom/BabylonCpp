@@ -146,7 +146,7 @@ public:
   /**
    * Gets the list of created engines
    */
-  static std::vector<Engine*> Instances();
+  static std::vector<Engine*>& Instances();
 
 public:
   template <typename... Ts>

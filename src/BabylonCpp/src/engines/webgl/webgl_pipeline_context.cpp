@@ -5,7 +5,8 @@
 namespace BABYLON {
 
 WebGLPipelineContext::WebGLPipelineContext()
-    : engine{nullptr}
+    : IPipelineContext{}
+    , engine{nullptr}
     , program{nullptr}
     , context{nullptr}
     , vertexShader{nullptr}
