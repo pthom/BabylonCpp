@@ -275,16 +275,14 @@ void Geometry::_updateBoundingInfo(bool updateExtends, const Float32Array& data)
   }
 }
 
-void Geometry::_bind(const EffectPtr& effect, const WebGLDataBufferPtr& indexToBind)
+void Geometry::_bind(const EffectPtr& effect, WebGLDataBufferPtr indexToBind)
 {
   if (!effect) {
     return;
   }
 
-  auto iIndexToBind = indexToBind;
-
   if (indexToBind == nullptr) {
-    iIndexToBind = _indexBuffer;
+    indexToBind = _indexBuffer;
   }
 
   auto vbs = getVertexBuffers();
@@ -293,18 +291,17 @@ void Geometry::_bind(const EffectPtr& effect, const WebGLDataBufferPtr& indexToB
     return;
   }
 
-  if (iIndexToBind != _indexBuffer /*|| _vertexArrayObjects.empty()*/) {
+  if (indexToBind != _indexBuffer /*|| _vertexArrayObjects.empty()*/) {
     _engine->bindBuffers(vbs, indexToBind, effect);
     return;
   }
 
   // Using VAO
   if (!stl_util::contains(_vertexArrayObjects, effect->key())) {
-    _vertexArrayObjects[effect->key()]
-      = _engine->recordVertexArrayObject(vbs, iIndexToBind, effect);
+    _vertexArrayObjects[effect->key()] = _engine->recordVertexArrayObject(vbs, indexToBind, effect);
   }
 
-  _engine->bindVertexArrayObject(_vertexArrayObjects[effect->key()].get(), iIndexToBind);
+  _engine->bindVertexArrayObject(_vertexArrayObjects[effect->key()].get(), indexToBind);
 }
 
 size_t Geometry::getTotalVertices() const

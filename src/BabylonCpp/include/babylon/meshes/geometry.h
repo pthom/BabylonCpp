@@ -146,7 +146,7 @@ public:
   /**
    * @brief Hidden
    */
-  void _bind(const EffectPtr& effect, const WebGLDataBufferPtr& indexToBind = nullptr);
+  void _bind(const EffectPtr& effect, WebGLDataBufferPtr indexToBind = nullptr);
 
   /**
    * @brief Gets total number of vertices.

@@ -117,7 +117,7 @@ WebGLDataBufferPtr Buffer::create(Float32Array data)
     _data = std::move(data);
   }
 
-  return _buffer ? _buffer : nullptr;
+  return _buffer;
 }
 
 void Buffer::_rebuild()
@@ -145,7 +145,7 @@ WebGLDataBufferPtr Buffer::updateDirectly(const Float32Array& data, size_t offse
     _data.clear();
   }
 
-  return _buffer ? _buffer : nullptr;
+  return _buffer;
 }
 
 void Buffer::dispose()
