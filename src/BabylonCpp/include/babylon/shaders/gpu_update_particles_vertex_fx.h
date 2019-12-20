@@ -1,16 +1,13 @@
 ﻿#ifndef BABYLON_SHADERS_GPU_UPDATE_PARTICLES_VERTEX_FX_H
 #define BABYLON_SHADERS_GPU_UPDATE_PARTICLES_VERTEX_FX_H
 
-#include <babylon/shaders/shadersinclude/glsl_version_3.h>
-
 namespace BABYLON {
 
 extern const char* gpuUpdateParticlesVertexShader;
 
-const char* gpuUpdateParticlesVertexShader
-  = R"ShaderCode(
+const char* gpuUpdateParticlesVertexShader = R"ShaderCode(
 
-BABYLONCPP_GLSL_VERSION_3
+#version 300 es
 
 #define PI 3.14159
 

@@ -19,7 +19,6 @@
 #include <babylon/maths/vector2.h>
 #include <babylon/maths/vector4.h>
 #include <babylon/misc/tools.h>
-#include <babylon/shaders/shadersinclude/glsl_version_3.h>
 #include <babylon/utils/base64.h>
 
 namespace BABYLON {
