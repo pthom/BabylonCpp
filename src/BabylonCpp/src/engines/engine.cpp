@@ -1329,7 +1329,7 @@ WebGLDataBufferPtr Engine::createVertexBuffer(const Float32Array& vertices)
   }
 
   auto dataBuffer = std::make_shared<WebGLDataBuffer>(vbo);
-  bindUniformBuffer(dataBuffer);
+  bindArrayBuffer(dataBuffer);
 
   _gl->bufferData(GL::ARRAY_BUFFER, vertices, GL::STATIC_DRAW);
 
@@ -1348,7 +1348,7 @@ WebGLDataBufferPtr Engine::createDynamicVertexBuffer(const Float32Array& vertice
   }
 
   auto result = std::make_shared<WebGLDataBuffer>(vbo);
-  bindUniformBuffer(result);
+  bindArrayBuffer(result);
 
   _gl->bufferData(GL::ARRAY_BUFFER, vertices, GL::DYNAMIC_DRAW);
 
