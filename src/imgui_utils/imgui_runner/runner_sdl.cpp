@@ -22,34 +22,29 @@ void RunnerSdl::InitBackend()
 
 void RunnerSdl::Select_Gl_Version()
 {
-  // Decide GL+GLSL versions
-#if __APPLE__
-  // GL 3.2 Core + GLSL 150
-  // const char* glsl_version = "#version 150";
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-#else
-  // GL 3.0 + GLSL 130
-  // const char* glsl_version = "#version 130";
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-#endif
+  // OpenGL ES 3.0
+  throw std::runtime_error("Review RunnerSdl::Select_Gl_Version()!");
+
+//  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+//  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+//  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+//  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+// from v4l
+// Draw smooth line with antialias
+//  glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+//  glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+//  glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
+//  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+//  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 }
 
 std::string RunnerSdl::GlslVersion()
 {
-#if __APPLE__
-  // GL 3.2 Core + GLSL 150
-  const char* glsl_version = "#version 150";
-#else
-  // GL 3.0 + GLSL 130
-  const char* glsl_version = "#version 130";
-#endif
-  return glsl_version;
+  const char* glsl_version = "#version 300 es"; //  WebGL 2.0
+  return std::string(glsl_version);
 }
 
 void RunnerSdl::CreateWindowAndContext()
@@ -109,7 +104,7 @@ void RunnerSdl::InitGlLoader()
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
   bool err = glewInit() != GLEW_OK;
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-  bool err = gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress) == 0;
+  bool err = gladLoadGLES2Loader((GLADloadproc)SDL_GL_GetProcAddress) == 0;
 #else
   bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
 #endif
@@ -117,6 +112,8 @@ void RunnerSdl::InitGlLoader()
   {
     throw std::runtime_error("Failed to initialize OpenGL loader!");
   }
+  if (!GLAD_GL_ES_VERSION_3_0)
+    throw(std::runtime_error("GLAD could not initialize OpenGl ES 3.0"));
 #endif // #ifndef __EMSCRIPTEN__
 
 #ifdef GLAD_DEBUG

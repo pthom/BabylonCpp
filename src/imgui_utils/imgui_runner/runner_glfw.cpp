@@ -33,32 +33,22 @@ void RunnerGlfw::InitBackend()
 
 void RunnerGlfw::Select_Gl_Version()
 {
-  // Decide GL+GLSL versions
-#if __APPLE__
-  // GL 3.2 + GLSL 150
-    //const char* glsl_version = "#version 150";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-#else
-  // GL 3.0 + GLSL 130
-  //const char* glsl_version = "#version 130";
+  // Draw smooth line with antialias
+  glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+
+  // Initialize OpenGL context
+  // OpenGL ES 3.0
+  glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+  glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-  //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
-#endif
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 }
 
 std::string RunnerGlfw::GlslVersion()
 {
-#if __APPLE__
-  // GL 3.2 + GLSL 150
-    const char* glsl_version = "#version 150";
-#else
-  const char* glsl_version = "#version 130";
-#endif
+  const char* glsl_version = "#version 300 es"; //  WebGL 2.0
   return glsl_version;
 }
 
@@ -105,7 +95,7 @@ void RunnerGlfw::InitGlLoader()
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
   bool err = glewInit() != GLEW_OK;
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-  bool err = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == 0;
+  bool err = gladLoadGLES2Loader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 #else
   bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
 #endif
@@ -113,6 +103,8 @@ void RunnerGlfw::InitGlLoader()
   {
     throw std::runtime_error("RunnerGlfw::InitGlLoader(): Failed to initialize OpenGL loader!");
   }
+  if (!GLAD_GL_ES_VERSION_3_0)
+    throw(std::runtime_error("GLAD could not initialize OpenGl ES 3.0"));
 #endif // #ifndef __EMSCRIPTEN__
 
 #ifdef GLAD_DEBUG
