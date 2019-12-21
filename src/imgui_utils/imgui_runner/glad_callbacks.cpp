@@ -20,14 +20,6 @@ std::string GlErrorCodeStr(GLenum error_code)
     case GL_INVALID_OPERATION:
       error = "INVALID_OPERATION";
       break;
-#ifndef __EMSCRIPTEN__
-    case GL_STACK_OVERFLOW:
-      error = "STACK_OVERFLOW";
-      break;
-    case GL_STACK_UNDERFLOW:
-      error = "STACK_UNDERFLOW";
-      break;
-#endif
     case GL_OUT_OF_MEMORY:
       error = "OUT_OF_MEMORY";
       break;
