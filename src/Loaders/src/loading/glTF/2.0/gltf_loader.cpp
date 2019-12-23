@@ -1,6 +1,5 @@
 #include <babylon/loading/glTF/2.0/gltf_loader.h>
 
-#include <babylon/asio/asio.h>
 #include <babylon/animations/animation_group.h>
 #include <babylon/animations/ianimatable.h>
 #include <babylon/animations/ianimation_key.h>
@@ -245,7 +244,7 @@ void GLTFLoader::_loadData(const IGLTFLoaderData& data)
 
   if (data.bin.has_value()) {
     const auto& buffers = _gltf->buffers;
-    if (!buffers.empty() && !buffers[0].uri.has_value()) {
+    if (!buffers.empty() && !buffers[0].uri.empty()) {
       const auto& binaryBuffer = buffers[0];
       if (binaryBuffer.byteLength < data.bin->byteLength() - 3
           || binaryBuffer.byteLength > data.bin->byteLength()) {
@@ -1368,37 +1367,47 @@ _IAnimationSamplerData GLTFLoader::_loadAnimationSamplerAsync(const std::string&
   return sampler._data.value();
 }
 
-MyPromise<ArrayBufferView> GLTFLoader::_loadBufferAsync(const std::string& context, IBuffer& buffer)
+ArrayBufferView& GLTFLoader::_loadBufferAsync(const std::string& context, IBuffer& buffer)
 {
   if (buffer._data) {
-    return buffer._data.value();
+    return buffer._data;
   }
 
-  if (!buffer.uri) {
+  if (buffer.uri.empty()) {
     throw std::runtime_error(String::printf("%s/uri: Value is missing", context.c_str()));
   }
 
-  buffer._data = loadUriAsync(String::printf("%s/uri", context.c_str()), buffer.uri.value());
+  buffer._data = loadUriAsync(String::printf("%s/uri", context.c_str()), buffer.uri);
 
-  return buffer._data.value();
+  return buffer._data;
 }
 
-MyPromise<ArrayBufferView> GLTFLoader::loadBufferViewAsync(const std::string& context,
+ArrayBufferView& GLTFLoader::loadBufferViewAsync(const std::string& context,
                                                  IBufferView& bufferView)
 {
   if (bufferView._data) {
-    return bufferView._data.value();
+    return bufferView._data;
   }
 
   auto& buffer    = ArrayItem::Get(String::printf("%s/buffer", context.c_str()), _gltf->buffers,
                                 bufferView.buffer);
-  bufferView._data = _loadBufferAsync(String::printf("/buffers/%ld", buffer.index), buffer);
+  const auto data = _loadBufferAsync(String::printf("/buffers/%ld", buffer.index), buffer);
 
-  return bufferView._data.value();
+  // ASYNC_FIXME: We cannot treat the data right now, it will be otained later!
+  try {
+    bufferView._data = stl_util::to_array<uint8_t>(
+      data.uint8Array, data.byteOffset + (bufferView.byteOffset.value_or(0)),
+      bufferView.byteLength);
+  }
+  catch (const std::exception& e) {
+    throw std::runtime_error(String::printf("%s: %s", context.c_str(), e.what()));
+  }
+
+  return bufferView._data;
 }
 
 template <typename T>
-MyPromise<ArrayBufferView> GLTFLoader::_loadAccessorAsync(const std::string& context, IAccessor& accessor)
+ArrayBufferView& GLTFLoader::_loadAccessorAsync(const std::string& context, IAccessor& accessor)
 {
   if (accessor._data.has_value()) {
     return *accessor._data;
@@ -1411,30 +1420,29 @@ MyPromise<ArrayBufferView> GLTFLoader::_loadAccessorAsync(const std::string& con
   const auto length = numComponents * accessor.count;
 
   if (!accessor.bufferView.has_value()) {
-    accessor._data = MyPromise_AlreadyFullfilled(std::vector<T>(length));
+    accessor._data = std::vector<T>(length);
   }
   else {
     auto& bufferView = ArrayItem::Get(String::printf("%s/bufferView", context.c_str()),
                                       _gltf->bufferViews, *accessor.bufferView);
-    accessor._data
-      = loadBufferViewAsync(String::printf("/bufferViews/%ld", bufferView.index), bufferView).then([=](const auto& data) {
-          if (accessor.componentType == IGLTF2::AccessorComponentType::FLOAT && !accessor.normalized) {
-            return GLTFLoader::_GetTypedArray(context, accessor.componentType, data,
-                                              accessor.byteOffset, length);
-          }
-          else {
-            auto typedArray = Float32Array(length);
-            VertexBuffer::ForEach(
-              data.float32Array, accessor.byteOffset || 0, bufferView.byteStride || byteStride,
-              numComponents, static_cast<unsigned>(accessor.componentType), typedArray.size(),
-              accessor.normalized || false,
-              [&typedArray](float value, size_t index) -> void { typedArray[index] = value; });
-            return typedArray;
-          }
+    auto data
+      = loadBufferViewAsync(String::printf("/bufferViews/%ld", bufferView.index), bufferView);
+    if (accessor.componentType == IGLTF2::AccessorComponentType::FLOAT && !accessor.normalized) {
+      data = GLTFLoader::_GetTypedArray(context, accessor.componentType, data, accessor.byteOffset,
+                                        length);
+    }
+    else {
+      auto typedArray = Float32Array(length);
+      VertexBuffer::ForEach(
+        data.float32Array, accessor.byteOffset || 0, bufferView.byteStride || byteStride,
+        numComponents, static_cast<unsigned>(accessor.componentType), typedArray.size(),
+        accessor.normalized || false,
+        [&typedArray](float value, size_t index) -> void { typedArray[index] = value; });
+      data = typedArray;
+    }
 
-          accessor._data = GLTFLoader::_GetTypedArray(context, accessor.componentType, data,
-                                                      accessor.byteOffset, length);
-    });
+    accessor._data = GLTFLoader::_GetTypedArray(context, accessor.componentType, data,
+                                                accessor.byteOffset, length);
   }
 
   if (accessor.sparse) {
@@ -2015,7 +2023,7 @@ ArrayBufferView& GLTFLoader::loadImageAsync(const std::string& context, IImage& 
 }
 
 // ASYNC_FIXME this should return a promise, not a value !!! As in the js code.
-MyPromise<ArrayBufferView> GLTFLoader::loadUriAsync(const std::string& context, const std::string& uri)
+ArrayBufferView GLTFLoader::loadUriAsync(const std::string& context, const std::string& uri)
 {
   const auto extensionPromise = _extensionsLoadUriAsync(context, uri);
   if (extensionPromise.has_value()) {
@@ -2029,38 +2037,33 @@ MyPromise<ArrayBufferView> GLTFLoader::loadUriAsync(const std::string& context, 
   if (Tools::IsBase64(uri)) {
     const auto data = Tools::DecodeBase64(uri);
     log(String::printf("Decoded %s... (%ld bytes)", uri.substr(0, 64).c_str(), data.size()));
-
-    MyPromise<ArrayBufferView> r;
-    r.resolve(data);
-    return r;
+    return data;
   }
 
   log(String::printf("Loading %s", uri.c_str()));
 
-  //ArrayBuffer data;
-  return _parent.preprocessUrlAsync(this->_rootUrl + uri).then([this](const std::string& url) {
-    return promise::newPromise( [=](MyPromise_Any &d) {
-      if (!this->_disposed) {
-
-        auto onSuccessFunction = [=](const ArrayBuffer &data) {
-          if (!this->_disposed)
-          {
-            log(String::printf("Loaded %s %i bytes", url.c_str(), data.size());
-            d.resolve(data);
+  ArrayBuffer data;
+  auto url = _parent.preprocessUrlAsync(_rootUrl + uri);
+  if (!_disposed) {
+    FileTools::LoadFile(
+      url,
+      [this, &data, &uri](const std::variant<std::string, ArrayBuffer>& fileData,
+                          const std::string & /*responseURL*/) -> void {
+        if (!_disposed) {
+          if (std::holds_alternative<ArrayBuffer>(fileData)) {
+            data = std::get<ArrayBuffer>(fileData);
+            log(String::printf("Loaded %s (%ld bytes)", uri.c_str(), data.size()));
           }
-        };
-        auto onProgressFunction = [=](bool lengthComputable, size_t loaded, size_t total) {
-          if (!this->_disposed)
-            this->_onProgress();
-        };
-        auto onErrorFunction = [=](const std::string & errorMessage) {
-          this->log(String::printf("loadUriAsync : Error %s", errorMessage.c_str()));
-        };
+        }
+      },
+      nullptr, true,
+      [this, &context, &uri](const std::string& message, const std::string& exception) -> void {
+        log(String::printf("%s: Failed to load (%s %s)", context.c_str(), uri.c_str(),
+                           message.c_str(), exception.c_str()));
+      });
+  }
 
-        asio::LoadUrlAsync_Binary(url, onSuccessFunction, onErrorFunction, onProgressFunction);
-      }
-    });
-  });
+  return data;
 }
 
 void GLTFLoader::_onProgress()
@@ -2365,7 +2368,7 @@ AnimationGroupPtr GLTFLoader::_extensionsLoadAnimationAsync(const std::string& /
   return nullptr;
 }
 
-std::optional<MyPromise<ArrayBufferView>> GLTFLoader::_extensionsLoadUriAsync(const std::string& /*context*/,
+std::optional<ArrayBufferView> GLTFLoader::_extensionsLoadUriAsync(const std::string& /*context*/,
                                                                    const std::string& /*uri*/)
 {
   return std::nullopt;

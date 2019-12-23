@@ -340,7 +340,7 @@ public:
   /**
    * Function called before loading a url referenced by the asset.
    */
-  MyPromise<std::string> preprocessUrlAsync(const std::string& url) { MyPromise<std::string> r; r.resolve(url); return r; }
+  std::function<std::string(const std::string& url)> preprocessUrlAsync;
 
   /**
    * Observable raised when the loader creates a mesh after parsing the glTF
