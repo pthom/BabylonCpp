@@ -11,6 +11,15 @@
 #include <babylon/core/array_buffer_view.h>
 #include <babylon/interfaces/idisposable.h>
 
+#include "promise.hpp"
+template<typename T> using MyPromise = promise::Defer;
+using MyPromise_Any = promise::Defer;
+template<typename T> auto MyPromise_AlreadyFullfilled(T t) {
+  auto r = promise::newPromise();
+  r->resolve(t);
+  return r;
+}
+
 using json = nlohmann::json;
 
 namespace BABYLON {

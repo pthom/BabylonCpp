@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 
 #include <babylon/core/array_buffer_view.h>
+#include <babylon/loading/glTF/igltf_loader.h>
 #include <babylon/meshes/vertex_buffer.h>
 
 using json = nlohmann::json;
@@ -837,7 +838,7 @@ struct IBuffer : public IChildRootProperty {
    * The uri of the buffer.  Relative paths are relative to the .gltf file.
    * Instead of referencing an external file, the uri can also be a data-uri
    */
-  std::string uri = "";
+  std::optional<std::string> uri = "";
   /**
    * The length of the buffer in bytes
    */
@@ -1373,10 +1374,10 @@ struct IArrayItem {
  */
 struct IAccessor : public IGLTF2::IAccessor, IArrayItem {
   /** @hidden */
-  std::optional<ArrayBufferView> _data = std::nullopt;
+  std::optional<MyPromise<ArrayBufferView>> _data;
 
   /** @hidden */
-  VertexBufferPtr _babylonVertexBuffer = nullptr;
+  std::optional<MyPromise<VertexBufferPtr>> _babylonVertexBuffer;
 
   static IAccessor Parse(const json& parsedAccessor);
 
@@ -1425,7 +1426,8 @@ struct IAnimation : public IGLTF2::IAnimation, IArrayItem {
  */
 struct IBuffer : public IGLTF2::IBuffer, IArrayItem {
   /** @hidden */
-  ArrayBufferView _data;
+  //ArrayBufferView _data;
+  std::optional<MyPromise<ArrayBufferView>> _data;
 
   static IBuffer Parse(const json& parsedBuffer);
 
@@ -1436,10 +1438,10 @@ struct IBuffer : public IGLTF2::IBuffer, IArrayItem {
  */
 struct IBufferView : public IGLTF2::IBufferView, IArrayItem {
   /** @hidden */
-  ArrayBufferView _data;
+  std::optional<MyPromise<ArrayBufferView>> _data;
 
   /** @hidden */
-  BufferPtr _babylonBuffer = nullptr;
+  std::optional<MyPromise<BufferPtr>> _babylonBuffer;
 
   static IBufferView Parse(const json& parsedBufferView);
 

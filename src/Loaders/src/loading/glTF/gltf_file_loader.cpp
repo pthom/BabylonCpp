@@ -40,7 +40,6 @@ GLTFFileLoader::GLTFFileLoader()
     , useClipPlane{false}
     , compileShadowGenerators{false}
     , transparencyAsCoverage{false}
-    , preprocessUrlAsync{nullptr}
     , onMeshLoaded{this, &GLTFFileLoader::set_onMeshLoaded}
     , onTextureLoaded{this, &GLTFFileLoader::set_onTextureLoaded}
     , onMaterialLoaded{this, &GLTFFileLoader::set_onMaterialLoaded}
@@ -82,8 +81,6 @@ GLTFFileLoader::GLTFFileLoader()
   factoryCanDirectLoad = canDirectLoad = [](const std::string& data) {
     return String::contains(data, "scene") && String::contains(data, "node");
   };
-
-  preprocessUrlAsync = [](const std::string& url) -> std::string { return url; };
 
   _log = [this](const std::string& message) { _logDisabled(message); };
 
@@ -246,8 +243,6 @@ void GLTFFileLoader::dispose(bool /*doNotRecurse*/, bool /*disposeMaterialAndTex
 
 void GLTFFileLoader::_clear()
 {
-  preprocessUrlAsync = nullptr;
-
   onMeshLoadedObservable.clear();
   onTextureLoadedObservable.clear();
   onMaterialLoadedObservable.clear();
@@ -263,7 +258,7 @@ ImportedMeshes GLTFFileLoader::importMeshAsync(
   const std::string& fileName)
 {
   // ASYNC_FIXME: GLTF loading is decidely incompatible with async loading
-  BABYLON::asio::set_HACK_DISABLE_ASYNC(true);
+  //BABYLON::asio::set_HACK_DISABLE_ASYNC(true);
 
   auto loaderData = _parseAsync(scene, data, rootUrl, fileName);
   _log(String::printf("Loading %s", fileName.c_str()));
@@ -271,7 +266,7 @@ ImportedMeshes GLTFFileLoader::importMeshAsync(
   return _loader->importMeshAsync(meshesNames, scene, loaderData, rootUrl, onProgress, fileName);
 
   // ASYNC_FIXME: GLTF loading is decidely incompatible with async loading
-  BABYLON::asio::set_HACK_DISABLE_ASYNC(false);
+  //BABYLON::asio::set_HACK_DISABLE_ASYNC(false);
 }
 
 void GLTFFileLoader::loadAsync(
