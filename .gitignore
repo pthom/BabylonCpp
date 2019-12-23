@@ -70,6 +70,8 @@ cmake-build-relwithdebinfo/
 cmake-build-minsizerel/
 cmake-build-emscripten/
 cmake-build-emscripten_release/
+cmake-build-debug-asan/
+cmake-build-debug-ubsan/
 
 # cquery
 .cquery_cache
