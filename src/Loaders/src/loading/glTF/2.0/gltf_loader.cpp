@@ -667,10 +667,17 @@ AbstractMeshPtr GLTFLoader::_loadMeshPrimitiveAsync(
       babylonMesh->material = babylonMaterial;
     }
     else {
-      auto& material = ArrayItem::Get(String::printf("%s/material", context.c_str()),
+
+      IMaterial& material = ArrayItem::Get(String::printf("%s/material", context.c_str()),
                                       _gltf->materials, *primitive.material);
-      promises.emplace_back([&]() -> void {
-        _loadMaterialAsync(String::printf("/materials/%ld", material.index), material, babylonMesh,
+      // materialPtrCopy is a protection against a bug raised by clang 's fsanitizer=address
+      // _loadMaterialAsync used to capture the `material`variable  by reference,
+      // and dereferenced it after its destruction.
+      // materialPtrCopy is a shared_ptr with the same content. Luckily, this variable as a small scope.
+      auto materialPtrCopy = std::make_shared<IMaterial>();
+      *materialPtrCopy = material;
+      promises.emplace_back([=]() -> void {
+        _loadMaterialAsync(String::printf("/materials/%ld", material.index), materialPtrCopy, babylonMesh,
                            babylonDrawMode, [&](const MaterialPtr& babylonMaterial) -> void {
                              babylonMesh->material = babylonMaterial;
                            });
@@ -1655,7 +1662,7 @@ void GLTFLoader::_loadMaterialMetallicRoughnessPropertiesAsync(
 }
 
 MaterialPtr GLTFLoader::_loadMaterialAsync(
-  const std::string& context, IMaterial& material, const MeshPtr& babylonMesh,
+  const std::string& context, const std::shared_ptr<IMaterial>& material, const MeshPtr& babylonMesh,
   unsigned int babylonDrawMode,
   const std::function<void(const MaterialPtr& babylonMaterial)>& assign)
 {
@@ -1666,15 +1673,15 @@ MaterialPtr GLTFLoader::_loadMaterialAsync(
   }
 
   std::optional<GLTF2::IMaterialData> babylonData = std::nullopt;
-  if (stl_util::contains(material._data, babylonDrawMode)) {
-    babylonData = material._data[babylonDrawMode];
+  if (stl_util::contains(material->_data, babylonDrawMode)) {
+    babylonData = material->_data[babylonDrawMode];
   }
 
   if (!babylonData.has_value()) {
-    logOpen(String::printf("%s %s", context.c_str(), material.name.c_str()));
+    logOpen(String::printf("%s %s", context.c_str(), material->name.c_str()));
 
-    const auto babylonMaterial = createMaterial(context, material, babylonDrawMode);
-    loadMaterialPropertiesAsync(context, material, babylonMaterial);
+    const auto babylonMaterial = createMaterial(context, *material, babylonDrawMode);
+    loadMaterialPropertiesAsync(context, *material, babylonMaterial);
 
     babylonData = GLTF2::IMaterialData{
       babylonMaterial, // babylonMaterial
@@ -1682,7 +1689,7 @@ MaterialPtr GLTFLoader::_loadMaterialAsync(
       nullptr          // promise
     };
 
-    material._data[babylonDrawMode] = *babylonData;
+    material->_data[babylonDrawMode] = *babylonData;
 
     GLTFLoader::AddPointerMetadata(babylonMaterial, context);
     _parent.onMaterialLoadedObservable.notifyObservers(babylonMaterial.get());
@@ -2327,7 +2334,7 @@ GeometryPtr GLTFLoader::_extensionsLoadVertexDataAsync(const std::string& /*cont
 }
 
 MaterialPtr GLTFLoader::_extensionsLoadMaterialAsync(
-  const std::string& /*context*/, const IMaterial& /*material*/, const MeshPtr& /*babylonMesh*/,
+  const std::string& /*context*/, const  std::shared_ptr<IMaterial>& /*material*/, const MeshPtr& /*babylonMesh*/,
   unsigned int /*babylonDrawMode*/,
   const std::function<void(const MaterialPtr& babylonMaterial)>& /*assign*/)
 {

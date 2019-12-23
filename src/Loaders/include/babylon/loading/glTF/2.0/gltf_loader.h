@@ -281,7 +281,7 @@ public:
    * @brief Hidden
    */
   MaterialPtr
-  _loadMaterialAsync(const std::string& context, IMaterial& material, const MeshPtr& babylonMesh,
+  _loadMaterialAsync(const std::string& context, const std::shared_ptr<IMaterial>& material, const MeshPtr& babylonMesh,
                      unsigned int babylonDrawMode,
                      const std::function<void(const MaterialPtr& babylonMaterial)>& assign);
 
@@ -514,7 +514,7 @@ private:
                                              const IMeshPrimitive& primitive,
                                              const MeshPtr& babylonMesh);
   MaterialPtr _extensionsLoadMaterialAsync(
-    const std::string& context, const IMaterial& material, const MeshPtr& babylonMesh,
+    const std::string& context, const std::shared_ptr<IMaterial>& material, const MeshPtr& babylonMesh,
     unsigned int babylonDrawMode,
     const std::function<void(const MaterialPtr& babylonMaterial)>& assign);
   MaterialPtr _extensionsCreateMaterial(const std::string& context, const IMaterial& material,
