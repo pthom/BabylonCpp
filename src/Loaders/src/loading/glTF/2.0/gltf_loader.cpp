@@ -648,7 +648,7 @@ AbstractMeshPtr GLTFLoader::_loadMeshPrimitiveAsync(
                                                      Material::ClockWiseSideOrientation;
 
     _createMorphTargets(context, node, mesh, primitive, babylonMesh);
-    promises.emplace_back([&]() -> void {
+    promises.emplace_back([=]() -> void {
       auto babylonGeometry = _loadVertexDataAsync(context, primitive, babylonMesh);
       _loadMorphTargetsAsync(context, primitive, babylonMesh, babylonGeometry);
       babylonGeometry->applyToMesh(babylonMesh.get());
@@ -700,7 +700,7 @@ AbstractMeshPtr GLTFLoader::_loadMeshPrimitiveAsync(
   return babylonAbstractMesh;
 }
 
-GeometryPtr GLTFLoader::_loadVertexDataAsync(const std::string& context, IMeshPrimitive& primitive,
+GeometryPtr GLTFLoader::_loadVertexDataAsync(const std::string& context, const IMeshPrimitive& primitive,
                                              const MeshPtr& babylonMesh)
 {
   const auto extensionPromise = _extensionsLoadVertexDataAsync(context, primitive, babylonMesh);
@@ -743,7 +743,7 @@ GeometryPtr GLTFLoader::_loadVertexDataAsync(const std::string& context, IMeshPr
 
     auto& accessor
       = ArrayItem::Get(String::printf("%s/attributes/%s", context.c_str(), attribute.c_str()),
-                       _gltf->accessors, attributes[attribute]);
+                       _gltf->accessors, attributes.at(attribute));
     promises.emplace_back([this, &babylonGeometry, &accessor, kind]() -> void {
       babylonGeometry->setVerticesBuffer(
         _loadVertexAccessorAsync(String::printf("/accessors/%ld", accessor.index), accessor, kind),
