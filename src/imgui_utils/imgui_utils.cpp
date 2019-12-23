@@ -56,7 +56,7 @@ namespace ImGuiUtils
       cacheImageFileTexture[filename] = std::make_unique<ImageFileTexture>(filename);
 
     const ImageFileTexture & texture = * cacheImageFileTexture.at(filename);
-    if (texture.found)
+    if (texture.found && (texture._height > 0) && (texture._width > 0))
     {
       if ((size.x == 0.f) && (size.y == 0.f))
         size = ImVec2((float)texture._width, (float)texture._height);
