@@ -6,9 +6,9 @@ sudo: required
 language: cpp
 
 # The branch to build
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
 
 env:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
@@ -121,6 +121,18 @@ script:
 #  - BabylonStudio -a will run all the example and take screenshot (this is disabled for now)
 #  - cd build/bin
 #  - ./BabylonStudio -a
+#  -
+#  - The code below enables to ssh onto the travis build machine:
+#  - See https://blog.c-mart.in/posts/shell-into-travis-ci-build-environment
+#  - (you will need to setup a bounce host and to setup some private variables for the access)
+  - |
+    if [[ $(uname) == "Linux" ]]; then
+      echo travis:$sshpassword | sudo chpasswd
+      sudo sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config
+      sudo service ssh restart
+      sudo apt-get install sshpass
+      sshpass -p $sshpassword ssh -R 9999:localhost:22 -o StrictHostKeyChecking=no travis@$bouncehostip
+    fi
 
 # Notifications settings
 notifications:
