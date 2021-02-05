@@ -89,5 +89,5 @@ def do_compare():
             # print(f"{image_file} is similar")
             os.remove(image_temp_filename)
 
-
-do_compare()
+if __name__ == "__main__":
+    do_compare()
