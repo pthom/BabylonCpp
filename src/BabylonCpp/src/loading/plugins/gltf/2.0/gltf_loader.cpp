@@ -2145,7 +2145,9 @@ ArrayBufferView GLTFLoader::loadUriAsync(const std::string& context, const std::
   log(StringTools::printf("Loading %s", uri.c_str()));
 
   ArrayBuffer data;
-  auto url = _parent.preprocessUrlAsync(_rootUrl + uri);
+  auto url = _rootUrl + uri;
+  if (_parent.preprocessUrlAsync)
+    url = _parent.preprocessUrlAsync(_rootUrl + uri);
   if (!_disposed) {
     FileTools::LoadFile(
       url,
