@@ -1,4 +1,3 @@
-#include "BabylonStudio/screenshoter/spawn_screenshots.h"
 #include <babylon/babylon_imgui/babylon_studio.h>
 #include <babylon/core/logging.h>
 #include <babylon/core/logging/init_console_logger.h>
@@ -23,8 +22,6 @@ int main(int argc, char** argv)
 
   bool flagQuiet                      = false;
   bool flagFullscreen                 = false;
-  bool flagAsync                      = false;
-  bool flagSpawnScreenshots           = false;
   bool flagScreenshotOneSampleAndExit = false;
   bool flagListSamples                = false;
   std::string sampleName;
@@ -34,9 +31,6 @@ int main(int argc, char** argv)
     arg_cli.add_option("-s,--sample", sampleName, "Which sample to run");
     arg_cli.add_flag("-f,--fullscreen", flagFullscreen, "Run in fullscreen");
     arg_cli.add_flag("-l,--list-samples", flagListSamples, "List all samples, then exit");
-
-    arg_cli.add_flag("-a,--shot-all-samples", flagSpawnScreenshots,
-                     "run all samples and save a screenshot");
     arg_cli.add_flag("-p,--shot-one-sample", flagScreenshotOneSampleAndExit,
                      "run one sample, save a screenshot and exit");
     CLI11_PARSE(arg_cli, argc, argv);
@@ -48,11 +42,6 @@ int main(int argc, char** argv)
   if (flagListSamples) {
     BABYLON::listSamples();
     return 0;
-  }
-
-  if (flagSpawnScreenshots) {
-    BABYLON::impl::spawnScreenshots(argv[0], flagAsync);
-    exit(0);
   }
 
   std::shared_ptr<BABYLON::IRenderableScene> scene;

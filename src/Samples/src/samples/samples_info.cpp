@@ -267,19 +267,6 @@ void SamplesCollection::SetSampleRunInfo(const SampleName& sampleName,
   }
 }
 
-void SamplesCollection::SaveAllSamplesRunStatuses()
-{
-  std::map<SampleName, SampleAutoRunStatus> allRunStatuses;
-  for (const auto& sampleData : _allSamples)
-    allRunStatuses[sampleData.sampleName] = sampleData.autoRunInfo.sampleRunStatus;
-
-  std::ofstream ofs(assets_folder() + screenshotsDirectory_RelativeToAssets()
-                    + "/aa_runStatus.json");
-  nlohmann::json j = allRunStatuses;
-  ofs << std::setw(4) << j << std::endl;
-  ofs.close();
-}
-
 SampleData* SamplesCollection::GetSampleByName(const SampleName& sampleName)
 {
   for (auto& sampleData : _allSamples)
