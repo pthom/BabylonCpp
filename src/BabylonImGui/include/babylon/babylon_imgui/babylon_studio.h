@@ -41,6 +41,7 @@ namespace BABYLON {
     const std::shared_ptr<BABYLON::IRenderableScene>& scene = nullptr,
     BabylonStudioOptions options = BabylonStudioOptions()
   );
+  void BABYLON_SHARED_EXPORT listSamples();
 } // end of namespace BABYLON
 
 #endif // end of BABYLON_INSPECTOR_APP_H

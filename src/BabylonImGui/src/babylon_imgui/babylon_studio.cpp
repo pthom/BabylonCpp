@@ -408,4 +408,15 @@ void runBabylonStudio(const std::shared_ptr<BABYLON::IRenderableScene>& scene,
   app.RunApp(sceneNotNull, options);
 }
 
+void BABYLON_SHARED_EXPORT listSamples()
+{
+  auto& samplesCollection = SamplesInfo::SamplesCollection::Instance();
+  const auto& allSamples  = samplesCollection.AllSamples();
+  for (size_t i = 0; i < allSamples.size(); ++i) {
+    const auto& sampleData = allSamples[i];
+    std::cout << sampleData.categoryName << "/" << sampleData.sampleName << std::endl;
+  }
+
+}
+
 } // namespace BABYLON

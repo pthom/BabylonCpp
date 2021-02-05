@@ -26,12 +26,14 @@ int main(int argc, char** argv)
   bool flagAsync                      = false;
   bool flagSpawnScreenshots           = false;
   bool flagScreenshotOneSampleAndExit = false;
+  bool flagListSamples                = false;
   std::string sampleName;
   {
     CLI::App arg_cli{"BabylonCpp samples runner"};
     arg_cli.add_flag("-q,--quiet", flagQuiet, "Quiet mode (not verbose)");
     arg_cli.add_option("-s,--sample", sampleName, "Which sample to run");
-    arg_cli.add_flag("-f,--fullscreen", flagFullscreen, "run in fullscreen");
+    arg_cli.add_flag("-f,--fullscreen", flagFullscreen, "Run in fullscreen");
+    arg_cli.add_flag("-l,--list-samples", flagListSamples, "List all samples, then exit");
 
     arg_cli.add_flag("-a,--shot-all-samples", flagSpawnScreenshots,
                      "run all samples and save a screenshot");
@@ -40,8 +42,13 @@ int main(int argc, char** argv)
     CLI11_PARSE(arg_cli, argc, argv);
   }
 
-  if (!flagQuiet)
+  if (!flagQuiet && !flagListSamples)
     BABYLON::initConsoleLogger();
+
+  if (flagListSamples) {
+    BABYLON::listSamples();
+    return 0;
+  }
 
   if (flagSpawnScreenshots) {
     BABYLON::impl::spawnScreenshots(argv[0], flagAsync);
