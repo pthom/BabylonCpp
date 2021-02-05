@@ -236,8 +236,8 @@
         "failing": false
     },
     "CubeChaosScene": {
-        "detail": "slow! 2 fps vs 30fps in \njs version. Rendering incomplete (see js)",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "CubeScene": {
         "detail": "",
@@ -276,8 +276,8 @@
         "failing": false
     },
     "DecalsScene": {
-        "detail": "inverted faces?",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "DirectionalLightScene": {
         "detail": "",
@@ -304,8 +304,8 @@
         "failing": false
     },
     "EnvironmentTextureScene": {
-        "detail": "",
-        "failing": false
+        "detail": "empty 3d",
+        "failing": true
     },
     "EquirectangularMapAsReflectionTextureScene": {
         "detail": "",
@@ -328,8 +328,8 @@
         "failing": false
     },
     "FireMaterialScene": {
-        "detail": "Bad rendering of the flame.\nTable texture facing down\n(inverted?)",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "FireProceduralTextureScene": {
         "detail": "",
@@ -428,32 +428,32 @@
         "failing": false
     },
     "ImportBabylonJSLogoScene": {
-        "detail": "inverted faces? Texture \non bad side?",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ImportCandleScene": {
         "detail": "",
         "failing": false
     },
     "ImportDudeScene": {
-        "detail": "Strange spikes / inverted faces UV texture?",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ImportDummy3Scene": {
         "detail": "",
         "failing": false
     },
     "ImportHillValleyScene": {
-        "detail": "Scene loads incompletely\n(parts of road missing)",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ImportMeshesSkullScene": {
-        "detail": "Black texture (inverted faces?)",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ImportRabbitScene": {
-        "detail": "Inverted faces? \nInverted texture UV? ",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ImportSuzanneScene": {
         "detail": "",
@@ -488,8 +488,8 @@
         "failing": false
     },
     "KeyboardAndGameLoopScene": {
-        "detail": "Keyboard events do not move the sphere\nCode not clear compared to js",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "LanternScene": {
         "detail": "",
@@ -532,8 +532,8 @@
         "failing": false
     },
     "LookAtScene": {
-        "detail": "very slow compared to js version",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "LorenzAttractorScene": {
         "detail": "",
@@ -544,8 +544,8 @@
         "failing": false
     },
     "ManyBoxInstancesScene": {
-        "detail": "Slow! 1fps",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "MarbleProceduralTextureScene": {
         "detail": "",
@@ -883,6 +883,10 @@
         "detail": "",
         "failing": false
     },
+    "ShaderMaterialTheRingColorRemixScene": {
+        "detail": "",
+        "failing": false
+    },
     "ShaderMaterialTilesScene": {
         "detail": "",
         "failing": false
@@ -908,8 +912,8 @@
         "failing": false
     },
     "ShadowOnlyMaterialScene": {
-        "detail": "Bad rendering (compare to js version)",
-        "failing": true
+        "detail": "",
+        "failing": false
     },
     "ShadowsScene": {
         "detail": "",
