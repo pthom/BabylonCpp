@@ -57,8 +57,15 @@ int main(int argc, char** argv)
 
   std::shared_ptr<BABYLON::IRenderableScene> scene;
   if (!sampleName.empty())
-    scene = BABYLON::SamplesInfo::SamplesCollection::Instance().createRenderableScene(sampleName,
-                                                                                      nullptr);
+  {
+    // If sampleName is under the form category/sample_name, suppress category/
+    if (sampleName.find('/') != std::string::npos)
+    {
+      auto pos = sampleName.find('/');
+      sampleName = sampleName.substr(pos + 1);
+    }
+    scene = BABYLON::SamplesInfo::SamplesCollection::Instance().createRenderableScene(sampleName, nullptr);
+  }
 
   BABYLON::BabylonStudioOptions options;
   options._flagScreenshotOneSampleAndExit = flagScreenshotOneSampleAndExit;

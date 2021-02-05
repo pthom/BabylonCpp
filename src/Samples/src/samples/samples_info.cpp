@@ -290,17 +290,8 @@ SampleData* SamplesCollection::GetSampleByName(const SampleName& sampleName)
 
 const SampleData* SamplesCollection::GetSampleByName(const SampleName& sampleName) const
 {
-  SampleName sampleNameWithoutCategory;
-  if (sampleName.find('/') == std::string::npos)
-    sampleNameWithoutCategory = sampleName;
-  else
-  {
-    auto pos = sampleName.find('/');
-    sampleNameWithoutCategory = sampleName.substr(pos + 1);
-  }
-
   for (auto& sampleData : _allSamples)
-    if (sampleData.sampleName == sampleNameWithoutCategory)
+    if (sampleData.sampleName == sampleName)
       return &sampleData;
   return nullptr;
 }
