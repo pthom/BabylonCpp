@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
+
 """
-This script should be run after having generated new screenshot images
-with `BabylonStudio -a`
-It will proocess all images inside assets/screenshots/ScreenshotsData/
+This script is run by make_screenshots.py after having generated new screenshot images
+
+It will process all images inside assets/screenshots/ScreenshotsData/
 and compare them with the previous git version.
 
 Only the images with significant differences will be kept with their new version.
